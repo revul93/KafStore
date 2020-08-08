@@ -1,0 +1,39 @@
+{
+  "name": "kafstore",
+  "version": "1.0.0",
+  "description": "KafStore is a web store enables users to buy and sell used books",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revul93/KafStore.git"
+  },
+  "keywords": [
+    "books",
+    "e-commerce",
+    "web",
+    "application",
+    "used",
+    "books",
+    "secondhand",
+    "books"
+  ],
+  "author": "Omar Jajah",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/revul93/KafStore/issues"
+  },
+  "homepage": "https://github.com/revul93/KafStore#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.28",
+    "nodemon": "^2.0.4"
+  }
+}
