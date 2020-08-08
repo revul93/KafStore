@@ -6,6 +6,7 @@ Khadijah Hallum - khadija_71190
 Nada Abdulghani - nada_
 
 Steps:
+A- INITIALIZATION
 1- Create npm project -> npm init
 2- Install required module for backend:
    express, express-validator, bcrypt, config, nodemon, jsonwebtoken, mongoose
@@ -15,3 +16,7 @@ Steps:
 5- create config/db.js file, contains database connection setting
 6- create config/default.js, contains default values that will be used by config module
 7- create server.js file, contains middleware, routes and setting for express
+8- commit changes and push to github
+
+B- API
+

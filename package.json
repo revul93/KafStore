@@ -17,9 +17,7 @@
     "web",
     "application",
     "used",
-    "books",
-    "secondhand",
-    "books"
+    "secondhand"
   ],
   "author": "Omar Jajah",
   "license": "Apache-2.0",
