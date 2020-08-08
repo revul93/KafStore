@@ -39,7 +39,7 @@ const UserSchema = new Schema({
       type: String,
       required: true,
     },
-    description: {
+    describtion: {
       type: String,
       required: true,
     },
@@ -53,29 +53,13 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true,
-        unique: true,
       },
       rate: {
         type: Number,
         required: true,
       },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
-  review: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-        required: true,
-        unique: true,
-      },
-      text: {
-        type: Number,
-        required: true,
+      review: {
+        type: String,
       },
       date: {
         type: Date,

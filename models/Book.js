@@ -25,10 +25,6 @@ const BookSchema = new Schema({
         type: Boolean,
         default: false,
       },
-      isAvailable: {
-        type: Boolean,
-        default: true,
-      },
     },
   ],
   title: {
@@ -63,6 +59,14 @@ const BookSchema = new Schema({
   language: String,
   translated: Boolean,
   translator: String,
+  viewCounter: {
+    tyoe: Number,
+    default: 0,
+  },
+  saleTimes: {
+    tyoe: Number,
+    default: 0,
+  },
   date: {
     type: Date,
     default: Date.now,

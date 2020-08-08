@@ -1,3 +1,4 @@
 {
-  "DatabaseURI": "mongodb+srv://kafstoreadmin:oMvCcQE4pu3tRumm@kafstore.sisni.mongodb.net/kafstore?retryWrites=true&w=majority"
+  "DatabaseURI": "mongodb+srv://kafstoreadmin:oMvCcQE4pu3tRumm@kafstore.sisni.mongodb.net/kafstore?retryWrites=true&w=majority",
+  "jwtSecret": "U23hxDNPxV7kU66HQnjEQdrduaQGrnhL"
 }

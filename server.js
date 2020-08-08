@@ -1,4 +1,5 @@
 const express = require('express');
+const userRouter = require('./routes/api/user');
 const connectToDb = require('./config/db');
 
 // create new express app
@@ -8,6 +9,7 @@ const app = express();
 app.use(express.json({ extended: false }));
 
 // set routes
+app.use('/api/user', userRouter);
 
 // default route, remove when used in production
 app.get('/', (req, res) => {
