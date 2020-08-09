@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const auth = require('../../middleware/userAuth');
+const auth = require('../../middleware/auth');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
@@ -121,7 +121,7 @@ router.get('/', auth, async (req, res) => {
     }
 
     // get users from db
-    const users = await User.find();
+    const users = await User.find().select('-password');
     if (!users) {
       return res.status(400).send('There is no registered user!');
     }
@@ -139,7 +139,7 @@ router.get('/', auth, async (req, res) => {
 router.get('/:user_id', async (req, res) => {
   try {
     // get user from db
-    const user = await User.findById(req.params.user_id);
+    const user = await User.findById(req.params.user_id).select('-password');
     if (!user) {
       return res.status(400).send("User doesn't exist");
     }
@@ -173,6 +173,8 @@ router.delete('/:user_id', auth, async (req, res) => {
     if (!user) {
       return res.status(400).send("User doesn't exist");
     }
+
+    // TODO: delete any books, review added by the user
 
     await user.remove();
 

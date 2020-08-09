@@ -47,18 +47,18 @@ const UserSchema = new Schema({
       type: String,
     },
   },
-  rating: [
+  review: [
     {
-      user: {
+      writer: {
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true,
       },
-      rate: {
+      rating: {
         type: Number,
         required: true,
       },
-      review: {
+      text: {
         type: String,
       },
       date: {
