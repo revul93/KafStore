@@ -1,7 +1,6 @@
 const express = require('express');
 const userRouter = require('./routes/api/user');
-const userLoginRouter = require('./routes/api/userLogin');
-const userReviewRouter = require('./routes/api/userReview');
+const reviewRouter = require('./routes/api/review');
 const connectToDb = require('./config/db');
 
 // create new express app
@@ -12,8 +11,7 @@ app.use(express.json({ extended: false }));
 
 // set routes
 app.use('/api/user', userRouter);
-app.use('/api/user/login', userLoginRouter);
-app.use('/api/user/review', userReviewRouter);
+app.use('/api/review', reviewRouter);
 
 // default route, remove when used in production
 app.get('/', (req, res) => {

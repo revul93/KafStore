@@ -1,190 +1,191 @@
+// modules
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const auth = require('../../middleware/auth');
 const config = require('config');
-const { check, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
+const { body } = require('express-validator');
+const strings = require('../../static/strings');
 
+// middleware
+const auth = require('../../middleware/auth');
+const validate = require('../../middleware/validate');
+const validateUserReg = require('../../middleware/validateUserReg');
+const validateUserLogin = require('../../middleware/validateUserLogin');
+
+// models
 const User = require('../../models/User');
+const { SERVER_ERROR } = require('../../static/strings');
+
+// router instance
 const router = express.Router();
 
+/*
+ * Routes for /api/user
+ * Registration
+ * Login
+ * Users report
+ * User profile
+ * User Info edit
+ * User deletion
+ */
+
+// @desc        register new user
 // @route       POST api/user
-// @desc        create new user
 // @access      Public
-router.post(
-  '/',
-  [
-    check('name', 'لا يمكن أن يكون حقل الاسم فارغا').not().isEmpty(),
-    check('email', 'يرجى إدخال بريد إلكتروني صالح')
-      .isEmail()
-      .normalizeEmail()
-      .custom(async (email) => {
-        const user = await User.findOne({ email });
-        if (user) {
-          return Promise.reject('البريد الإلكتروني مسجل مسبقا');
-        }
-      }),
-    check(
-      'password',
-      'يجب أن تكون كلمة السر مكونة من ست خانات على الأقل'
-    ).isLength({
-      min: 6,
-    }),
-    check('passwordConfirmation').custom((passwordConfirmation, { req }) => {
-      if (passwordConfirmation !== req.body.password) {
-        return Promise.reject('كلمتا السر غير متطابقتان');
-      } else return Promise.resolve();
-    }),
-    check('phone', 'الرجاء إدخال رقم هاتف صالح').isMobilePhone(),
-    check('country', 'يرحى إدخال اسم الدولة').not().isEmpty(),
-    check('city', 'يرجى إدخال اسم المدينة').not().isEmpty(),
-    check('district', 'يرجى إدخال اسم الحي').not().isEmpty(),
-    check('street', 'يرجى إدخال اسم الشارع').not().isEmpty(),
-    check('describtion', 'يرجى إدخال وصف العنوان').not().isEmpty(),
-    check('postal', 'يرجى إدخال رمز بريدي صالح')
-      .if(check('postal').exists())
-      .isLength({
-        max: 5,
-        min: 5,
-      }),
-  ],
-  async (req, res) => {
-    // check for errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+router.post('/', [validateUserReg(), validate], async (req, res) => {
+  try {
+    // encrypt password
+    const salt = await bcrypt.genSalt(10);
+    const encPassword = await bcrypt.hash(req.body.password, salt);
 
-    try {
-      // encrypt password
-      const salt = await bcrypt.genSalt(10);
-      const encPassword = await bcrypt.hash(req.body.password, salt);
+    // construct user model
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: encPassword,
+      phone: req.body.phone,
+      profilepic: req.body.profilepic,
+      address: {
+        country: req.body.country,
+        city: req.body.city,
+        district: req.body.district,
+        street: req.body.street,
+        describtion: req.body.describtion,
+        postal: req.body.postal,
+      },
+    });
 
-      // construct user model
-      const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: encPassword,
-        phone: req.body.phone,
-        profilepic: req.body.profilepic,
-        address: {
-          country: req.body.country,
-          city: req.body.city,
-          district: req.body.district,
-          street: req.body.street,
-          describtion: req.body.describtion,
-          postal: req.body.postal,
-        },
-        isAdmin: req.body.isAdmin || false,
-      });
+    // save user in db
+    await user.save();
 
-      await user.save();
-
-      // create payload to associate it with token
-      const payload = {
-        user: {
-          id: user.id,
-          isAdmin: user.isAdmin,
-        },
-      };
-
-      // generate token and return it back
-      jwt.sign(
-        payload,
-        config.get('jwtSecret'),
-        { expiresIn: 36000 },
-        (error, token) => {
-          if (error) throw error;
-          return res.json(token);
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Server Error!');
-    }
+    return res.send(strings.USER_CREATED_SUCCESSFULLY.EN);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(strings.SERVER_ERROR.EN);
   }
-);
+});
 
-// @route       PUT api/user/:user_id
+// @desc        login a user
+// @route       POST api/user/login
+// @access      Public
+router.post('/login', [validateUserLogin(), validate], async (req, res) => {
+  try {
+    // get user from db
+    const user = await User.findOne({ email: req.body.email });
+
+    // if user not exist or password is incorrect response with error
+    if (!user || !bcrypt.compare(req.body.password, user.password)) {
+      return res.status(400).json(strings.LOGIN_FAILED.AR);
+    }
+
+    // else confirm login and send back jwt token
+    // create payload to associate it with token
+    const payload = {
+      user: {
+        id: user.id,
+        isAdmin: user.isAdmin,
+      },
+    };
+
+    // generate token and return it back
+    jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      { expiresIn: 36000 },
+      (error, token) => {
+        if (error) throw error;
+        return res.json(token);
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send(strings.SERVER_ERROR.EN);
+  }
+});
+
 // @desc        Edit user info, either by the user itself or by admin
-// @access      Private
-router.put('/:user_id', auth, async (req, res) => {});
+// @route       PUT api/user/
+// @access      Private, same user or admin
+router.put('/', auth, async (req, res) => {
+  // TODO
+});
 
+// @desc        get all user info
 // @route       GET api/user/
-// @desc        get all user info, access for admin only
-// @access      Private
+// @access      Private, admin only
 router.get('/', auth, async (req, res) => {
   try {
     // check if user is not an admin
     if (!req.user.isAdmin) {
-      return res.status(401).send('Not authorized');
+      return res.status(401).send(strings.NOT_AUTHORIZED.EN);
     }
 
     // get users from db
     const users = await User.find().select('-password');
+
+    // if no user registered...
     if (!users) {
-      return res.status(400).send('There is no registered user!');
+      return res.send(strings.NO_USERS.AR);
     }
 
+    // else return all users
     return res.json(users);
   } catch (error) {
     console.error(error.message);
-    return res.status(500).send('Server Error!');
+    return res.status(500).send(strings.SERVER_ERROR.EN);
   }
 });
 
-// @route       GET api/user/:user_id
 // @desc        get user info by id
+// @route       GET api/user/:user_id
 // @access      Public
 router.get('/:user_id', async (req, res) => {
   try {
     // get user from db
-    const user = await User.findById(req.params.user_id).select('-password');
+    const user = await User.findById(req.params.user_id).select(
+      '-password -isAdmin'
+    );
+
+    // if no user found
     if (!user) {
-      return res.status(400).send("User doesn't exist");
+      return res.status(400).send(strings.NO_USER.EN);
     }
 
     return res.json(user);
   } catch (error) {
     console.error(error.message);
-    if (error.kind == 'ObjectId') {
-      return res.status(400).send("User doesn't exist");
-    }
-    return res.status(500).send('Server Error!');
+    return res.status(500).send(strings.SERVER_ERROR.EN);
   }
 });
 
-// @route       DELETE api/user/:user_id
 // @desc        delete user, either by the user itself or by admin
-// @access      Private
-router.delete('/:user_id', auth, async (req, res) => {
+// @route       DELETE api/user/
+// @access      Private same user or admin
+router.delete('/', auth, async (req, res) => {
   try {
     // get user from db
-    const user = await User.findById(req.params.user_id);
+    const user = await User.findById(req.body.user_id);
 
     // check for authorization
-    console.log(req.user.id), console.log(user.id);
-    console.log(req.user.isAdmin);
     if (req.user.id != user.id.toString() && !req.user.isAdmin) {
-      return res.status(401).send('Not authorized');
+      return res.status(401).send(string.NOT_AUTHORIZED.EN);
     }
 
     // check if user existed
     if (!user) {
-      return res.status(400).send("User doesn't exist");
+      return res.status(400).send(strings.NO_USER.EN);
     }
 
-    // TODO: delete any books, review added by the user
+    // TODO: delete any books or reviews created by the user
 
+    // remove the user
     await user.remove();
 
-    return res.send(`User ${user.name} deleted successfully!`);
+    // inform
+    return res.send(strings.SUCCESSFUL.EN);
   } catch (error) {
-    console.error(error.message);
-    if (error.kind == 'ObjectId') {
-      return res.status(400).send("User doesn't exist");
-    }
-    return res.status(500).send('Server Error!');
+    return res.status(500).send(strings.SERVER_ERROR.EN);
   }
 });
 
