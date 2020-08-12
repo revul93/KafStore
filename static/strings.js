@@ -3,10 +3,6 @@ const strings = {
     AR: 'خطأ في الخادم!',
     EN: 'Server Error!',
   },
-  USER_CREATED_SUCCESSFULLY: {
-    AR: 'تم إنشاء المستخدم بنجاح',
-    EN: 'User created successfully',
-  },
   LOGIN_FAILED: {
     AR: 'فشل تسجيل الدخول، الرجاء التأكد من البريد الالكتروني وكلمة السر',
     EN: 'Login failed. Please check email and password',
@@ -27,6 +23,10 @@ const strings = {
     AR: 'تم الأمر بنجاح',
     EN: 'Done successfully',
   },
+  USER_CREATED_SUCCESSFULLY: {
+    AR: 'تم إنشاء المستخدم بنجاح',
+    EN: 'User created successfully',
+  },
   REVIEW_ADDED_SUCCESSFULLY: {
     AR: 'تم إضافة التقييم بنجاح',
     EN: 'Review added successfully',
@@ -34,6 +34,82 @@ const strings = {
   NO_REVIEWS: {
     AR: 'لا يوجد تقييمات!',
     EN: 'No reviews!',
+  },
+  NAME_IS_EMPTY: {
+    AR: 'لا يمكن أن يكون حقل الاسم فارغا',
+    EN: 'Must provide a name',
+  },
+  EMAIL_NOT_VALID: {
+    AR: 'يرجى إدخال بريد إلكتروني صالح',
+    EN: 'Please provide a valid email',
+  },
+  EMAIL_IS_USED: {
+    AR: 'البريد الإلكتروني مسجل مسبقا',
+    EN: 'Another user already use this email',
+  },
+  PASSWORD_IS_EMPTY: {
+    AR: 'الرجاء إدخال كلمة اسر',
+    EN: '',
+  },
+  PASSWORD_COMPLEXITY: {
+    AR: 'يجب أن تكون كلمة السر مكونة من ست خانات على الأقل',
+    EN: 'Password must be at least 6 characters long',
+  },
+  PASSWORD_MISMATCH: {
+    AR: 'كلمتا السر غير متطابقتان',
+    EN: 'Password mismatch',
+  },
+  PHONE_NOT_VALID: {
+    AR: 'الرجاء إدخال رقم هاتف صالح',
+    EN: '',
+  },
+  COUNTRY_IS_EMPTY: {
+    AR: 'يرحى إدخال اسم الدولة',
+    EN: '',
+  },
+  CITY_IS_EMPTY: {
+    AR: 'يرجى إدخال اسم المدينة',
+    EN: '',
+  },
+  DISTRICT_IS_EMPTY: {
+    AR: 'يرجى إدخال اسم الحي',
+    EN: '',
+  },
+  STREET_IS_EMPTY: {
+    AR: 'يرجى إدخال اسم الشارع',
+    EN: '',
+  },
+  ADD_DESCRIPTION_IS_EMPTY: {
+    AR: 'يرجى إدخال وصف العنوان',
+    EN: '',
+  },
+  POSTAL_INVALID: {
+    AR: 'يرجى إدخال رمز بريدي صالح',
+    EN: '',
+  },
+  REVIEW_INVALID: {
+    AR: 'لا توجد مراجعة',
+    EN: "Review doesn't exist",
+  },
+  BOOK_TITLE: {
+    AR: 'يجب إدخال اسم الكتاب',
+    EN: '',
+  },
+  BOOK_AUTHOR: {
+    AR: 'يجب إدخال اسم المؤلف',
+    EN: '',
+  },
+  BOOK_ISBN: {
+    AR: 'يجب إدخال رقم ISBN',
+    EN: '',
+  },
+  BOOK_DIVISON: {
+    AR: 'يجب إدخال القسم',
+    EN: '',
+  },
+  BOOK_SUBDIVISON: {
+    AR: 'يجب إدخال القسم الفرعي',
+    EN: '',
   },
 };
 

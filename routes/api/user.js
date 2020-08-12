@@ -1,21 +1,19 @@
 // modules
 const express = require('express');
+const strings = require('../../static/strings');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const mongoose = require('mongoose');
-const { body } = require('express-validator');
-const strings = require('../../static/strings');
 
 // middleware
 const auth = require('../../middleware/auth');
 const validate = require('../../middleware/validate');
+const validateObjectId = require('../../middleware/validateObjectId');
 const validateUserReg = require('../../middleware/validateUserReg');
 const validateUserLogin = require('../../middleware/validateUserLogin');
 
 // models
 const User = require('../../models/User');
-const { SERVER_ERROR } = require('../../static/strings');
 
 // router instance
 const router = express.Router();
@@ -51,7 +49,7 @@ router.post('/', [validateUserReg(), validate], async (req, res) => {
         city: req.body.city,
         district: req.body.district,
         street: req.body.street,
-        describtion: req.body.describtion,
+        description: req.body.description,
         postal: req.body.postal,
       },
     });
@@ -140,53 +138,61 @@ router.get('/', auth, async (req, res) => {
 // @desc        get user info by id
 // @route       GET api/user/:user_id
 // @access      Public
-router.get('/:user_id', async (req, res) => {
-  try {
-    // get user from db
-    const user = await User.findById(req.params.user_id).select(
-      '-password -isAdmin'
-    );
+router.get(
+  '/:user_id',
+  [validateObjectId('user_id', strings.NO_USER.EN), validate],
+  async (req, res) => {
+    try {
+      // get user from db
+      const user = await User.findById(req.params.user_id).select(
+        '-password -isAdmin'
+      );
 
-    // if no user found
-    if (!user) {
-      return res.status(400).send(strings.NO_USER.EN);
+      // if no user found
+      if (!user) {
+        return res.status(400).send(strings.NO_USER.EN);
+      }
+
+      return res.json(user);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send(strings.SERVER_ERROR.EN);
     }
-
-    return res.json(user);
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).send(strings.SERVER_ERROR.EN);
   }
-});
+);
 
 // @desc        delete user, either by the user itself or by admin
 // @route       DELETE api/user/
 // @access      Private same user or admin
-router.delete('/', auth, async (req, res) => {
-  try {
-    // get user from db
-    const user = await User.findById(req.body.user_id);
+router.delete(
+  '/',
+  [auth, validateObjectId('user_id', strings.NO_USER.EN), validate],
+  async (req, res) => {
+    try {
+      // get user from db
+      const user = await User.findById(req.body.user_id);
 
-    // check for authorization
-    if (req.user.id != user.id.toString() && !req.user.isAdmin) {
-      return res.status(401).send(string.NOT_AUTHORIZED.EN);
+      // check for authorization
+      if (req.user.id != user.id.toString() && !req.user.isAdmin) {
+        return res.status(401).send(string.NOT_AUTHORIZED.EN);
+      }
+
+      // check if user existed
+      if (!user) {
+        return res.status(400).send(strings.NO_USER.EN);
+      }
+
+      // TODO: delete any books or reviews created by the user
+
+      // remove the user
+      await user.remove();
+
+      // inform
+      return res.send(strings.SUCCESSFUL.EN);
+    } catch (error) {
+      return res.status(500).send(strings.SERVER_ERROR.EN);
     }
-
-    // check if user existed
-    if (!user) {
-      return res.status(400).send(strings.NO_USER.EN);
-    }
-
-    // TODO: delete any books or reviews created by the user
-
-    // remove the user
-    await user.remove();
-
-    // inform
-    return res.send(strings.SUCCESSFUL.EN);
-  } catch (error) {
-    return res.status(500).send(strings.SERVER_ERROR.EN);
   }
-});
+);
 
 module.exports = router;

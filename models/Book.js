@@ -7,6 +7,7 @@ const BookSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'user',
+        required: true,
       },
       price: {
         type: Number,
@@ -53,7 +54,7 @@ const BookSchema = new Schema({
     type: String,
     required: true,
   },
-  describtion: String,
+  description: String,
   publisher: String,
   publicationYear: Date,
   language: String,
