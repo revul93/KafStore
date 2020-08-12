@@ -45,7 +45,7 @@ const BookSchema = new Schema({
     type: String,
     required: true,
   },
-  subdivison: {
+  subdivision: {
     type: String,
     required: true,
   },

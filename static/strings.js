@@ -111,6 +111,26 @@ const strings = {
     AR: 'يجب إدخال القسم الفرعي',
     EN: '',
   },
+  BOOK_COVERIMAGE: {
+    AR: 'يجب تحميل صورة غلاف',
+    EN: '',
+  },
+  BOOK_PRICE: {
+    AR: 'يجب إدخال سعر صحيح',
+    EN: '',
+  },
+  BOOK_CONDITION: {
+    AR: 'يجب إدخال حالة الكتاب',
+    EN: '',
+  },
+  BOOK_IMAGES: {
+    AR: 'يجب ألا تقل الصور المضافة عن ثلاثة ولا تزيد عن عشرة',
+    EN: '',
+  },
+  NO_BOOK: {
+    AR: 'هذا الكتاب غير موجود',
+    EN: "Book doesn't exist",
+  },
 };
 
 module.exports = strings;

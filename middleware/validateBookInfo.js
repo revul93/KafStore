@@ -1,24 +1,27 @@
 const { body } = require('express-validator');
+const strings = require('../static/strings');
 
 const validateBookInfo = () => {
   return [
-    body('title', '').not().isEmpty(),
-    body('author', '').not().isEmpty(),
-    body('isbn', '').not().isEmpty(),
-    body('division', '').not().isEmpty(),
-    body('subdivision', '').not().isEmpty(),
-    body('coverImage', '').not().isEmpty(),
-    body('price', '')
+    body('title', strings.BOOK_TITLE.AR).not().isEmpty(),
+    body('author', strings.BOOK_AUTHOR.Ar).not().isEmpty(),
+    body('isbn', strings.BOOK_ISBN.AR).not().isEmpty(),
+    body('division', strings.BOOK_DIVISON.AR).not().isEmpty(),
+    body('subdivision', strings.BOOK_SUBDIVISON.AR).not().isEmpty(),
+    body('coverImage', strings.BOOK_COVERIMAGE.AR).not().isEmpty(),
+    body('price', strings.BOOK_PRICE.AR)
       .isNumeric()
       .custom((value) => {
         if (value <= 0) {
           return Promise.reject();
         } else return Promise.resolve();
       }),
-    body('condition', '').not().isEmpty(),
-    body('images', '').isLength({
-      min: 3,
-      max: 10,
+    body('condition', strings.BOOK_CONDITION.AR).not().isEmpty(),
+    body('images', strings.BOOK_IMAGES.AR).custom((value) => {
+      let len = value.split(',').length;
+      if (len >= 3 && len < 10) {
+        return Promise.resolve();
+      } else return Promise.reject();
     }),
   ];
 };

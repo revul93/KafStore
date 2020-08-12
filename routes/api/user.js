@@ -57,7 +57,7 @@ router.post('/', [validateUserReg(), validate], async (req, res) => {
     // save user in db
     await user.save();
 
-    return res.send(strings.USER_CREATED_SUCCESSFULLY.EN);
+    return res.send(strings.USER_CREATED_SUCCESSFULLY.AR);
   } catch (error) {
     console.error(error);
     res.status(500).send(strings.SERVER_ERROR.EN);
@@ -172,14 +172,14 @@ router.delete(
       // get user from db
       const user = await User.findById(req.body.user_id);
 
-      // check for authorization
-      if (req.user.id != user.id.toString() && !req.user.isAdmin) {
-        return res.status(401).send(string.NOT_AUTHORIZED.EN);
-      }
-
       // check if user existed
       if (!user) {
         return res.status(400).send(strings.NO_USER.EN);
+      }
+
+      // check for authorization
+      if (req.user.id != user.id.toString() && !req.user.isAdmin) {
+        return res.status(401).send(string.NOT_AUTHORIZED.EN);
       }
 
       // TODO: delete any books or reviews created by the user
