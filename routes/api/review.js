@@ -22,7 +22,7 @@ const router = express.Router();
  */
 
 // @desc        Post a review of a user
-// @route       POST api/user/review/
+// @route       POST api/review/
 // @access      Private
 router.post(
   '/',
@@ -64,7 +64,7 @@ router.post(
 );
 
 // @desc        get all reviews of a user
-// @route       GET api/user/review/:user_id
+// @route       GET api/review/:user_id
 // @access      Public
 router.get(
   '/:user_id',
@@ -92,7 +92,7 @@ router.get(
 );
 
 // @desc        delete a review
-// @route       DELETE api/user/review/:user_id
+// @route       DELETE api/review/
 // @access      Private, admin only
 router.delete(
   '/',

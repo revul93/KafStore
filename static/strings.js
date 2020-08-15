@@ -23,6 +23,10 @@ const strings = {
     AR: 'تم الأمر بنجاح',
     EN: 'Done successfully',
   },
+  MISSING_INFO: {
+    AR: 'بعض البيانات المطلوبة مفقودة',
+    EN: 'Some required info are missing',
+  },
   USER_CREATED_SUCCESSFULLY: {
     AR: 'تم إنشاء المستخدم بنجاح',
     EN: 'User created successfully',
@@ -63,6 +67,10 @@ const strings = {
     AR: 'الرجاء إدخال رقم هاتف صالح',
     EN: '',
   },
+  GENDER_REQUIRED: {
+    AR: 'يرجى اختيار الجنس',
+    EN: '',
+  },
   COUNTRY_IS_EMPTY: {
     AR: 'يرحى إدخال اسم الدولة',
     EN: '',
@@ -77,10 +85,6 @@ const strings = {
   },
   STREET_IS_EMPTY: {
     AR: 'يرجى إدخال اسم الشارع',
-    EN: '',
-  },
-  ADD_DESCRIPTION_IS_EMPTY: {
-    AR: 'يرجى إدخال وصف العنوان',
     EN: '',
   },
   POSTAL_INVALID: {
@@ -130,6 +134,22 @@ const strings = {
   NO_BOOK: {
     AR: 'هذا الكتاب غير موجود',
     EN: "Book doesn't exist",
+  },
+  COMPLAINT_ADDED_SUCCESSFULLY: {
+    AR: 'تم إرسال الشكوى بنجاح، سيتم التواصل معكم قريبا',
+    EN: 'Your complaint sent successfully. We will contact you soon',
+  },
+  COMPLAINT_SUBJECT_REQUIRED: {
+    AR: 'عنوان الشكوى مطلوب',
+    EN: 'Complaint subject is required',
+  },
+  COMPLAINT_DESCRIPTION_REQUIRED: {
+    AR: 'وصف الشكوى مطلوب',
+    EN: 'Complaint description is required',
+  },
+  NO_COMPLAINTS: {
+    AR: 'لا يوجد شكاوي',
+    EN: 'No complaints',
   },
 };
 

@@ -5,6 +5,7 @@ const connectToDb = require('./config/db');
 // routes
 const userRouter = require('./routes/api/user');
 const reviewRouter = require('./routes/api/review');
+const complaintRouter = require('./routes/api/complaint');
 const bookRouter = require('./routes/api/book');
 
 // create new express app
@@ -16,6 +17,7 @@ app.use(express.json({ extended: false }));
 // set routes
 app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
+app.use('/api/complaint', complaintRouter);
 app.use('/api/book', bookRouter);
 
 // default route, remove when used in production
@@ -27,7 +29,7 @@ app.get('/', (req, res) => {
 connectToDb();
 
 // set configuration
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // start server
 app.listen(PORT, () => {

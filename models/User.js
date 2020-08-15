@@ -22,6 +22,10 @@ const UserSchema = new Schema({
   profilepic: {
     type: String,
   },
+  gender: {
+    type: String,
+    required: true,
+  },
   address: {
     country: {
       type: String,
@@ -41,12 +45,28 @@ const UserSchema = new Schema({
     },
     description: {
       type: String,
-      required: true,
     },
     postal: {
       type: String,
     },
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  search: [String],
+  view: [
+    {
+      book: {
+        type: Schema.Types.ObjectId,
+        ref: 'book',
+      },
+    },
+  ],
   review: [
     {
       writer: {
@@ -67,14 +87,23 @@ const UserSchema = new Schema({
       },
     },
   ],
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
+  complaint: [
+    {
+      subject: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+      action: String,
+    },
+  ],
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

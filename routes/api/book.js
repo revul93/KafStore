@@ -64,10 +64,76 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
   }
 });
 
-// @desc        get book info
+// @desc        get book
 // @route       GET api/book/:book_id
 // @access      Public
-router.get('/:book_id', async (req, res) => {});
+router.get(
+  '/:book_id',
+  [validateObjectId('book_id', strings.NO_BOOK.AR), validate],
+  async (req, res) => {
+    try {
+      const book = await Book.findById(req.params.book_id);
+
+      if (!book) {
+        return res.status(400).send(strings.NO_BOOK.AR);
+      }
+
+      return res.json(book);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send(strings.SERVER_ERROR.EN);
+    }
+  }
+);
+
+// @desc        get book by isbn
+// @route       GET api/book/:isbn
+// @access      Public
+router.get('/:isbn', async (req, res) => {
+  try {
+    const book = await Book.findOne({ isbn: req.params.isbn }).select(
+      '-seller'
+    );
+
+    if (!book) {
+      return res.status(400).send(strings.NO_BOOK.AR);
+    }
+
+    return res.json(book);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).send(strings.SERVER_ERROR.EN);
+  }
+});
+
+// @desc        get book of specific seller
+// @route       GET api/book/:book_id/:seller_id
+// @access      Public
+router.get(
+  '/:book_id/:user_id',
+  [
+    validateObjectId('book_id', strings.NO_BOOK.AR),
+    validateObjectId('seller_id', strings.NO_USER.AR),
+    validate,
+  ],
+  async (req, res) => {
+    try {
+      const book = await Book.findOne({
+        id: req.params.book_id,
+        seller: req.params.seller_id,
+      });
+
+      if (!book) {
+        return res.status(400).send(strings.NO_BOOK.AR);
+      }
+
+      return res.json(book);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send(strings.SERVER_ERROR.EN);
+    }
+  }
+);
 
 // @desc        edit book info
 // @route       PUT api/book/

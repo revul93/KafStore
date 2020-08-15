@@ -1,27 +1,17 @@
 const { body } = require('express-validator');
 const strings = require('../static/strings');
-const User = require('../models/User');
 
-const validateUserReg = () => {
+const validateUserInfoEdit = () => {
   return [
     // name must not be empty
     body('name', strings.NAME_IS_EMPTY.AR).not().isEmpty(),
 
-    // email must be valid and not used by another user
-    body('email', strings.EMAIL_NOT_VALID.AR)
-      .isEmail()
-      .normalizeEmail()
-      .custom(async (email) => {
-        const user = await User.findOne({ email });
-        if (user) {
-          return Promise.reject(strings.EMAIL_IS_USED.AR);
-        }
-      }),
-
     // password must be at least 6 characters long
-    body('password', strings.PASSWORD_COMPLEXITY.AR).isLength({
-      min: 6,
-    }),
+    body('password', strings.PASSWORD_COMPLEXITY.AR)
+      .if(body('password').not().isEmpty())
+      .isLength({
+        min: 6,
+      }),
 
     // password confirmation must match password
     body('passwordConfirmation').custom((passwordConfirmation, { req }) => {
@@ -29,7 +19,6 @@ const validateUserReg = () => {
         return Promise.reject(strings.PASSWORD_MISMATCH.AR);
       } else return Promise.resolve();
     }),
-
     // phone must exist and is valid
     body('phone', strings.PHONE_NOT_VALID.AR).isMobilePhone(),
 
@@ -58,4 +47,4 @@ const validateUserReg = () => {
   ];
 };
 
-module.exports = validateUserReg;
+module.exports = validateUserInfoEdit;
