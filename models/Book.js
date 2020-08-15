@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const BookSchema = new Schema({
-  seller: [
+  copy: [
     {
-      user: {
+      seller: {
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true,
@@ -41,11 +41,11 @@ const BookSchema = new Schema({
     required: true,
     unique: true,
   },
-  division: {
+  section: {
     type: String,
     required: true,
   },
-  subdivision: {
+  subsection: {
     type: String,
     required: true,
   },

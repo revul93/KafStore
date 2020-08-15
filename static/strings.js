@@ -104,14 +104,14 @@ const strings = {
     EN: '',
   },
   BOOK_ISBN: {
-    AR: 'يجب إدخال رقم ISBN',
+    AR: 'يجب أن يكون رقم ISBN مكون من 10 أرقام أو 13 رقما',
     EN: '',
   },
-  BOOK_DIVISON: {
+  BOOK_SECTION: {
     AR: 'يجب إدخال القسم',
     EN: '',
   },
-  BOOK_SUBDIVISON: {
+  BOOK_SUBSECTION: {
     AR: 'يجب إدخال القسم الفرعي',
     EN: '',
   },

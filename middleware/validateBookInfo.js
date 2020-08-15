@@ -5,9 +5,15 @@ const validateBookInfo = () => {
   return [
     body('title', strings.BOOK_TITLE.AR).not().isEmpty(),
     body('author', strings.BOOK_AUTHOR.Ar).not().isEmpty(),
-    body('isbn', strings.BOOK_ISBN.AR).not().isEmpty(),
-    body('division', strings.BOOK_DIVISON.AR).not().isEmpty(),
-    body('subdivision', strings.BOOK_SUBDIVISON.AR).not().isEmpty(),
+    body('isbn', strings.BOOK_ISBN.AR)
+      .isNumeric()
+      .custom((value) => {
+        if (value.length == 10 || value.length == 13) {
+          return Promise.resolve();
+        } else return Promise.reject();
+      }),
+    body('section', strings.BOOK_SECTION.AR).not().isEmpty(),
+    body('subsection', strings.BOOK_SUBSECTION.AR).not().isEmpty(),
     body('coverImage', strings.BOOK_COVERIMAGE.AR).not().isEmpty(),
     body('price', strings.BOOK_PRICE.AR)
       .isNumeric()

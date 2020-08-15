@@ -109,17 +109,18 @@ router.delete(
         return res.status(401).send(strings.NOT_AUTHORIZED.EN);
       }
 
-      const user = await User.findById(req.body.user_id);
-      const review = await user.review.find(
-        (elem) => elem._id == req.body.review_id
+      // get user
+      const user = await User.findById(req.body.user_id).select(
+        'id name review'
       );
-
-      // if no user found
       if (!user) {
         return res.status(400).send(strings.NO_USER.EN);
       }
 
-      // if review not found
+      // find the review
+      const review = await user.review.find(
+        (elem) => elem._id == req.body.review_id
+      );
       if (!review) {
         return res.status(400).send(strings.NO_REVIEWS.EN);
       }
