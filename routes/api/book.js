@@ -54,7 +54,7 @@ router.get('/:query', (req, res) => {
 // @access      Public
 router.get(
   '/user/:user_id',
-  [validateObjectId('user_id', strings.NO_USER.AR)],
+  [validateObjectId('user_id', strings.NO_DATA)],
   (req, res) => {
     getallUserCopies(req, res);
   },
@@ -81,11 +81,11 @@ router.put(
 // @access      Private, admin only
 router.put(
   '/user',
-  [auth, validateObjectId('user_id', strings.NO_USER.AR), validate],
+  [auth, validateObjectId('user_id', strings.NO_DATA), validate],
   (req, res) => {
     // check if user is not an admin
     if (!req.user.isAdmin) {
-      return res.status(401).send(strings.NOT_AUTHORIZED.EN);
+      return res.status(401).send(strings.NOT_AUTHORIZED);
     }
     removeAllUserCopies(req, res);
   },
@@ -100,7 +100,7 @@ router.delete(
   (req, res) => {
     // check if user is not an admin
     if (!req.user.isAdmin) {
-      return res.status(401).send(strings.NOT_AUTHORIZED.EN);
+      return res.status(401).send(strings.NOT_AUTHORIZED);
     }
     removeBook(req, res);
   },

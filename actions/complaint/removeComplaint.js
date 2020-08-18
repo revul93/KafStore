@@ -1,25 +1,16 @@
 const strings = require('../../static/strings');
-const User = require('../../models/User');
+const getUser = require('../user/getUser');
 
-module.export = async (req, res) => {
-  try {
-    // get user
-    const user = await User.findById(req.body.user_id);
-
-    if (!user.complaint || user.complaint.length == 0) {
-      return res.send(strings.NO_COMPLAINTS.AR);
-    }
-
-    // remove complaint
-    user.complaint = user.complaint.filter(
-      (c) => c._id != req.body.complaint_id,
-    );
-
-    // save changes and inform
-    await user.save();
-    return res.json(strings.SUCCESSFUL.AR);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send(strings.SERVER_ERROR.EN);
+module.export = async (user_id, complaint_id) => {
+  const user = await getUser(user_id);
+  if (!user || !user.complaint || user.complaint.length == 0) {
+    return strings.FAIL;
   }
+
+  user.complaint = await user.complaint.filter((complaint) => {
+    complaint._id == complaint_id;
+  });
+
+  await user.save();
+  return strings.SUCCESS;
 };

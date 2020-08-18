@@ -1,6 +1,7 @@
 // modules
 const express = require('express');
 const strings = require('../../static/strings');
+const handleError = require('../../actions/handleError');
 
 // middleware
 const auth = require('../../middleware/auth');
@@ -38,12 +39,11 @@ router.post('/register', [validateUserReg(), validate], async (req, res) => {
   try {
     const user = await registerUser(req.body);
     if (!user) {
-      throw new Error();
+      return res.status(400).json(strings.FAIL);
     }
-    return res.send(strings.USER_CREATED_SUCCESSFULLY.AR);
+    return res.send(strings.SUCCESS);
   } catch (error) {
-    console.error(error);
-    res.status(500).send(strings.SERVER_ERROR.EN);
+    handleError(error);
   }
 });
 
@@ -55,13 +55,12 @@ router.post('/login', [validateUserLogin(), validate], async (req, res) => {
     const token = await loginUser(req.body.email, req.body.password);
 
     if (!token) {
-      return res.status(400).json(strings.LOGIN_FAILED.AR);
+      return res.status(400).json(strings.LOGIN_FAILED);
     }
 
     return res.json(token);
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send(strings.SERVER_ERROR.EN);
+    handleError(error);
   }
 });
 
@@ -69,27 +68,22 @@ router.post('/login', [validateUserLogin(), validate], async (req, res) => {
 // @route       GET api/user/all
 // @access      Private, admin only
 router.get('/all', auth, async (req, res) => {
-  // check if user is not an admin
   if (!req.user.isAdmin) {
-    return res.status(401).send(strings.NOT_AUTHORIZED.EN);
+    return res.status(401).json(strings.NOT_AUTHORIZED);
   }
 
   try {
-    // get users from db
     const query = 'all';
     const field = '-password -viewed -searches -complaint -review';
     const users = await getUser(query, field);
 
-    // if no user registered...
     if (!users) {
-      return res.send(strings.NO_USERS.AR);
+      return res.json(strings.NO_REGISTERED_USERS);
     }
 
-    // else return all users
     return res.json(users);
   } catch (error) {
-    console.error(error.message);
-    return res.status(500).send(strings.SERVER_ERROR.EN);
+    handleError(error);
   }
 });
 
@@ -98,22 +92,20 @@ router.get('/all', auth, async (req, res) => {
 // @access      Public
 router.get(
   '/:user_id',
-  [validateObjectId('user_id', strings.NO_USER.EN), validate],
+  [validateObjectId('user_id', strings.NO_DATA), validate],
   async (req, res) => {
     try {
       const query = req.params.user_id;
       const field = 'id name email review profilepic';
       const user = await getUser(query, field);
 
-      // if no user found
       if (!user) {
-        return res.status(400).send(strings.NO_USER.EN);
+        return res.status(400).json(strings.NO_DATA);
       }
 
       return res.json(user);
     } catch (error) {
-      console.error(error.message);
-      return res.status(500).send(strings.SERVER_ERROR.EN);
+      handleError(error);
     }
   },
 );
@@ -121,21 +113,19 @@ router.get(
 // @desc        get user info by id
 // @route       GET api/user
 // @access      Public
-router.get('/', [auth], async (req, res) => {
+router.get('/me', [auth], async (req, res) => {
   try {
     const query = req.user.id;
     const field = '-password -isAdmin';
     const user = await getUser(query, field);
 
-    // if no user found
     if (!user) {
-      return res.status(400).send(strings.NO_USER.EN);
+      return res.status(400).json(strings.NO_DATA);
     }
 
     return res.json(user);
   } catch (error) {
-    console.error(error.message);
-    return res.status(500).send(strings.SERVER_ERROR.EN);
+    handleError(error);
   }
 });
 
@@ -147,14 +137,12 @@ router.put(
   [auth, validateUserInfoEdit(), validate],
   async (req, res) => {
     try {
-      const done = await updateUser(req.user.id, req.body);
-      if (!done) {
-        return res.status(400).send(strings.NO_USER.AR);
+      if ((await updateUser(req.user.id, req.body)) == strings.FAIL) {
+        return res.status(400).json(strings.NO_DATA);
       }
-      return res.send(strings.SUCCESSFUL.AR);
+      return res.json(strings.SUCCESS);
     } catch (error) {
-      console.error(error.message);
-      res.status(500).send(strings.SERVER_ERROR.EN);
+      handleError(error);
     }
   },
 );
@@ -164,14 +152,12 @@ router.put(
 // @access      Private
 router.put('/updaterecords', [auth], async (req, res) => {
   try {
-    const done = await updateUser(req.user.id, req.body);
-    if (!done) {
-      return res.status(400).send(strings.NO_USER.AR);
+    if ((await updateUser(req.user.id, req.body)) == strings.FAIL) {
+      return res.status(400).json(strings.NO_DATA);
     }
-    return res.send(strings.SUCCESSFUL.AR);
+    return res.json(strings.SUCCESS);
   } catch (error) {
-    console.error(error);
-    res.status(500).send(strings.SERVER_ERROR.EN);
+    handleError(error);
   }
 });
 
@@ -180,21 +166,13 @@ router.put('/updaterecords', [auth], async (req, res) => {
 // @access      Private, same user or admin
 router.delete('/', [auth], async (req, res) => {
   try {
-    let done;
-    if (req.user.isAdmin) {
-      done = await removeUser(req.body.user_id);
-    } else {
-      done = await removeUser(req.user.id);
+    const user_id = req.user.isAdmin ? req.body.user_id : req.user.id;
+    if (!(await removeUser(user_id)) == strings.FAIL) {
+      return res.status(400).json(strings.NO_DATA);
     }
-
-    // check if user existed
-    if (!done) {
-      return res.status(400).send(strings.NO_USER.EN);
-    }
-    return res.send(strings.SUCCESSFUL.EN);
+    return res.json(strings.SUCCESS);
   } catch (error) {
-    console.error(error.message);
-    return res.status(500).send(strings.SERVER_ERROR.EN);
+    handleError(error);
   }
 });
 

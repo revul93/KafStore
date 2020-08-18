@@ -5,7 +5,6 @@ module.exports = async (data) => {
   const salt = await bcrypt.genSalt(10);
   const encPassword = await bcrypt.hash(data.password, salt);
 
-  // construct user model
   const user = new User({
     name: data.name,
     email: data.email,
@@ -23,7 +22,6 @@ module.exports = async (data) => {
     },
   });
 
-  // save user in db
   await user.save();
   return user;
 };

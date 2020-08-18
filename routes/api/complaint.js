@@ -1,6 +1,7 @@
 // modules
 const express = require('express');
 const strings = require('../../static/strings');
+const handleError = require('../../actions/handleError');
 
 // middlewares
 const auth = require('../../middleware/auth');
@@ -28,20 +29,45 @@ const router = express.Router();
 // @desc        Post a complaint
 // @route       POST api/complaint/
 // @access      Private
-router.post('/', [auth, validateComplaintsPosting(), validate], (req, res) => {
-  sendComplaint(req, res);
-});
+router.post(
+  '/',
+  [auth, validateComplaintsPosting(), validate],
+  async (req, res) => {
+    try {
+      if (
+        (await sendComplaint(
+          req.user.id,
+          req.body.subject,
+          req.body.description,
+        )) == strings.FAIL
+      ) {
+        return res.status(400).json(strings.NO_DATA);
+      }
+      return res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
+  },
+);
 
 // @desc        get all complaints
 // @route       GET api/complaint/
 // @access      Private, admin only
-router.get('/', auth, (req, res) => {
-  // check if user is not an admin
+router.get('/', auth, async (req, res) => {
   if (!req.user.isAdmin) {
-    return res.status(401).send(strings.NOT_AUTHORIZED.EN);
+    return res.status(401).json(strings.NOT_AUTHORIZED);
   }
 
-  getComplaint(req, res);
+  try {
+    const complaints = await getComplaint();
+    if (!complaints) {
+      return res.status(400).json(strings.NO_COMPLAINTS);
+    }
+
+    return res.json(complaints);
+  } catch (error) {
+    handleError(error);
+  }
 });
 
 // @desc        edit action of specific complaint
@@ -51,16 +77,28 @@ router.put(
   '/',
   [
     auth,
-    validateObjectId('user_id', strings.NO_USER.EN),
-    validateObjectId('complaint_id', strings.NO_COMPLAINTS.EN),
+    validateObjectId('user_id', strings.NO_DATA),
+    validateObjectId('complaint_id', strings.NO_DATA),
     validate,
   ],
-  (req, res) => {
-    // check if user is not an admin
+  async (req, res) => {
     if (!req.user.isAdmin) {
-      return res.status(401).send(strings.NOT_AUTHORIZED.EN);
+      return res.status(401).json(strings.NOT_AUTHORIZED);
     }
-    editComplaint(req, res);
+    try {
+      if (
+        (await editComplaint(
+          req.body.user_id,
+          req.body.complaint_id,
+          req.body.action,
+        )) == strings.FAIL
+      ) {
+        res.status(400).json(strings.NO_DATA);
+      }
+      return res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
   },
 );
 
@@ -71,16 +109,25 @@ router.delete(
   '/',
   [
     auth,
-    validateObjectId('user_id', strings.NO_USER.EN),
-    validateObjectId('complaint_id', strings.NO_COMPLAINTS.EN),
+    validateObjectId('user_id', strings.NO_DATA),
+    validateObjectId('complaint_id', strings.NO_DATA),
     validate,
   ],
   async (req, res) => {
-    // check if user is not an admin
     if (!req.user.isAdmin) {
-      return res.status(401).send(strings.NOT_AUTHORIZED.EN);
+      return res.status(401).json(strings.NOT_AUTHORIZED);
     }
-    removeComplaint(req, res);
+    try {
+      if (
+        (await removeComplaint(req.body.user_id, req.body.complaint_id)) ==
+        strings.FAIL
+      ) {
+        res.status(400).json(strings.NO_DATA);
+      }
+      return res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
   },
 );
 

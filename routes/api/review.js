@@ -1,6 +1,7 @@
 // modules
 const express = require('express');
 const strings = require('../../static/strings');
+const handleError = require('../../actions/handleError');
 
 // middlewares
 const auth = require('../../middleware/auth');
@@ -31,11 +32,25 @@ router.post(
   [
     auth,
     validateReviewPosting(),
-    validateObjectId('user_id', strings.NO_USER.EN),
+    validateObjectId('user_id', strings.NO_DATA),
     validate,
   ],
-  (req, res) => {
-    sendReview(req, res);
+  async (req, res) => {
+    try {
+      if (
+        (await sendReview(
+          req.user.id,
+          req.body.user,
+          req.body.rating,
+          req.body.text,
+        )) == strings.FAIL
+      ) {
+        res.status(400).json(strings.FAIL);
+      }
+      return res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
   },
 );
 
@@ -44,9 +59,21 @@ router.post(
 // @access      Public
 router.get(
   '/:user_id',
-  [validateObjectId('user_id', strings.NO_USER.EN), validate],
-  (req, res) => {
-    getReview(req, res);
+  [validateObjectId('user_id', strings.NO_DATA), validate],
+  async (req, res) => {
+    try {
+      const response = await getReview(req.params.user_id);
+      if (response == strings.FAIL) {
+        return res.status(400).json(strings.FAIL);
+      }
+
+      if (response.length == 0) {
+        return res.status(400).json(strings.NO_REVIEWS);
+      }
+      return res.json(response);
+    } catch (error) {
+      handleError(error);
+    }
   },
 );
 
@@ -57,12 +84,26 @@ router.delete(
   '/',
   [
     auth,
-    validateObjectId('user_id', strings.NO_USER.EN),
-    validateObjectId('review_id', strings.REVIEW_INVALID.EN),
+    validateObjectId('user_id', strings.NO_DATA),
+    validateObjectId('review_id', strings.NO_DATA),
     validate,
   ],
-  (req, res) => {
-    removeReview(req, res);
+  async (req, res) => {
+    try {
+      if (!req.user.isAdmin) {
+        return res.status(401).json(strings.NOT_AUTHORIZED);
+      }
+
+      if (
+        (await removeReview(req.body.user_id, req.body.review_id)) ==
+        strings.FAIL
+      ) {
+        res.status(400).json(strings.NO_DATA);
+      }
+      res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
   },
 );
 

@@ -1,44 +1,21 @@
 const strings = {
-  SERVER_ERROR: {
-    AR: 'خطأ في الخادم!',
-    EN: 'Server Error!',
-  },
-  LOGIN_FAILED: {
-    AR: 'فشل تسجيل الدخول، الرجاء التأكد من البريد الالكتروني وكلمة السر',
-    EN: 'Login failed. Please check email and password',
-  },
-  NOT_AUTHORIZED: {
-    AR: 'تم رفض الوصول',
-    EN: 'Not authorized',
-  },
-  NO_USERS: {
-    AR: 'لا يوجد مستخدمين مسجلين',
-    EN: 'No registered users, yet..',
-  },
-  NO_USER: {
-    AR: 'هذا المستخدم غير موجود',
-    EN: "User doesn't exist",
-  },
-  SUCCESSFUL: {
-    AR: 'تم الأمر بنجاح',
-    EN: 'Done successfully',
-  },
-  MISSING_INFO: {
-    AR: 'بعض البيانات المطلوبة مفقودة',
-    EN: 'Some required info are missing',
-  },
-  USER_CREATED_SUCCESSFULLY: {
-    AR: 'تم إنشاء المستخدم بنجاح',
-    EN: 'User created successfully',
-  },
-  REVIEW_ADDED_SUCCESSFULLY: {
-    AR: 'تم إضافة التقييم بنجاح',
-    EN: 'Review added successfully',
-  },
-  NO_REVIEWS: {
-    AR: 'لا يوجد تقييمات!',
-    EN: 'No reviews!',
-  },
+  // General messages
+  SERVER_ERROR: 'Server Error!',
+  NOT_AUTHORIZED: 'Not authorized',
+  FAIL: 'Operation failed',
+  SUCCESS: 'Operation successed',
+  MISSING_INFO: 'Some required info are missing',
+  NO_DATA: 'البيانات المطلوبة غير موجودة',
+
+  // login messages
+  LOGIN_FAILED:
+    'فشل تسجيل الدخول، الرجاء التأكد من البريد الالكتروني وكلمة السر',
+
+  // user operation related messages
+  NO_REGISTERED_USERS: 'لا يوجد مستخدمين مسجلين',
+  NO_REVIEWS: 'لم يتم العثور على تقييمات لهذا المستخدم',
+  NO_COMPLAINTS: 'لا يوجد شكاوي',
+
   NAME_IS_EMPTY: {
     AR: 'لا يمكن أن يكون حقل الاسم فارغا',
     EN: 'Must provide a name',
@@ -91,10 +68,7 @@ const strings = {
     AR: 'يرجى إدخال رمز بريدي صالح',
     EN: '',
   },
-  REVIEW_INVALID: {
-    AR: 'لا توجد مراجعة',
-    EN: "Review doesn't exist",
-  },
+
   BOOK_TITLE: {
     AR: 'يجب إدخال اسم الكتاب',
     EN: '',
@@ -146,10 +120,6 @@ const strings = {
   COMPLAINT_DESCRIPTION_REQUIRED: {
     AR: 'وصف الشكوى مطلوب',
     EN: 'Complaint description is required',
-  },
-  NO_COMPLAINTS: {
-    AR: 'لا يوجد شكاوي',
-    EN: 'No complaints',
   },
 };
 
