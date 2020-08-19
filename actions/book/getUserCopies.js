@@ -8,7 +8,7 @@ module.exports = async (user_id) => {
   });
 
   if (!books || books.length == 0) {
-    return strings.FAIL;
+    return null;
   }
   books.forEach(async (book) => {
     book.copy = await book.copy.filter((copy) => copy.seller == user_id);

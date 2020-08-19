@@ -22,7 +22,7 @@ module.exports = async (user_id, data) => {
   if (data.translator) book.translator = data.translator;
 
   let copyIndex =
-    book.copy.length != 0
+    !book.copy || book.copy.length == 0
       ? -1
       : book.copy.findIndex((copy) => copy._id.toString() == data.copy_id);
 
@@ -33,8 +33,10 @@ module.exports = async (user_id, data) => {
     images: data.images.split(','),
   };
 
-  if (copyIndex >= 0) {
-    book.copy[copyIndex] = copy;
+  if (copyIndex != -1) {
+    book.copy[copyIndex].price = copy.price;
+    book.copy[copyIndex].condition = copy.condition;
+    book.copy[copyIndex].images = copy.images;
   } else {
     book.copy.push(copy);
   }

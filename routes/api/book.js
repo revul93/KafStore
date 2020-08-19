@@ -54,9 +54,9 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
 // querying book by id or isbn will return one book with the users who sell this book
 // querying book by keyword will return all the books that match search keyword
 //   with users who sell these books
-router.get('/:query', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const book = await queryBook(decodeURI(query));
+    const book = await queryBook(decodeURI(req.query.query));
     if (!book) {
       return res.status(400).json(strings.NO_DATA);
     }
@@ -74,7 +74,7 @@ router.get(
   [validateObjectId('user_id', strings.NO_DATA)],
   async (req, res) => {
     try {
-      const books = await getUserCopies(req.param.user_id);
+      const books = await getUserCopies(req.params.user_id);
       if (!books) {
         return res.status(400).json(strings.NO_DATA);
       }
@@ -82,7 +82,7 @@ router.get(
     } catch (error) {
       handleError(error);
     }
-  }
+  },
 );
 
 // @desc        remove a copy of a book
@@ -102,7 +102,7 @@ router.put(
         (await removeBookCopy(
           req.body.book_id,
           req.body.copy_id,
-          req.user.id
+          req.user.id,
         )) == strings.FAIL
       ) {
         return res.status(400).json(strings.FAIL);
@@ -112,7 +112,7 @@ router.put(
       handleError(error);
     }
     removeUserCopy(req, res);
-  }
+  },
 );
 
 // @desc        remove all copies of book owned by user
@@ -133,7 +133,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  }
+  },
 );
 
 // @desc        delete a book
@@ -154,7 +154,7 @@ router.delete(
     } catch (error) {
       handleError(error);
     }
-  }
+  },
 );
 
 module.exports = router;

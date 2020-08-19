@@ -12,7 +12,7 @@ const removeAllUserCopies = async (user_id) => {
   }
 
   books.forEach(async (book) => {
-    book.copy = await book.copy.filter((copy) => copy.seller == user_id);
+    book.copy = await book.copy.filter((copy) => copy.seller != user_id);
     await book.save();
   });
 
