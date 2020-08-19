@@ -40,18 +40,18 @@ router.post(
       if (
         (await sendReview(
           req.user.id,
-          req.body.user,
+          req.body.user_id,
           req.body.rating,
-          req.body.text,
+          req.body.text
         )) == strings.FAIL
       ) {
-        res.status(400).json(strings.FAIL);
+        return res.status(400).json(strings.FAIL);
       }
       return res.json(strings.SUCCESS);
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        get all reviews of a user
@@ -67,14 +67,14 @@ router.get(
         return res.status(400).json(strings.FAIL);
       }
 
-      if (response.length == 0) {
+      if (!response) {
         return res.status(400).json(strings.NO_REVIEWS);
       }
       return res.json(response);
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        delete a review
@@ -104,7 +104,7 @@ router.delete(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 module.exports = router;

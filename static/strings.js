@@ -105,10 +105,7 @@ const strings = {
     AR: 'يجب ألا تقل الصور المضافة عن ثلاثة ولا تزيد عن عشرة',
     EN: '',
   },
-  NO_BOOK: {
-    AR: 'هذا الكتاب غير موجود',
-    EN: "Book doesn't exist",
-  },
+
   COMPLAINT_ADDED_SUCCESSFULLY: {
     AR: 'تم إرسال الشكوى بنجاح، سيتم التواصل معكم قريبا',
     EN: 'Your complaint sent successfully. We will contact you soon',

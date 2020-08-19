@@ -1,7 +1,7 @@
 const strings = require('../../static/strings');
 const getUser = require('../user/getUser');
 
-module.export = async (user_id, complaint_id) => {
+module.exports = async (user_id, complaint_id) => {
   const user = await getUser(user_id);
   if (!user || !user.complaint || user.complaint.length == 0) {
     return strings.FAIL;

@@ -1,7 +1,7 @@
 const getUser = require('../user/getUser');
 const strings = require('../../static/strings');
 
-module.export = async (sender_id, subject, description) => {
+module.exports = async (sender_id, subject, description) => {
   const user = await getUser(sender_id, 'complaint');
 
   if (!user) {

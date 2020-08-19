@@ -41,7 +41,7 @@ router.post('/register', [validateUserReg(), validate], async (req, res) => {
     if (!user) {
       return res.status(400).json(strings.FAIL);
     }
-    return res.send(strings.SUCCESS);
+    return res.json(strings.SUCCESS);
   } catch (error) {
     handleError(error);
   }
@@ -59,6 +59,25 @@ router.post('/login', [validateUserLogin(), validate], async (req, res) => {
     }
 
     return res.json(token);
+  } catch (error) {
+    handleError(error);
+  }
+});
+
+// @desc        get user info by id
+// @route       GET api/user/me
+// @access      Private
+router.get('/me', auth, async (req, res) => {
+  try {
+    const query = req.user.id;
+    const field = '-password -isAdmin';
+    const user = await getUser(query, field);
+
+    if (!user) {
+      return res.status(400).json(strings.NO_DATA);
+    }
+
+    return res.json(user);
   } catch (error) {
     handleError(error);
   }
@@ -107,27 +126,8 @@ router.get(
     } catch (error) {
       handleError(error);
     }
-  },
-);
-
-// @desc        get user info by id
-// @route       GET api/user
-// @access      Public
-router.get('/me', [auth], async (req, res) => {
-  try {
-    const query = req.user.id;
-    const field = '-password -isAdmin';
-    const user = await getUser(query, field);
-
-    if (!user) {
-      return res.status(400).json(strings.NO_DATA);
-    }
-
-    return res.json(user);
-  } catch (error) {
-    handleError(error);
   }
-});
+);
 
 // @desc        Edit user info
 // @route       PUT api/user/edit
@@ -144,7 +144,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        Update records related to searches and views

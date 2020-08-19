@@ -8,7 +8,7 @@ module.exports = async (user_id) => {
   }
 
   if (!user.review || user.review.length == 0) {
-    return [];
+    return null;
   }
 
   return user.review;

@@ -38,7 +38,7 @@ router.post(
         (await sendComplaint(
           req.user.id,
           req.body.subject,
-          req.body.description,
+          req.body.description
         )) == strings.FAIL
       ) {
         return res.status(400).json(strings.NO_DATA);
@@ -47,7 +47,7 @@ router.post(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        get all complaints
@@ -90,7 +90,7 @@ router.put(
         (await editComplaint(
           req.body.user_id,
           req.body.complaint_id,
-          req.body.action,
+          req.body.action
         )) == strings.FAIL
       ) {
         res.status(400).json(strings.NO_DATA);
@@ -99,7 +99,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        delete specific complaint
@@ -128,7 +128,7 @@ router.delete(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 module.exports = router;

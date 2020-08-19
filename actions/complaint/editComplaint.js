@@ -1,14 +1,14 @@
 const strings = require('../../static/strings');
 const getUser = require('../user/getUser');
 
-module.export = async (user_id, complaint_id) => {
+module.exports = async (user_id, complaint_id, action) => {
   const user = await getUser(user_id, 'complaint');
   if (!user.complaint || user.complaint.length == 0) {
     return strings.FAIL;
   }
 
   let complaint_index = user.complaint.findIndex(
-    (complaint) => complaint._id == complaint_id,
+    (complaint) => complaint._id == complaint_id
   );
 
   if (complaint_index == -1) {

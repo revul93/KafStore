@@ -6,9 +6,9 @@ module.exports = async (user_id) => {
 
   const user = await getUser(user_id);
   if (!user) {
-    return strings.NO_USER.EN;
+    return strings.NO_DATA;
   }
 
   await user.remove();
-  return strings.SUCCESSFUL.EN;
+  return strings.SUCCESS;
 };

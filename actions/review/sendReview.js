@@ -8,6 +8,12 @@ module.exports = async (sender_id, reciever_id, rating, text) => {
   const reciver = await getUser(reciever_id);
 
   if (!sender || !reciver) {
+    console.log('1');
+    return strings.FAIL;
+  }
+
+  if (sender.id == reciver.id) {
+    console.log('2');
     return strings.FAIL;
   }
 
