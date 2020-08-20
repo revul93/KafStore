@@ -4,7 +4,7 @@ import logo from '../img/logo36x36.png';
 
 const Header = () => {
   return (
-    <Link class='header-link' to='/'>
+    <Link className='header-link' to='/'>
       <img className='header-item' src={logo} alt='أيقونة الموقع' />
       <span className='header-item'>مــتـجر كـــاف</span>
     </Link>

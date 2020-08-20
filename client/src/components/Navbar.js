@@ -11,7 +11,7 @@ const Navbar = () => {
           <Link className='navbar-list-item-link' to='#!'>
             أقسام الموقع
           </Link>
-          <ul class='dropdown-content'>
+          <ul className='dropdown-content'>
             <li className='navbar-list-item'>
               <Link className='navbar-list-item-link' to='#!'>
                 القسم الأول
