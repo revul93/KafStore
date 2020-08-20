@@ -1,32 +1,26 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const Login = () => {
   return (
-    <div className=''>
-      <p className='h2'>تسجيل الدخول</p>
-      <form>
-        <div className='form-group'>
-          <label for='exampleInputEmail1'>البريد الإلكتروني</label>
-          <input
-            type='email'
-            className='form-control'
-            id='exampleInputEmail1'
-            aria-describedby='emailHelp'
-          />
-        </div>
-        <div className='form-group'>
-          <label for='exampleInputPassword1'>كلمة السر</label>
-          <input
-            type='password'
-            className='form-control'
-            id='exampleInputPassword1'
-          />
-        </div>
-        <button type='submit' className='btn btn-primary'>
-          دخول
-        </button>
-      </form>
-    </div>
+    <form className='form'>
+      <h2 className='form-title'>تسجيل الدخول</h2>
+      <input
+        type='email'
+        className='form-control'
+        placeholder='البريد الإلكتروني'
+        name='email'
+        required
+      />
+      <input
+        type='password'
+        className='form-control'
+        placeholder='كلمة السر'
+        name='password'
+        required
+      />
+      <label className='form-control form-error-message'></label>
+      <input type='submit' />
+    </form>
   );
 };
 
