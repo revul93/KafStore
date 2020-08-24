@@ -70,8 +70,8 @@ a:hover {
 }
 
 .form {
-  width: 70%;
-  margin: 10px 0;
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -139,6 +139,10 @@ a:hover {
   .navbar {
     padding: 0 10vw;
   }
+  .form {
+    width: 70%;
+    margin: 10px 0;
+  }
   .container {
     width: 75%;
     margin: 1% auto;
@@ -176,6 +180,13 @@ a:hover {
   margin: 15px;
   padding: 2px;
   align-items: center;
+  transition-timing-function: ease-out;
+  opacity: 0.88;
+  transition: opacity 0.5s;
+}
+
+.book:hover {
+  opacity: 1;
 }
 
 .book-cover {

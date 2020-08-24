@@ -61,11 +61,11 @@ const BookSchema = new Schema({
   translated: Boolean,
   translator: String,
   viewCounter: {
-    tyoe: Number,
+    type: Number,
     default: 0,
   },
   saleTimes: {
-    tyoe: Number,
+    type: Number,
     default: 0,
   },
   date: {
