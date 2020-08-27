@@ -4,11 +4,13 @@ import axios from 'axios';
 import swal from 'sweetalert';
 
 const Register = () => {
-  const [registerSuccess, setRegisterSuccess] = useState(false);
   const primaryInput = useRef(null);
+
   useEffect(() => {
     primaryInput.current.focus();
   }, []);
+
+  const [registerSuccess, setRegisterSuccess] = useState(false);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
