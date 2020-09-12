@@ -82,7 +82,7 @@ router.get(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        remove a copy of a book
@@ -102,7 +102,7 @@ router.put(
         (await removeBookCopy(
           req.body.book_id,
           req.body.copy_id,
-          req.user.id,
+          req.user.id
         )) == strings.FAIL
       ) {
         return res.status(400).json(strings.FAIL);
@@ -112,7 +112,7 @@ router.put(
       handleError(error);
     }
     removeUserCopy(req, res);
-  },
+  }
 );
 
 // @desc        remove all copies of book owned by user
@@ -133,7 +133,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        delete a book
@@ -154,7 +154,7 @@ router.delete(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 module.exports = router;

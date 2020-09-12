@@ -1,184 +1,311 @@
-import React, { useRef, useEffect, useState, Fragment } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import swal from 'sweetalert';
+import s3Upload from '../utils/s3Upload';
+import loadingSpinner from '../img/loading-spinner.gif';
 
 const Register = () => {
-  const primaryInput = useRef(null);
-
+  const focusInput = useRef(null);
   useEffect(() => {
-    primaryInput.current.focus();
+    focusInput.current.focus();
   }, []);
 
-  const [registerSuccess, setRegisterSuccess] = useState(false);
-
-  const formSubmitHandler = async (e) => {
-    e.preventDefault();
-    const formData = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      password: e.target.password.value,
-      passwordConfirmation: e.target.passwordConfirmation.value,
-      phone: e.target.phone.value,
-      profilepic: e.target.profilepic.value,
-      gender: e.target.gender.value,
-      country: e.target.country.value,
-      city: e.target.city.value,
-      district: e.target.district.value,
-      street: e.target.street.value,
-      description: e.target.description.value,
-      postal: e.target.postal.value,
-    };
-
+  const { register, handleSubmit, errors, watch } = useForm();
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const submit = async (data) => {
+    setLoading(true);
     try {
-      const config = {
+      if (data.profilepic[0]) {
+        data.profilepic = await s3Upload(data.profilepic[0], 'profilepic');
+      }
+      const response = await axios.post('/api/user/register', data, {
         headers: {
           'Content-Type': 'application/json',
         },
-      };
-      const response = await axios.post('/api/user/register', formData, config);
+      });
+
       if (response.status === 200) {
+        setLoading(false);
         await swal({
           title: 'تم التسجيل بنجاح',
-          text: 'اضغط موافق للانتقال إلى صفحة تسجيل الدخول',
+          text: 'اضغط موافق للانتقال إلى صفحتك الشخصية',
           icon: 'success',
           buttons: 'موافق',
         });
-        setRegisterSuccess(true);
+        setSuccess(true);
       }
     } catch (error) {
-      console.log(error.response.data);
+      console.error(error);
+      setLoading(false);
       swal({
         title: 'حدث خطأ ما',
-        text: `${error.response.data.errors[0].msg}`,
+        text: `${
+          error.response ? error.response.data.errors[0].msg : error.message
+        }`,
         icon: 'error',
         buttons: 'موافق',
       });
     }
   };
 
+  if (success) {
+    return <Redirect to='/login' />;
+  }
   return (
-    <Fragment>
-      {registerSuccess ? (
-        <Redirect to='/login' />
-      ) : (
-        <form className='form' onSubmit={(e) => formSubmitHandler(e)}>
-          <h2 className='form-title'>التسجيل</h2>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='الإسم'
-            name='name'
-            required
-            ref={primaryInput}
-          />
-          <input
-            type='email'
-            className='form-control ltr'
-            placeholder='البريد الإلكتروني'
-            name='email'
-            required
-          />
-          <input
-            type='password'
-            className='form-control ltr'
-            placeholder='كلمة السر'
-            name='password'
-            required
-            autoComplete='on'
-          />
-          <input
-            type='password'
-            className='form-control ltr'
-            placeholder='تأكيد كلمة السر'
-            name='passwordConfirmation'
-            required
-            autoComplete='off'
-          />
-          <input
-            type='text'
-            className='form-control'
-            placeholder='رقم الهاتف'
-            name='phone'
-            required
-          />
-          <div className='form-control form-group'>
-            <label className='form-group-label'>صورة الملف الشخصي</label>
-            <input type='file' className='form-control' name='profilepic' />
-          </div>
-          <div className='form-control form-group'>
-            <label className='form-group-label'>الجنس</label>
-            <input
-              type='radio'
-              className='form-control'
-              name='gender'
-              value='male'
-            />
-            <label>ذكر</label>
-            <input
-              type='radio'
-              className='form-control'
-              name='gender'
-              value='female'
-            />
-            <label>أنثى</label>
-            <input
-              type='radio'
-              className='form-control'
-              name='gender'
-              value='unspecified'
-            />
-            <label>غير محدد</label>
-          </div>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='بلد الإقامة'
-            name='country'
-            required
-          />
-          <input
-            type='text'
-            className='form-control'
-            placeholder='المدينة'
-            name='city'
-            required
-          />
-          <input
-            type='text'
-            className='form-control'
-            placeholder='الحي'
-            name='district'
-            required
-          />
-          <input
-            type='text'
-            className='form-control'
-            placeholder='الشارع'
-            name='street'
-            required
-          />
-          <input
-            type='text'
-            className='form-control'
-            placeholder='وصف العنوان'
-            name='description'
-          />
-          <input
-            type='text'
-            className='form-control'
-            placeholder='الرمز البريدي'
-            name='postal'
-          />
-          <label className='form-control form-error-message hide'></label>
-          <input
-            className='form-control form-control-submit'
-            type='submit'
-            value='دخول'
-          />
-        </form>
+    <form className='form' onSubmit={handleSubmit(submit)}>
+      <h2 className='form-title'>التسجيل</h2>
+
+      <input
+        name='name'
+        type='text'
+        className='form-control'
+        placeholder='الإسم'
+        ref={(e) => {
+          register(e, {
+            required: 'يرجى إدخال الإسم',
+            maxLength: {
+              value: 255,
+              message: 'لا يمكن أن يكون الاسم أطول من 255 حرفا',
+            },
+          });
+          focusInput.current = e;
+        }}
+      />
+      {errors.name && (
+        <span className='form-error-message'>{errors.name.message}</span>
       )}
-    </Fragment>
+
+      <input
+        name='email'
+        type='email'
+        className='form-control ltr'
+        placeholder='البريد الإلكتروني'
+        ref={register({
+          required: 'يجب إدخال البريد الإلكتروني',
+          pattern: {
+            value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            message: 'يجب إدخال بريد إلكتروني صالح',
+          },
+          maxLength: {
+            value: 255,
+            message: 'يجب أن لا يتجاوز البريد الإلكتروني 255 حرفا',
+          },
+        })}
+      />
+      {errors.email && (
+        <span className='form-error-message'>{errors.email.message}</span>
+      )}
+
+      <input
+        name='password'
+        type='password'
+        className='form-control ltr'
+        placeholder='كلمة السر'
+        autoComplete='on'
+        ref={register({
+          required: 'يرجى إدخال كلمة السر',
+          minLength: {
+            value: 6,
+            message: 'يجب أن لا يقل طول كلمة السر عن 6 أحرف',
+          },
+        })}
+      />
+      {errors.password && (
+        <span className='form-error-message'>{errors.password.message}</span>
+      )}
+
+      <input
+        name='passwordConfirmation'
+        type='password'
+        className='form-control ltr'
+        placeholder='تأكيد كلمة السر'
+        autoComplete='off'
+        ref={register({
+          validate: (value) => value === watch('password'),
+        })}
+      />
+      {errors.passwordConfirmation && (
+        <span className='form-error-message'>كلمتا السر غير متطابقتان</span>
+      )}
+
+      <input
+        name='phone'
+        type='text'
+        className='form-control ltr'
+        placeholder='رقم الهاتف'
+        ref={register({
+          required: 'يرجى إدخال رقم الهاتف',
+          pattern: {
+            value: /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s./0-9]*$/g,
+            message: 'يرجى إدخال رقم هاتف صالح',
+          },
+        })}
+      />
+      {errors.phone && (
+        <span className='form-error-message'>{errors.phone.message}</span>
+      )}
+
+      <div className='form-control form-group'>
+        <label className='form-group-label'>صورة الملف الشخصي</label>
+        <input
+          name='profilepic'
+          type='file'
+          className='form-control'
+          ref={register({
+            validate: (value) => {
+              return (
+                value[0] &&
+                value[0].size < 1048576 &&
+                (value[0].type === 'image/jpeg' ||
+                  value[0].type === 'image/png')
+              );
+            },
+          })}
+        />
+      </div>
+      {errors.profilepic && (
+        <span className='form-error-message'>
+          يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG
+        </span>
+      )}
+
+      <div className='form-control form-group'>
+        <label className='form-group-label'>الجنس</label>
+        <input
+          type='radio'
+          className='form-control'
+          name='gender'
+          value='male'
+          ref={register({
+            required: 'يرجى اختيار الجنس',
+          })}
+        />
+        <label>ذكر</label>
+        <input
+          type='radio'
+          className='form-control'
+          name='gender'
+          value='female'
+          ref={register({
+            required: 'يرجى اختيار الجنس',
+          })}
+        />
+        <label>أنثى</label>
+        <input
+          type='radio'
+          className='form-control'
+          name='gender'
+          value='unspecified'
+          ref={register({
+            required: 'يرجى اختيار الجنس',
+          })}
+        />
+        <label>غير محدد</label>
+      </div>
+      {errors.gender && (
+        <span className='form-error-message'>{errors.gender.message}</span>
+      )}
+
+      <input
+        name='country'
+        type='text'
+        className='form-control'
+        placeholder='بلد الإقامة'
+        ref={register({
+          required: 'يرجى إدخال بلد الإقامة',
+          maxLength: {
+            value: 255,
+            message: 'يجب أن لا يزيد طول النص عن 255 حرفا',
+          },
+        })}
+      />
+      {errors.country && (
+        <span className='form-error-message'>{errors.country.message}</span>
+      )}
+
+      <input
+        name='city'
+        type='text'
+        className='form-control'
+        placeholder='المدينة'
+        ref={register({
+          required: 'يرجى إدخال المدينة',
+          maxLength: {
+            value: 255,
+            message: 'يجب أن لا يزيد طول النص عن 255 حرفا',
+          },
+        })}
+      />
+      {errors.city && (
+        <span className='form-error-message'>{errors.city.message}</span>
+      )}
+
+      <input
+        name='district'
+        type='text'
+        className='form-control'
+        placeholder='الحي'
+        ref={register({
+          required: 'يرجى إدخال اسم الحي',
+          maxLength: {
+            value: 255,
+            message: 'يجب أن لا يزيد طول النص عن 255 حرفا',
+          },
+        })}
+      />
+      {errors.district && (
+        <span className='form-error-message'>{errors.district.message}</span>
+      )}
+
+      <input
+        name='street'
+        type='text'
+        className='form-control'
+        placeholder='الشارع'
+        ref={register({
+          required: 'يرجى إدخال اسم الشارع',
+          maxLength: {
+            value: 255,
+            message: 'يجب أن لا يزيد طول النص عن 255 حرفا',
+          },
+        })}
+      />
+      {errors.street && (
+        <span className='form-error-message'>{errors.street.message}</span>
+      )}
+
+      <input
+        name='description'
+        type='text'
+        className='form-control'
+        placeholder='وصف العنوان'
+        ref={register}
+      />
+      <input
+        name='postal'
+        type='text'
+        className='form-control'
+        placeholder='الرمز البريدي'
+        ref={register}
+      />
+      <label className='form-control form-error-message hide'></label>
+      {loading ? (
+        <img
+          className='form-control form-loading-spinner'
+          src={loadingSpinner}
+          alt='loading'
+        />
+      ) : (
+        <input
+          className='form-control form-control-submit'
+          type='submit'
+          value='تسجيل'
+        />
+      )}
+    </form>
   );
 };
 

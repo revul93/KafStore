@@ -50,7 +50,7 @@ const validateUserReg = () => {
 
     // postal code is optional, but if provided must be valid
     body('postal', strings.POSTAL_INVALID.AR)
-      .if(body('postal').exists())
+      .if(body('postal').not().isEmpty())
       .isLength({
         max: 5,
         min: 5,

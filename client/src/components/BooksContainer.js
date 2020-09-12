@@ -7,7 +7,7 @@ const BooksContainer = (props) => (
     <h3 className='books-container-title'>{props.title}</h3>
     <div className='books-container'>
       <div className='book'>
-        <Link className='book-link'>
+        <Link className='book-link' to='!#'>
           <img className='book-cover' src={cover} alt='' />
           <p className='book-name'>ملك الأدوية</p>
           <p className='book-price'>37.5</p>

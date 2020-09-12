@@ -7,6 +7,7 @@ const userRouter = require('./routes/api/user');
 const reviewRouter = require('./routes/api/review');
 const complaintRouter = require('./routes/api/complaint');
 const bookRouter = require('./routes/api/book');
+const utilsRouter = require('./routes/api/utils');
 
 // create new express app
 const app = express();
@@ -19,6 +20,7 @@ app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/complaint', complaintRouter);
 app.use('/api/book', bookRouter);
+app.use('/api/utils', utilsRouter);
 
 // default route, remove when used in production
 app.get('/', (req, res) => {

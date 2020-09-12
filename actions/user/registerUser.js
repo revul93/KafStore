@@ -21,7 +21,6 @@ module.exports = async (data) => {
       postal: data.postal,
     },
   });
-
   await user.save();
   return user;
 };
