@@ -67,6 +67,8 @@ a:hover {
   margin-block-start: 4%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .form {
@@ -236,4 +238,12 @@ a:hover {
 
 .book-buy-button:hover {
   background-color: var(--primary-background-color);
+}
+
+.page-load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin: auto;
 }

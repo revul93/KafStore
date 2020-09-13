@@ -52,11 +52,11 @@ const Register = () => {
   };
 
   if (success) {
-    return <Redirect to='/login' />;
+    return <Redirect to='/user/books' />;
   }
   return (
     <form className='form' onSubmit={handleSubmit(submit)}>
-      <h2 className='form-title'>التسجيل</h2>
+      <h2 className='form-title'>{'التسجيل'}</h2>
 
       <input
         name='name'
@@ -128,7 +128,7 @@ const Register = () => {
         })}
       />
       {errors.passwordConfirmation && (
-        <span className='form-error-message'>كلمتا السر غير متطابقتان</span>
+        <span className='form-error-message'>{'كلمتا السر غير متطابقتان'}</span>
       )}
 
       <input
@@ -149,7 +149,7 @@ const Register = () => {
       )}
 
       <div className='form-control form-group'>
-        <label className='form-group-label'>صورة الملف الشخصي</label>
+        <label className='form-group-label'>{'صورة الملف الشخصي'}</label>
         <input
           name='profilepic'
           type='file'
@@ -168,12 +168,12 @@ const Register = () => {
       </div>
       {errors.profilepic && (
         <span className='form-error-message'>
-          يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG
+          {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
         </span>
       )}
 
       <div className='form-control form-group'>
-        <label className='form-group-label'>الجنس</label>
+        <label className='form-group-label'>{'الجنس'}</label>
         <input
           type='radio'
           className='form-control'
@@ -183,7 +183,7 @@ const Register = () => {
             required: 'يرجى اختيار الجنس',
           })}
         />
-        <label>ذكر</label>
+        <label>{'ذكر'}</label>
         <input
           type='radio'
           className='form-control'
@@ -193,7 +193,7 @@ const Register = () => {
             required: 'يرجى اختيار الجنس',
           })}
         />
-        <label>أنثى</label>
+        <label>{'أنثى'}</label>
         <input
           type='radio'
           className='form-control'
@@ -203,7 +203,7 @@ const Register = () => {
             required: 'يرجى اختيار الجنس',
           })}
         />
-        <label>غير محدد</label>
+        <label>{'غير محدد'}</label>
       </div>
       {errors.gender && (
         <span className='form-error-message'>{errors.gender.message}</span>

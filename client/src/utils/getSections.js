@@ -1,14 +1,14 @@
 import axios from 'axios';
-const getBookByISBN = async (isbn) => {
+const getSections = async () => {
   try {
-    const response = await axios.get(`/api/book?query=${isbn}`);
+    const response = await axios.get(`/api/static/sections`);
     if (response.status === 200) {
       return response.data;
     }
   } catch (error) {
     console.error(error);
-    return { isbn };
+    return {};
   }
 };
 
-export default getBookByISBN;
+export default getSections;

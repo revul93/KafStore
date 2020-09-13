@@ -15,7 +15,9 @@ const MyBooks = (props) => {
     return <Redirect to='/login' />;
   }
 
-  const loading = <img src={loadingSpinner} alt='loading' />;
+  const loading = (
+    <img src={loadingSpinner} alt='loading' className='page-load' />
+  );
   const viewList =
     props.viewList.length === 0 ? (
       <div>{'لا يوجد كتب لعرضها'}</div>
