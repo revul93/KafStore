@@ -1,7 +1,0 @@
-{
-  "DatabaseURI": "mongodb+srv://kafstoreadmin:oMvCcQE4pu3tRumm@kafstore.sisni.mongodb.net/kafstore?retryWrites=true&w=majority",
-  "jwtSecret": "U23hxDNPxV7kU66HQnjEQdrduaQGrnhL",
-  "AWS_ACCESS_KEY": "AKIAIU7SQ6Y5F4FP45WA",
-  "AWS_ACCESS_SECRET": "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",
-  "AWS_S3_BUCKET": "newkafstorebucket"
-}
