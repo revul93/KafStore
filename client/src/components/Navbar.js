@@ -95,7 +95,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.auth.isLoggedIn,
+    isLoggedIn: Boolean(state.auth.isLoggedIn),
   };
 };
 

@@ -11,7 +11,7 @@ const Login = (props) => {
   const { register, handleSubmit, errors } = useForm();
   const focusInput = useRef(null);
   useEffect(() => {
-    focusInput.current.focus();
+    if (focusInput.current) focusInput.current.focus();
   }, []);
   useEffect(() => {
     if (props.error) {

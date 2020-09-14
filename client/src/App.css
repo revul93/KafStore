@@ -244,6 +244,66 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: 150px;
   margin: auto;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--lighter-background-color);
+  color: var(--secondary-text-color);
+  padding: 7.5px 40px;
+  font-size: 1.4rem;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.button:hover {
+  background-color: var(--primary-background-color);
+  color: var(--secondary-text-color);
+}
+
+.user-books {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.user-book {
+  margin: 10px 30px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+}
+
+.user-book:hover {
+  outline: 3px solid var(--primary-background-color);
+}
+
+.user-book-cover {
+  margin: 10px;
+  height: 200px;
+}
+.user-book-info {
+  font-size: 1.4rem;
+  margin: 20px;
+  padding: 20px;
+  flex-grow: 2;
+}
+
+.user-book-button {
+  width: 70px;
+  font-size: 1.1rem;
+  margin: 5px;
+  padding: 2px;
+  cursor: pointer;
+  background-color: var(--lighter-background-color);
+  color: var(--secondary-text-color);
+}
+
+.user-book-button:hover {
+  background-color: var(--primary-background-color);
 }

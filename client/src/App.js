@@ -8,7 +8,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
-import MyBooks from './components/MyBooks';
+import UserBooks from './components/UserBooks';
 import AddBook from './components/AddBook';
 
 import './App.css';
@@ -23,7 +23,7 @@ const App = () => (
           <Route exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
-          <Route exact path='/user/books' component={MyBooks} />
+          <Route exact path='/user/books' component={UserBooks} />
           <Route exact path='/user/books/addbook' component={AddBook} />
         </Switch>
       </div>
