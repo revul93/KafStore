@@ -12,7 +12,8 @@ router.get('/sign_url', async (req, res) => {
   try {
     const signedURL = await signS3Url(
       decodeURI(req.query.filename),
-      decodeURI(req.query.filetype)
+      decodeURI(req.query.filetype),
+      'putObject'
     );
     if (!signedURL) {
       return res.status(400).json(strings.NO_DATA);

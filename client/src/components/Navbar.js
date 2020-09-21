@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../redux/auth/actions';
-
 import '../stylesheet/dropdown.css';
 
 const Navbar = (props) => {
+  const { sections, isLoggedIn, logout } = props;
+
   const guestButtons = (
     <ul className='navbar-list'>
       <li className='navbar-list-item'>
@@ -35,12 +36,12 @@ const Navbar = (props) => {
             </Link>
           </li>
           <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='#!'>
+            <Link className='navbar-list-item-link' to='/user/orders'>
               طلبات الشراء
             </Link>
           </li>
           <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='#!'>
+            <Link className='navbar-list-item-link' to='/user/sales'>
               طلبات البيع
             </Link>
           </li>
@@ -52,7 +53,7 @@ const Navbar = (props) => {
         </ul>
       </li>
       <li className='navbar-list-item'>
-        <Link className='navbar-list-item-link' onClick={props.logout} to='/'>
+        <Link className='navbar-list-item-link' onClick={logout} to='/'>
           تسجيل خروج
         </Link>
       </li>
@@ -66,25 +67,25 @@ const Navbar = (props) => {
             أقسام الموقع
           </Link>
           <ul className='dropdown-content'>
-            <li className='navbar-list-item'>
-              <Link className='navbar-list-item-link' to='#!'>
-                القسم الأول
-              </Link>
-            </li>
-            <li className='navbar-list-item'>
-              <Link className='navbar-list-item-link' to='#!'>
-                القسم الثاني
-              </Link>
-            </li>
+            {Object.keys(sections).map((section, index) => (
+              <li className='navbar-list-item' key={index}>
+                <Link
+                  className='navbar-list-item-link'
+                  to={`/section/${section}`}
+                >
+                  {section}
+                </Link>
+              </li>
+            ))}
           </ul>
         </li>
         <li className='navbar-list-item'>
-          <Link className='navbar-list-item-link' to='#!'>
+          <Link className='navbar-list-item-link' to='/search/_all'>
             جميع الكتب
           </Link>
         </li>
       </ul>
-      {props.isLoggedIn ? userButtons : guestButtons}
+      {isLoggedIn ? userButtons : guestButtons}
     </nav>
   );
 };

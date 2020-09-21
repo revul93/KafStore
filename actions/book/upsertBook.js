@@ -12,14 +12,11 @@ module.exports = async (user_id, data) => {
   if (data.title) book.title = data.title;
   if (data.author) book.author = data.author;
   if (data.section) book.section = data.section;
-  if (data.subsection) book.subsection = data.subsection;
   if (data.coverImage) book.coverImage = data.coverImage;
   if (data.description) book.description = data.description;
   if (data.publisher) book.publisher = data.publisher;
   if (data.publicationYear) book.publicationYear = data.publicationYear;
   if (data.language) book.language = data.language;
-  if (data.translated) book.translated = data.translated;
-  if (data.translator) book.translator = data.translator;
 
   let copyIndex =
     !book.copy || book.copy.length == 0

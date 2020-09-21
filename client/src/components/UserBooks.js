@@ -8,7 +8,7 @@ import swal from 'sweetalert';
 import axios from 'axios';
 
 const UserBooks = (props) => {
-  const { userId, isLoggedIn } = props;
+  const { token, isLoggedIn, userId } = props;
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState(null);
   useEffect(() => {
@@ -35,22 +35,22 @@ const UserBooks = (props) => {
           book_id: bookId,
           copy_id: copyId,
         };
-        console.log(localStorage.getItem('x-auth-token'));
         axios
           .put('/api/book', JSON.stringify(data), {
             headers: {
               'Content-Type': 'application/json',
-              'x-auth-token': localStorage.getItem('x-auth-token'),
+              'x-auth-token': token,
             },
           })
           .then(() => {
-            setBooks(books.filter((book) => book.copy._id !== copyId));
+            setBooks(books.filter((book) => book.copy._id === copyId));
             swal('تم حذف الكتاب بنجاح', {
               icon: 'success',
             });
           })
           .catch((err) => {
-            swal(err.message, {
+            console.error(err.message);
+            swal('حصل خطأ أثناء تنفيذ العملية', {
               icon: 'error',
             });
           });
@@ -70,7 +70,7 @@ const UserBooks = (props) => {
 
       {loading ? (
         <img src={loadingSpinner} alt='loading' className='page-load' />
-      ) : books ? (
+      ) : books && books.length > 0 ? (
         <div className='user-books'>
           {books.map((book) => {
             return (
@@ -92,7 +92,7 @@ const UserBooks = (props) => {
                   {`عدد المشاهدات : ${book.viewCounter}`}
                   <br />
                 </div>
-                <div>
+                <div className='user-book-controls'>
                   <button className='user-book-button'>تعديل</button> <br />
                   <button
                     className='user-book-button'
@@ -106,7 +106,7 @@ const UserBooks = (props) => {
           })}
         </div>
       ) : (
-        <div>{'لا يوجد كتب لعرضها'}</div>
+        <div className='no-books'>{'لا يوجد كتب لعرضها'}</div>
       )}
     </Fragment>
   );
@@ -114,12 +114,14 @@ const UserBooks = (props) => {
 
 UserBooks.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.auth.isLoggedIn,
+    token: state.auth.token,
     userId: state.auth.userId,
   };
 };

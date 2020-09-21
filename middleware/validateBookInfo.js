@@ -13,7 +13,6 @@ const validateBookInfo = () => {
         } else return Promise.reject();
       }),
     body('section', strings.BOOK_SECTION.AR).not().isEmpty(),
-    body('subsection', strings.BOOK_SUBSECTION.AR).not().isEmpty(),
     body('coverImage', strings.BOOK_COVERIMAGE.AR).not().isEmpty(),
     body('price', strings.BOOK_PRICE.AR)
       .isNumeric()

@@ -9,7 +9,7 @@ const complaintRouter = require('./routes/api/complaint');
 const bookRouter = require('./routes/api/book');
 const utilsRouter = require('./routes/api/utils');
 const staticRouter = require('./routes/api/static');
-
+const orderRouter = require('./routes/api/order');
 // create new express app
 const app = express();
 
@@ -23,6 +23,7 @@ app.use('/api/complaint', complaintRouter);
 app.use('/api/book', bookRouter);
 app.use('/api/utils', utilsRouter);
 app.use('/api/static', staticRouter);
+app.use('/api/order', orderRouter);
 
 // default route, remove when used in production
 app.get('/', (req, res) => {

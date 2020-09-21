@@ -13,17 +13,37 @@ const OrderSchema = new Schema({
     required: true,
   },
   item: {
-    type: Schema.Types.ObjectId,
-    ref: 'book',
+    book: {
+      type: Schema.Types.ObjectId,
+      ref: 'book',
+      required: true,
+    },
+    copy: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+  },
+  paymentMethod: {
+    type: String,
+    required: true,
+  },
+  paymentAccount: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    default: 'في الانتظار',
     required: true,
   },
   date: {
     type: Date,
     default: Date.now,
   },
-  status: String,
-  amount: Number,
-  paymentMethod: String,
 });
 
 module.exports = Order = mongoose.model('order', OrderSchema);

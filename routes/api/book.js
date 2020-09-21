@@ -16,6 +16,7 @@ const getUserCopies = require('../../actions/book/getUserCopies');
 const removeBookCopy = require('../../actions/book/removeBookCopy');
 const removeAllUserCopies = require('../../actions/book/removeAllUserCopies');
 const removeBook = require('../../actions/book/removeBook');
+const incrementView = require('../../actions/book/incrementView');
 
 // router instance
 const router = express.Router();
@@ -57,7 +58,7 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const book = await queryBook(decodeURI(req.query.query));
-    if (!book) {
+    if (!book || book.length === 0) {
       return res.status(400).json(strings.NO_DATA);
     }
     return res.json(book);
@@ -136,6 +137,20 @@ router.put(
   }
 );
 
+router.put(
+  '/increment_view',
+  [validateObjectId('book_id', strings.NO_DATA), validate],
+  async (req, res) => {
+    try {
+      if ((await incrementView(req.body.book_id)) == strings.FAIL) {
+        return res.status(400).json(strings.FAIL);
+      }
+      return res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+);
 // @desc        delete a book
 // @route       DELETE api/book/
 // @access      Private, admin only

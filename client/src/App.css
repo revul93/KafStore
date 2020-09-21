@@ -64,6 +64,7 @@ a:hover {
 
 .container {
   width: 100%;
+  margin-top: 50px;
   margin-block-start: 4%;
   display: flex;
   flex-direction: column;
@@ -129,14 +130,14 @@ a:hover {
   margin: 5px auto;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 574px) {
   .header-link,
   .header-link:hover {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
   .navbar-list-item-link {
-    font-size: 1rem;
-    padding: 5px;
+    font-size: 0.88rem;
+    padding: 3px;
   }
   .container {
     width: 100%;
@@ -153,7 +154,7 @@ a:hover {
     margin: 10px 0;
   }
   .container {
-    width: 75%;
+    width: 85%;
     margin: 1% auto;
   }
 }
@@ -176,6 +177,7 @@ a:hover {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin-bottom: 5%;
 }
 
 .books-container-title {
@@ -183,23 +185,32 @@ a:hover {
   text-align: center;
 }
 
+.no-books {
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--lighter-background-color);
+}
 .book {
   display: flex;
   flex-direction: column;
-  margin: 15px;
-  padding: 2px;
+  margin: 25px;
+  padding: 5px;
   align-items: center;
   transition-timing-function: ease-out;
+  width: 250px;
   opacity: 0.88;
+  text-align: center;
   transition: opacity 0.5s;
 }
 
 .book:hover {
   opacity: 1;
+  outline: 2px solid var(--secondary-text-color);
 }
 
 .book-cover {
   width: 180px;
+  height: 270px;
   padding: 5px;
   border-bottom: 1px solid black;
 }
@@ -210,10 +221,16 @@ a:hover {
   align-items: center;
 }
 
-.book-name {
-  font-size: 1.4rem;
+.book-title,
+.book-author {
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--primary-background-color);
+}
+
+.book-author {
+  font-weight: 500;
+  font-style: italic;
 }
 
 .book-price {
@@ -224,20 +241,26 @@ a:hover {
   content: var(--currency);
 }
 
-.book-buy-button {
-  font-size: 1.2rem;
-  width: 75px;
-  padding: 2px;
-  color: var(--secondary-text-color);
-  background-color: var(--lighter-background-color);
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
-
-.book-buy-button:hover {
-  background-color: var(--primary-background-color);
+@media (max-width: 780px) {
+  .books-container-title {
+    font-size: 1.4rem;
+  }
+  .book {
+    padding: 2px;
+    width: 150px;
+  }
+  .book-cover {
+    width: 120px;
+    height: 180px;
+    padding: 5px;
+  }
+  .book-title,
+  .book-author {
+    font-size: 1rem;
+  }
+  .no-books {
+    font-size: 1.4rem;
+  }
 }
 
 .page-load {
@@ -245,7 +268,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   width: 150px;
-  margin: auto;
+  margin: 15% auto;
 }
 
 .button {
@@ -272,11 +295,13 @@ a:hover {
   align-items: center;
   justify-content: center;
 }
+
 .user-book {
   margin: 10px 30px;
-  padding: 0 15px;
+  padding: 0 5px;
   display: flex;
   align-items: center;
+  width: 650px;
 }
 
 .user-book:hover {
@@ -289,9 +314,14 @@ a:hover {
 }
 .user-book-info {
   font-size: 1.4rem;
-  margin: 20px;
-  padding: 20px;
+  margin: 10px;
+  padding: 10px;
   flex-grow: 2;
+}
+
+.user-book-controls {
+  display: flex;
+  flex-direction: column;
 }
 
 .user-book-button {
@@ -302,8 +332,101 @@ a:hover {
   cursor: pointer;
   background-color: var(--lighter-background-color);
   color: var(--secondary-text-color);
+  outline: none;
+  border: none;
 }
 
 .user-book-button:hover {
   background-color: var(--primary-background-color);
+}
+
+.book-page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.book-page-general-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.book-page-cover {
+  height: 350px;
+  max-width: 300px;
+  margin: 7.5px;
+  padding: 10px;
+}
+.book-page-info {
+  display: flex;
+  flex-direction: column;
+}
+.book-page-info-element {
+  font-size: 1.2rem;
+  margin: 2px;
+}
+
+.book-page-copies-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.book-page-copies {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.book-page-copies-header {
+  margin-top: 30px;
+  font-size: 1.6rem;
+}
+.book-page-copy {
+  display: flex;
+  flex-direction: column;
+  margin: 7.5px;
+  padding-right: 10px;
+  padding: 7.5px;
+}
+
+.book-page-copy:hover {
+  outline: 2px solid red;
+}
+
+.book-page-copy-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+}
+.book-page-copy-images {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.book-page-copy-image,
+.book-page-copy-image img {
+  width: 120px;
+  margin: 5px;
+}
+
+.book-page-copy-buy-button {
+  max-width: 120px;
+  display: flex;
+  align-self: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .user-book {
+    flex-direction: column;
+  }
+  .user-book-controls {
+    flex-direction: row;
+  }
+  .book-page-copies {
+    flex-direction: column;
+  }
 }

@@ -45,11 +45,6 @@ const BookSchema = new Schema({
     type: String,
     required: true,
   },
-  subsection: {
-    type: String,
-    required: true,
-  },
-
   coverImage: {
     type: String,
     required: true,
@@ -58,8 +53,6 @@ const BookSchema = new Schema({
   publisher: String,
   publicationYear: Date,
   language: String,
-  translated: Boolean,
-  translator: String,
   viewCounter: {
     type: Number,
     default: 0,

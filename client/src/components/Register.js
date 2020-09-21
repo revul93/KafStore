@@ -20,6 +20,8 @@ const Register = () => {
     try {
       if (data.profilepic[0]) {
         data.profilepic = await s3Upload(data.profilepic[0], 'profilepic');
+      } else {
+        data.profilepic = '';
       }
       const response = await axios.post('/api/user/register', data, {
         headers: {
@@ -52,7 +54,7 @@ const Register = () => {
   };
 
   if (success) {
-    return <Redirect to='/user/books' />;
+    return <Redirect to='/login' />;
   }
   return (
     <form className='form' onSubmit={handleSubmit(submit)}>

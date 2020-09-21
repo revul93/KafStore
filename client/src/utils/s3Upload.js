@@ -1,9 +1,9 @@
 import axios from 'axios';
-const AWS_BUCKET = 'newkafstorebucket';
+const AWS_BUCKET = 'kafstore';
 
 const s3Upload = async (file, type) => {
   const filename = `${type}-${Date.now()}-${file.name}`;
-
+  console.log(filename, file.type);
   try {
     const signedUrl = await axios.get(
       '/api/utils/sign_url?filename=' +
@@ -20,8 +20,9 @@ const s3Upload = async (file, type) => {
 
     return `https://${AWS_BUCKET}.s3-eu-west-1.amazonaws.com/${filename}`;
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return '';
   }
 };
+
 export default s3Upload;

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ const AddBookForm = (props) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [sections, setSections] = useState(null);
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const { book } = props;
 
   useEffect(() => {
@@ -32,23 +32,28 @@ const AddBookForm = (props) => {
 
   const submit = async (data) => {
     setLoading(true);
+    const imageArr = ['image_1', 'image_2', 'image_3', 'coverImage'];
     try {
-      if (data.coverImage[0]) {
-        data.coverImage = await s3Upload(data.coverImage[0], 'coverImage');
+      for (let image of imageArr) {
+        if (image === 'coverImage' && book.coverImage) {
+          data['coverImage'] = book.coverImage;
+          continue;
+        }
+        if (data[image]) {
+          data[image] = await s3Upload(
+            data[image][0],
+            image === 'coverImage' ? 'coverImage' : 'bookImage'
+          );
+        }
       }
-      if (data.image_1[0]) {
-        data.image_1 = await s3Upload(data.image_1[0], 'bookimage');
-      }
-      if (data.image_2[0]) {
-        data.image_2 = await s3Upload(data.image_2[0], 'bookimage');
-      }
-      if (data.image_3[0]) {
-        data.image_3 = await s3Upload(data.image_3[0], 'bookimage');
-      }
-      data.images = `${data.image_1}, ${data.image_2}, ${data.image_3}`;
-      delete data.image_1;
-      delete data.image_2;
-      delete data.image_3;
+
+      data['images'] = `${data.image_1}, ${data.image_2}, ${data.image_3}`;
+      imageArr.forEach((image) => {
+        if (image !== 'coverImage') {
+          delete data[image];
+        }
+      });
+
       data.isbn = book.isbn;
 
       const response = await axios.post('/api/book', data, {
@@ -87,7 +92,7 @@ const AddBookForm = (props) => {
   }
 
   if (success) {
-    return <Redirect to='/user/book' />;
+    return <Redirect to='/user/books' />;
   }
 
   return (
@@ -135,7 +140,7 @@ const AddBookForm = (props) => {
         <span className='form-error-message'>{errors.author.message}</span>
       )}
 
-      <label className='form-group-label'>{'القسم الرئيسي'}</label>
+      <label className='form-group-label'>{'القسم'}</label>
       {sections ? (
         <select
           name='section'
@@ -177,49 +182,6 @@ const AddBookForm = (props) => {
       )}
       {errors.section && (
         <span className='form-error-message'>{errors.section.message}</span>
-      )}
-
-      <label className='form-group-label'>{'القسم الفرعي'}</label>
-      {sections[watch('section')] && sections[watch('section')].length > 0 ? (
-        <select
-          name='subsection'
-          className='form-control'
-          ref={register({
-            required: 'يرحى إدخال اسم القسم الفرعي',
-            maxLength: {
-              value: 255,
-              message: 'يجب أن لا يتجاوز اسم القسم الفرعي 255 حرفا',
-            },
-          })}
-        >
-          {sections[watch('section')].map((subsection, index) => (
-            <option
-              key={index}
-              value={subsection}
-              selected={book.subsection && book.subsection === subsection}
-            >
-              {subsection}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <input
-          name='subsection'
-          type='text'
-          className='form-control'
-          placeholder='القسم الفرعي'
-          defaultValue={book.subsection || ''}
-          ref={register({
-            required: 'يرحى إدخال اسم القسم الفرعي',
-            maxLength: {
-              value: 255,
-              message: 'يجب أن لا يتجاوز اسم القسم الفرعي 255 حرفا',
-            },
-          })}
-        />
-      )}
-      {errors.subsection && (
-        <span className='form-error-message'>{errors.subsection.message}</span>
       )}
 
       <label className='form-group-label'>{'وصف الكتاب'}</label>
@@ -266,7 +228,11 @@ const AddBookForm = (props) => {
         type='number'
         className='form-control'
         placeholder='تاريخ النشر'
-        defaultValue={book.publicationYear || ''}
+        defaultValue={
+          book.publicationYear
+            ? new Date(book.publicationYear).getFullYear()
+            : ''
+        }
         ref={register({
           required: 'يرحى إدخال تاريخ النشر',
           min: {
@@ -289,7 +255,7 @@ const AddBookForm = (props) => {
       <input
         name='language'
         className='form-control'
-        defaultValue={book.language || 'العربية'}
+        defaultValue={book.language}
         ref={register({
           required: 'يرحى إدخال لغة الكتاب',
           maxLength: {
@@ -300,29 +266,6 @@ const AddBookForm = (props) => {
       />
       {errors.language && (
         <span className='form-error-message'>{errors.language.message}</span>
-      )}
-
-      <div className='form-control form-group'>
-        <input type='checkbox' className='form-control' ref={register()} />
-        <label className='form-group-label'>{'مترجم ؟'}</label>
-      </div>
-
-      <label className='form-group-label'>{'المترجم'}</label>
-      <input
-        name='translator'
-        type='text'
-        className='form-control'
-        placeholder='المترجم'
-        defaultValue={book.translator || ''}
-        ref={register({
-          maxLength: {
-            value: 255,
-            message: 'يجب أن لا يتجاوز اسم المترجم 255 حرفا',
-          },
-        })}
-      />
-      {errors.translator && (
-        <span className='form-error-message'>{errors.translator.message}</span>
       )}
 
       <label className='form-group-label'>{'السعر'}</label>
@@ -348,6 +291,7 @@ const AddBookForm = (props) => {
         name='condition'
         className='form-control'
         placeholder='الحالة'
+        defaultValue={book.condition || false}
         ref={register({
           required: 'يرحى إدخال الحالة',
           maxLength: {
@@ -356,7 +300,6 @@ const AddBookForm = (props) => {
           },
         })}
       >
-        <option selected disabled value='الرجاء اختيار حالة الكتاب'></option>
         {Object.keys(conditions).map((condition, index) => {
           return (
             <option key={index} value={conditions[condition]}>
@@ -369,101 +312,41 @@ const AddBookForm = (props) => {
         <span className='form-error-message'>{errors.condition.message}</span>
       )}
 
-      <div className='form-control form-group'>
-        <label className='form-group-label'>{'صورة الغلاف'}</label>
-        <input
-          name='coverImage'
-          type='file'
-          className='form-control'
-          ref={register({
-            validate: (value) => {
-              return (
-                value[0] &&
-                value[0].size < 1048576 &&
-                (value[0].type === 'image/jpeg' ||
-                  value[0].type === 'image/png')
-              );
-            },
-          })}
-        />
-      </div>
-      {errors.coverImage && (
-        <span className='form-error-message'>
-          {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
-        </span>
-      )}
-
-      <div className='form-control form-group'>
-        <label className='form-group-label'>{'صورة 1'}</label>
-        <input
-          name='image_1'
-          type='file'
-          className='form-control'
-          ref={register({
-            validate: (value) => {
-              return (
-                value[0] &&
-                value[0].size < 1048576 &&
-                (value[0].type === 'image/jpeg' ||
-                  value[0].type === 'image/png')
-              );
-            },
-          })}
-        />
-      </div>
-      {errors.image_1 && (
-        <span className='form-error-message'>
-          {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
-        </span>
-      )}
-
-      <div className='form-control form-group'>
-        <label className='form-group-label'>{'صورة 2'}</label>
-        <input
-          name='image_2'
-          type='file'
-          className='form-control'
-          ref={register({
-            validate: (value) => {
-              return (
-                value[0] &&
-                value[0].size < 1048576 &&
-                (value[0].type === 'image/jpeg' ||
-                  value[0].type === 'image/png')
-              );
-            },
-          })}
-        />
-      </div>
-      {errors.image_2 && (
-        <span className='form-error-message'>
-          {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
-        </span>
-      )}
-
-      <div className='form-control form-group'>
-        <label className='form-group-label'>{'صورة 3'}</label>
-        <input
-          name='image_3'
-          type='file'
-          className='form-control'
-          ref={register({
-            validate: (value) => {
-              return (
-                value[0] &&
-                value[0].size < 1048576 &&
-                (value[0].type === 'image/jpeg' ||
-                  value[0].type === 'image/png')
-              );
-            },
-          })}
-        />
-      </div>
-      {errors.image_3 && (
-        <span className='form-error-message'>
-          {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
-        </span>
-      )}
+      {[
+        { label: 'صورة الغلاف', name: 'coverImage' },
+        { label: 'صورة 1', name: 'image_1' },
+        { label: 'صورة 2', name: 'image_2' },
+        { label: 'صورة 3', name: 'image_3' },
+      ].map((image, index) => {
+        if (image.name === 'coverImage' && book.coverImage) return null;
+        return (
+          <Fragment key={index}>
+            <div className='form-group'>
+              <label className='form-group-label'>{image.label}</label>
+              <input
+                name={image.name}
+                type='file'
+                className='form-control'
+                ref={register({
+                  validate: (value) => {
+                    return (
+                      value[0] &&
+                      value[0].size < 1048576 &&
+                      (value[0].type === 'image/jpeg' ||
+                        value[0].type === 'image/png')
+                    );
+                  },
+                })}
+              />
+            </div>
+            {errors[image.name] && (
+              <span className='form-error-message'>
+                {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
+              </span>
+            )}
+          </Fragment>
+        );
+      })}
 
       {loading ? (
         <img

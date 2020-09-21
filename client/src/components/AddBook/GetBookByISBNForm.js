@@ -28,20 +28,15 @@ const GetBookByISBNForm = (props) => {
         ref={(e) => {
           register(e, {
             required: 'يرجى إدخال رقم ISBN',
-            maxLength: {
-              value: 13,
-              message: 'رقم ISBN يجب أن لا يتجاوز 13 رقما',
-            },
-            minLength: {
-              value: 10,
-              message: 'رقم ISBN يجب أن لا يتجاوز 10 رقما',
-            },
+            validate: (value) => value.length === 10 || value.length === 13,
           });
           focusInput.current = e;
         }}
       />
       {errors.isbn && (
-        <span className='form-error-message'>{errors.isbn.message}</span>
+        <span className='form-error-message'>
+          {'رقم ISBN يجب أن يكون مكونا من عشر أو ثلاثة عشر رقما'}
+        </span>
       )}
       {loading ? (
         <img

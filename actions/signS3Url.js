@@ -1,7 +1,7 @@
 const config = require('config');
 const aws = require('aws-sdk');
 
-module.exports = async (filename, filetype) => {
+module.exports = async (filename, filetype, operation) => {
   const s3 = new aws.S3({
     accessKeyId: config.get('AWS_ACCESS_KEY'),
     secretAccessKey: config.get('AWS_ACCESS_SECRET'),
@@ -14,5 +14,5 @@ module.exports = async (filename, filetype) => {
     Expires: 60,
   };
 
-  return s3.getSignedUrl('putObject', s3Params);
+  return s3.getSignedUrl(operation, s3Params);
 };
