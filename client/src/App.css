@@ -70,6 +70,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 78vh;
 }
 
 .form {
@@ -130,7 +131,7 @@ a:hover {
   margin: 5px auto;
 }
 
-@media (max-width: 574px) {
+@media (max-width: 680px) {
   .header-link,
   .header-link:hover {
     font-size: 1.3rem;
@@ -429,4 +430,27 @@ a:hover {
   .book-page-copies {
     flex-direction: column;
   }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  right: 0;
+  color: var(--secondary-text-color);
+  background-color: var(--primary-background-color);
+  text-align: center;
+  padding: 3px;
+}
+
+.footer-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.footer-element a {
+  margin: 0 5px;
 }

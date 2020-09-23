@@ -8,7 +8,7 @@ const Home = () => {
       <Search />
       <BooksContainer title='أحدث الكتب المضافة' query='_latest' />
       <hr />
-      <BooksContainer title='مقترحاتنا لك' query='_recommended' />
+      <BooksContainer title='مقترحاتنا لك' query='_recom' />
     </Fragment>
   );
 };

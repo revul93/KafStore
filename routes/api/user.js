@@ -76,7 +76,6 @@ router.get('/me', auth, async (req, res) => {
     if (!user) {
       return res.status(400).json(strings.NO_DATA);
     }
-
     return res.json(user);
   } catch (error) {
     handleError(error);
@@ -134,7 +133,7 @@ router.get(
 // @access      Private
 router.put(
   '/edit',
-  [auth, validateUserInfoEdit(), validate],
+  [auth /*validateUserInfoEdit(), validate*/],
   async (req, res) => {
     try {
       if ((await updateUser(req.user.id, req.body)) == strings.FAIL) {

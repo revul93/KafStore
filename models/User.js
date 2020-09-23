@@ -61,10 +61,8 @@ const UserSchema = new Schema({
   search: [String],
   view: [
     {
-      book: {
-        type: Schema.Types.ObjectId,
-        ref: 'book',
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'book',
     },
   ],
   review: [

@@ -26,16 +26,19 @@ module.exports = async (user_id, data) => {
   }
 
   if (data.search) {
-    if (user.search.length > 100) {
+    if (user.search.length > 10) {
       user.search.pop();
     }
     user.search.unshift(data.search);
   }
-  if (data.view) {
-    if (user.view.length > 100) {
-      user.view.pop();
+
+  if (!user.view.find((book) => book._id.toString() === data.view.toString())) {
+    if (data.view) {
+      if (user.view.length > 10) {
+        user.view.pop();
+      }
+      user.view.unshift(data.view);
     }
-    user.view.unshift(data.view);
   }
 
   await user.save();

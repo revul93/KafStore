@@ -4,6 +4,7 @@ import getBook from '../utils/getBooks';
 import { connect } from 'react-redux';
 import incrementBookViewCounter from '../utils/incrementBookViewCounter';
 import loadingSpinner from '../img/loading-spinner.gif';
+import updateUser from '../utils/updateUser';
 
 const Book = (props) => {
   const [loading, setLoading] = useState(true);
@@ -13,18 +14,20 @@ const Book = (props) => {
       params: { book_id },
     },
     userId,
+    token,
   } = props;
   useEffect(() => {
-    getBook(book_id).then((res, err) => {
+    getBook(book_id, token).then((res, err) => {
       if (err) {
         console.error(err.message);
         setLoading(false);
       }
       setBook(res);
+      updateUser(token, { view: book_id });
       setLoading(false);
     });
     incrementBookViewCounter(book_id);
-  }, [book_id]);
+  }, [book_id, token]);
 
   return (
     <Fragment>
@@ -103,6 +106,7 @@ const Book = (props) => {
 };
 
 const mapStatetoProps = (state) => ({
+  token: state.auth.token,
   userId: state.auth.userId,
 });
 export default connect(mapStatetoProps, null)(Book);

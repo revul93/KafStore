@@ -1,5 +1,4 @@
 const Book = require('../../models/Book');
-const strings = require('../../static/strings');
 const mongoose = require('mongoose');
 
 module.exports = async (user_id) => {
@@ -10,9 +9,12 @@ module.exports = async (user_id) => {
   if (!books || books.length == 0) {
     return null;
   }
-  books.forEach(async (book) => {
-    book.copy = await book.copy.filter((copy) => copy.seller == user_id);
-  });
+  books.forEach(
+    async (book) =>
+      (book.copy = await book.copy.filter(
+        (copy) => copy.seller.toString() == user_id.toString()
+      ))
+  );
 
   return books;
 };

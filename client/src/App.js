@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import getSections from './utils/getSections';
 import store from './redux/store';
@@ -17,6 +17,8 @@ import Order from './components/Order';
 import GetBooks from './components/GetBooks';
 import PurchaseOrders from './components/PurchaseOrders';
 import PaymentOrders from './components/PaymentOrders';
+import About from './components/About';
+import Policy from './components/Policy.js';
 
 import './App.css';
 import loadingSpinner from '../src/img/ball-spinner.gif';
@@ -56,8 +58,18 @@ const App = () => {
             <Route path='/buy/:book_id/:copy_id' component={Order} />
             <Route exact path='/user/orders' component={PurchaseOrders} />
             <Route exact path='/user/sales' component={PaymentOrders} />
+            <Route exact path='/about' component={About} />
+            <Route exact path='/policy' component={Policy} />
           </Switch>
         </div>
+        <footer className='footer'>
+          <div className='footer-element'>
+            <Link to='/about'>{'من نحن'}</Link>
+            <Link to='/policy'>{'سياسة الموقع'}</Link>
+          </div>
+          <div className='footer-element'></div>
+          <span>{`جميع الحقوق محفوظة`}</span>
+        </footer>
       </Router>
     </Provider>
   );

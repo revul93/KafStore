@@ -1,6 +1,8 @@
 // modules
 const express = require('express');
 const strings = require('../../static/strings');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const handleError = require('../../actions/handleError');
 
 // middleware
@@ -57,7 +59,15 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
 //   with users who sell these books
 router.get('/', async (req, res) => {
   try {
-    const book = await queryBook(decodeURI(req.query.query));
+    let book;
+    if (req.query.user_id) {
+      book = await queryBook(
+        decodeURI(req.query.query),
+        decodeURI(req.query.user_id)
+      );
+    } else {
+      book = await queryBook(decodeURI(req.query.query));
+    }
     if (!book || book.length === 0) {
       return res.status(400).json(strings.NO_DATA);
     }

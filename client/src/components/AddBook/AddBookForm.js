@@ -328,10 +328,10 @@ const AddBookForm = (props) => {
                 type='file'
                 className='form-control'
                 ref={register({
+                  required: 'يرجى ارفاق الصور',
                   validate: (value) => {
                     return (
-                      value[0] &&
-                      value[0].size < 1048576 &&
+                      value[0].size < 3e6 &&
                       (value[0].type === 'image/jpeg' ||
                         value[0].type === 'image/png')
                     );
@@ -341,7 +341,9 @@ const AddBookForm = (props) => {
             </div>
             {errors[image.name] && (
               <span className='form-error-message'>
-                {'يجب أن لا يتعدى حجم الملف 1 ميغابايت، وأن يكون بصيغة JPG'}
+                {
+                  'يجب أن لا يتعدى حجم الملف 3 ميغابايت، وأن يكون بصيغة JPG أو PNG'
+                }
               </span>
             )}
           </Fragment>
