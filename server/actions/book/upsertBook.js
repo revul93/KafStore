@@ -1,6 +1,5 @@
 const Book = require('../../models/Book');
 const queryBook = require('./queryBook');
-const strings = require('../../static/strings');
 
 module.exports = async (user_id, data) => {
   let book = await queryBook(data.isbn);

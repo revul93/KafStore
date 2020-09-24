@@ -1,6 +1,6 @@
 // modules
 const express = require('express');
-const connectToDb = require('./config/db');
+const connectToDb = require('../config/db');
 
 // routes
 const userRouter = require('./routes/api/user');
