@@ -21,7 +21,6 @@
   }
 }
 
-/*
 .form {
   width: 100%;
   margin: 0 auto;
@@ -80,7 +79,6 @@
   margin: 5px auto;
 }
 
-
 @media (min-width: 1200px) {
   .form {
     width: 70%;
@@ -99,7 +97,6 @@
 .show {
   display: block;
 }
-
 
 .button {
   display: flex;
@@ -260,5 +257,3 @@
     flex-direction: column;
   }
 }
-
-*/

@@ -1,7 +1,7 @@
 // modules
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // helpers
 import getSections from './utils/getSections';
@@ -14,7 +14,6 @@ import Footer from './components/Layout/Footer';
 import Home from './components/Public/Home';
 import AboutUs from './components/Public/AboutUs';
 import Policy from './components/Public/Policy.js';
-
 import Login from './components/Login';
 import Register from './components/Register';
 import UserBooks from './components/UserBooks';
@@ -56,7 +55,7 @@ const App = () => {
         <div className='container'>
           <Switch>
             <Route exact path='/' component={Home} />
-            {/*<Route exact path='/login' component={Login} />
+            <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/user/books' component={UserBooks} />
             <Route exact path='/user/books/addbook' component={AddBook} />
@@ -65,7 +64,7 @@ const App = () => {
             <Route exact path='/book/:book_id' component={Book} />
             <Route path='/buy/:book_id/:copy_id' component={Order} />
             <Route exact path='/user/orders' component={PurchaseOrders} />
-  <Route exact path='/user/sales' component={PaymentOrders} />*/}
+            <Route exact path='/user/sales' component={PaymentOrders} />
             <Route exact path='/aboutus' component={AboutUs} />
             <Route exact path='/policy' component={Policy} />
           </Switch>
