@@ -8,21 +8,32 @@ import getSections from './utils/getSections';
 import store from './redux/store';
 
 // components
-import Header from './components/Layout/Header';
-import Navbar from './components/Layout/Navbar';
-import Footer from './components/Layout/Footer';
-import Home from './components/Public/Home';
-import AboutUs from './components/Public/AboutUs';
-import Policy from './components/Public/Policy.js';
-import Login from './components/Login';
-import Register from './components/Register';
-import UserBooks from './components/UserBooks';
-import AddBook from './components/AddBook';
-import Book from './components/Book';
-import Order from './components/Order';
-import GetBooks from './components/SubComponents/GetBooks';
-import PurchaseOrders from './components/PurchaseOrders';
-import PaymentOrders from './components/PaymentOrders';
+// --> Layout
+import Header from './components/LayoutComponenets/Header';
+import Navbar from './components/LayoutComponenets/Navbar';
+import Footer from './components/LayoutComponenets/Footer';
+
+// --> Public
+import Home from './components/PublicComponenets/Home';
+import AboutUs from './components/PublicComponenets/AboutUs';
+import Policy from './components/PublicComponenets/Policy.js';
+
+// --> User
+import User from './components/UserComponents/User';
+import Login from './components/UserComponents/Login';
+import Register from './components/UserComponents/Register';
+
+// --> Book
+import Book from './components/BookComponents/Book';
+import UserBooks from './components/BookComponents/UserBooks';
+import AddBook from './components/BookComponents/AddBook';
+
+// --> Order
+import Order from './components/OrderComponents/Order';
+import PurchaseOrders from './components/OrderComponents/PurchaseOrders';
+import PaymentOrders from './components/OrderComponents/PaymentOrders';
+
+import GetBooksContainer from './components/SubComponents/GetBooksContainer';
 
 // static
 import './stylesheet/App.css';
@@ -57,10 +68,11 @@ const App = () => {
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <Route exact path='/user/:user_id' component={User} />
             <Route exact path='/user/books' component={UserBooks} />
             <Route exact path='/user/books/addbook' component={AddBook} />
-            <Route exact path='/section/:query' component={GetBooks} />
-            <Route exact path='/search/:query/' component={GetBooks} />
+            <Route exact path='/section/:query' component={GetBooksContainer} />
+            <Route exact path='/search/:query/' component={GetBooksContainer} />
             <Route exact path='/book/:book_id' component={Book} />
             <Route path='/buy/:book_id/:copy_id' component={Order} />
             <Route exact path='/user/orders' component={PurchaseOrders} />

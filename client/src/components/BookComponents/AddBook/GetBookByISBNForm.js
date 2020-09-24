@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import getBookByISBN from '../../utils/getBookByISBN';
-import loadingSpinner from '../../img/loading-spinner.gif';
+import getBookByISBN from '../../../utils/getBookByISBN';
+import loadingSpinner from '../../../img/loading-spinner.gif';
 
 const GetBookByISBNForm = (props) => {
   const focusInput = useRef(null);

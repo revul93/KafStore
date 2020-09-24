@@ -2,8 +2,8 @@ import React, { useEffect, Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import loadingSpinner from '../img/loading-spinner.gif';
-import getBooksOfUser from '../utils/getBooksOfUser';
+import loadingSpinner from '../../img/loading-spinner.gif';
+import getBooksOfUser from '../../utils/getBooksOfUser';
 import swal from 'sweetalert';
 import axios from 'axios';
 

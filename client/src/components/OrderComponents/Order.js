@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import loadingSpinner from '../img/loading-spinner.gif';
-import fetchBook from '../utils/getBooks';
-import getMe from '../utils/getMe';
-import placeOrder from '../utils/placeOrder';
+import loadingSpinner from '../../img/loading-spinner.gif';
+import fetchBook from '../../utils/getBooks';
+import getMe from '../../utils/getMe';
+import placeOrder from '../../utils/placeOrder';
 import { useForm } from 'react-hook-form';
 
 const Order = (props) => {

@@ -1,0 +1,138 @@
+.bookpage-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bookpage-cover {
+  max-width: 300px;
+  margin: 3vh auto;
+  display: block;
+}
+
+.bookpage-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2vh 5vh;
+}
+
+.bookpage-title {
+  font-size: 1.6rem;
+  font-weight: bolder;
+  margin: 4px;
+  display: block;
+}
+
+.bookpage-info {
+  padding-right: 15px;
+  font-size: 1.4rem;
+  margin: 4px;
+}
+
+.bookpage-copy-title {
+  font-size: 1.8rem;
+  font-weight: bolder;
+  align-self: flex-start;
+  margin: 10px 15vw;
+}
+
+.bookpage-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px auto;
+  padding: 5px;
+}
+
+.bookpage-copy:hover {
+  outline: 2px solid #b30000;
+}
+
+.bookpage-copy-info {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.bookpage-copy-info-element {
+  display: block;
+  align-self: flex-start;
+  font-size: 1.4rem;
+}
+
+.bookpage-copy-info-element a {
+  font-size: 1.4rem;
+}
+
+.bookpage-copy-info-element a:hover {
+  color: #b30000;
+}
+
+.bookpage-copy-images-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 95%;
+  margin: 5px auto;
+}
+
+.bookpage-copy-image {
+  display: flex;
+  align-content: center;
+  height: 180px;
+  width: 120px;
+  margin: 5px;
+}
+
+.bookpage-copy-image img {
+  height: 100%;
+  width: 100%;
+  opacity: 0.7;
+}
+
+.bookpage-copy-image img:hover {
+  opacity: 1;
+  outline: 2px solid #b30000;
+}
+
+.bookpage-copy-buy-button {
+  max-width: 120px;
+  display: flex;
+  align-self: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 660px) {
+  .bookpage-container {
+    padding: 30px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .bookpage-cover {
+    margin: 2vh;
+  }
+  .bookpage-info-container {
+    margin: 15px;
+    padding: 30px 0;
+    max-width: 500px;
+  }
+  .copy-container {
+    padding: 0;
+  }
+
+  .bookpage-copy {
+    margin: 10px;
+    max-width: 500px;
+  }
+}

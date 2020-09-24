@@ -1,7 +1,7 @@
 import React from 'react';
 import BooksContainer from './BooksContainer';
 
-const GetBooks = (props) => {
+const GetBooksContainer = (props) => {
   const { query } = props.match.params;
   let text = '';
   query === '_all'
@@ -15,4 +15,4 @@ const GetBooks = (props) => {
   );
 };
 
-export default GetBooks;
+export default GetBooksContainer;

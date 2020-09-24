@@ -2,8 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
-import loadingSpinner from '../img/loading-spinner.gif';
-import { login, logout } from '../redux/auth/actions';
+import loadingSpinner from '../../img/loading-spinner.gif';
+import { login, logout } from '../../redux/auth/actions';
 import swal from '@sweetalert/with-react';
 import { Redirect } from 'react-router-dom';
 

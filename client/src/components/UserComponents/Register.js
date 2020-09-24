@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import swal from 'sweetalert';
-import s3Upload from '../utils/s3Upload';
-import loadingSpinner from '../img/loading-spinner.gif';
+import s3Upload from '../../utils/s3Upload';
+import loadingSpinner from '../../img/loading-spinner.gif';
 
 const Register = () => {
   const focusInput = useRef(null);

@@ -114,7 +114,7 @@ router.get(
   async (req, res) => {
     try {
       const query = req.params.user_id;
-      const field = 'id name email review profilepic';
+      const field = 'id name email review profilepic address date';
       const user = await getUser(query, field);
 
       if (!user) {

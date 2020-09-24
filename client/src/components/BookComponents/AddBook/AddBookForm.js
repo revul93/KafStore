@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import axios from 'axios';
 
-import loadingSpinner from '../../img/loading-spinner.gif';
-import getSections from '../../utils/getSections';
-import conditions from '../../utils/conditions';
-import s3Upload from '../../utils/s3Upload';
+import loadingSpinner from '../../../img/loading-spinner.gif';
+import getSections from '../../../utils/getSections';
+import conditions from '../../../utils/conditions';
+import s3Upload from '../../../utils/s3Upload';
 
 const AddBookForm = (props) => {
   const focusInput = useRef(null);

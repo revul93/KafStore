@@ -33,17 +33,21 @@ const BooksContainer = (props) => {
     });
   }, [query]);
 
+  if (loading) {
+    return (
+      <img
+        src={loadingSpinner}
+        alt='loading'
+        className='books-container-load'
+      />
+    );
+  }
+
   return (
     <Fragment>
       <h3 className='books-container-title'>{title}</h3>
       <div className='books-container'>
-        {loading ? (
-          <img
-            src={loadingSpinner}
-            alt='loading'
-            className='books-container-load'
-          />
-        ) : books && books.length > 0 ? (
+        {books && books.length > 0 ? (
           books.map((book) => (
             <div className='book' key={book._id}>
               <Link className='book-link' to={`/book/${book._id}`}>

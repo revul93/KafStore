@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import loadingSpinner from '../img/loading-spinner.gif';
-import fetchPurchaseOrders from '../utils/fetchPurchaseOrders';
+import loadingSpinner from '../../img/loading-spinner.gif';
+import fetchPaymentOrders from '../../utils/fetchPaymentOrders';
 
 const PurchaseOrders = (props) => {
   const { token, isLoggedIn } = props;
@@ -21,7 +21,7 @@ const PurchaseOrders = (props) => {
         setLoading(false);
       });
     } else {
-      fetchPurchaseOrders(token).then((data) => {
+      fetchPaymentOrders(token).then((data) => {
         if (!data) {
           setError('حدث خطأ أثناء التحميل، يرجى المحاولة لاحقا');
           setLoading(false);

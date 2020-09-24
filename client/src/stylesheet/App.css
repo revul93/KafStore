@@ -8,6 +8,7 @@
 
 .container {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -167,93 +168,11 @@
   background-color: var(--primary-background-color);
 }
 
-.book-page-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-.book-page-general-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.book-page-cover {
-  height: 350px;
-  max-width: 300px;
-  margin: 7.5px;
-  padding: 10px;
-}
-.book-page-info {
-  display: flex;
-  flex-direction: column;
-}
-.book-page-info-element {
-  font-size: 1.2rem;
-  margin: 2px;
-}
-
-.book-page-copies-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.book-page-copies {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-.book-page-copies-header {
-  margin-top: 30px;
-  font-size: 1.6rem;
-}
-.book-page-copy {
-  display: flex;
-  flex-direction: column;
-  margin: 7.5px;
-  padding-right: 10px;
-  padding: 7.5px;
-}
-
-.book-page-copy:hover {
-  outline: 2px solid red;
-}
-
-.book-page-copy-info {
-  display: flex;
-  flex-direction: column;
-  font-size: 1.4rem;
-}
-.book-page-copy-images {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.book-page-copy-image,
-.book-page-copy-image img {
-  width: 120px;
-  margin: 5px;
-}
-
-.book-page-copy-buy-button {
-  max-width: 120px;
-  display: flex;
-  align-self: center;
-  outline: none;
-  border: none;
-  cursor: pointer;
-}
-
 @media (max-width: 700px) {
   .user-book {
     flex-direction: column;
   }
   .user-book-controls {
     flex-direction: row;
-  }
-  .book-page-copies {
-    flex-direction: column;
   }
 }
