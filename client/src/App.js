@@ -68,7 +68,7 @@ const App = () => {
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
-            <Route exact path='/user/:user_id' component={User} />
+            <Route exact path='/profile/:user_id' component={User} />
             <Route exact path='/user/books' component={UserBooks} />
             <Route exact path='/user/books/addbook' component={AddBook} />
             <Route exact path='/section/:query' component={GetBooksContainer} />

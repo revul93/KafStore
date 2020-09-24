@@ -71,7 +71,7 @@ const Book = (props) => {
                 <div className='bookpage-copy-info'>
                   <span className='bookpage-copy-info-element'>
                     {'البائع: '}
-                    <Link to={`/user/${copy.seller._id}`}>
+                    <Link to={`/profile/${copy.seller._id}`}>
                       {`${copy.seller.name}  | `}
                     </Link>
                   </span>
