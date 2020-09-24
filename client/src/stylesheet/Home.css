@@ -1,0 +1,18 @@
+.banner-container {
+  width: 100%;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.banner-image {
+  width: 100%;
+  max-width: 950px;
+  max-height: 300px;
+}
+
+@media (min-width: 660px) {
+  .banner-container {
+    padding: 30px;
+  }
+}

@@ -1,0 +1,59 @@
+/*
+  credit: https://codepen.io/mihaeltomic/pen/vmwMdm
+*/
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 1.1rem;
+  background-color: transparent;
+  transition: transform 250ms ease-in-out;
+  color: sienna;
+  border-radius: 50px;
+  border: 1px solid #b30000;
+  transition: all 250ms ease-in-out;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  margin: 3px;
+}
+
+.search-input::placeholder {
+  color: sienna;
+}
+
+.search-input:hover,
+.search-input:focus {
+  padding: 6px 6px;
+  outline: 0;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #b30000;
+  border-radius: 0;
+}
+
+.search-submit {
+  width: 5%;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  background-image: url('../img/search-icon.png');
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+}
+
+@media (min-width: 660px) {
+  .search-form {
+    max-width: 70vh;
+    margin: 0 auto;
+  }
+  .search-input {
+    font-size: 1.5rem;
+  }
+}

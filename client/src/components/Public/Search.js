@@ -1,25 +1,30 @@
+// modules
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import '../stylesheet/search-input.css';
+
+// static
+import '../../stylesheet/Search.css';
 
 const Search = () => {
   const [query, setQuery] = useState(false);
 
+  // when query submitted
   if (query) {
     return <Redirect to={`/search/${query}`} />;
   }
+
   return (
     <form
-      onSubmit={(e) => setQuery(e.currentTarget.search.value)}
-      className='search__form'
+      onSubmit={(event) => setQuery(event.currentTarget.search.value)}
+      className='search-form'
     >
       <input
-        className='search__input'
+        className='search-input'
         type='text'
         placeholder='ابحث عن كتاب'
         name='search'
       ></input>
-      <input type='submit' className='search__submit' value='' />
+      <input type='submit' className='search-submit' value='' />
     </form>
   );
 };

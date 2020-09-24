@@ -1,0 +1,39 @@
+.static-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  align-content: center;
+  margin-top: 40px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin: 10px 0;
+}
+
+.paragraph-head {
+  margin-top: 15px;
+  padding-right: 10px;
+  font-size: 1.6rem;
+}
+
+.paragraph {
+  padding-right: 15px;
+  font-size: 1.4rem;
+}
+
+.paragraph-list {
+  margin-right: 15px;
+}
+
+.paragraph-list-item {
+  padding-right: 5px;
+  font-size: 1.3rem;
+}
+@media (min-width: 660px) {
+  .static-page {
+    max-width: 60%;
+  }
+}

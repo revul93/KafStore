@@ -1,34 +1,48 @@
-import React, { useState, useEffect } from 'react';
+// modules
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import getBooks from '../utils/getBooks';
-import loadingSpinner from '../img/loading-spinner.gif';
+
+// helpers
+import getBooks from '../../utils/getBooks';
+
+// static
+import '../../stylesheet/BooksContainer.css';
+import loadingSpinner from '../../img/loading-spinner.gif';
 
 const BooksContainer = (props) => {
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState();
   const { query, title } = props;
+
   useEffect(() => {
+    // load books
     getBooks(query).then((res, err) => {
       if (err) {
         console.error(err.message);
         setLoading(false);
       }
       if (res) {
+        // remove sold copies of a book
         res.forEach(
           (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
         );
       }
+      // if response -> remove books with 0 available copies
       setBooks(res && res.filter((book) => book.copy.length > 0));
       setLoading(false);
     });
   }, [query]);
 
   return (
-    <div className='container'>
+    <Fragment>
       <h3 className='books-container-title'>{title}</h3>
       <div className='books-container'>
         {loading ? (
-          <img src={loadingSpinner} alt='loading' className='page-load' />
+          <img
+            src={loadingSpinner}
+            alt='loading'
+            className='books-container-load'
+          />
         ) : books && books.length > 0 ? (
           books.map((book) => (
             <div className='book' key={book._id}>
@@ -38,16 +52,16 @@ const BooksContainer = (props) => {
                   src={book.coverImage}
                   alt='غلاف الكتاب'
                 />
-                <span className='book-title'>{book.title}</span>
-                <span className='book-author'>{book.author}</span>
+                <span className='book-info book-title'>{book.title}</span>
+                <span className='book-info book-author'>{book.author}</span>
               </Link>
             </div>
           ))
         ) : (
-          <div className='no-books'>لا يوجد كتب لعرضها</div>
+          <div className='no-books'>{'لا يوجد كتب لعرضها'}</div>
         )}
       </div>
-    </div>
+    </Fragment>
   );
 };
 

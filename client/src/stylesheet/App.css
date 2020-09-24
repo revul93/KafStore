@@ -1,78 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Changa&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
-
-:root {
-  --primary-text-color: sienna;
-  --secondary-text-color: #eee;
-  --primary-background-color: maroon;
-  --lighter-background-color: #b30000;
-  --currency: ' $';
-}
-
-* {
-  font-family: 'Tajawal', sans-serif;
-}
-
-a,
-a:hover {
-  text-decoration: none;
-  color: inherit;
-}
-
-.header-link,
-.header-link:hover {
+.loading-full-page {
   display: flex;
-  align-content: center;
-  margin-block-start: 1vh;
-  margin-inline-start: 6%;
-  color: var(--primary-text-color);
-  font-size: 2rem;
-  font-weight: 600;
-  font-family: 'Changa', sans-serif;
-}
-
-.header-item {
-  margin: 5px;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background-color: var(--primary-background-color);
-}
-
-.navbar-list {
-  display: flex;
-  list-style: none;
-}
-
-.navbar-list-item-link {
-  color: var(--secondary-text-color);
-  font-family: 'Tajawal', sans-serif;
-  font-size: 1.2rem;
-  display: flex;
-  align-content: center;
-  margin: 0 5px;
-  padding: 10px;
-}
-
-.navbar-list-item-link:hover {
-  background-color: var(--secondary-text-color);
-  color: var(--primary-text-color);
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  margin: 30vh auto;
 }
 
 .container {
   width: 100%;
-  margin-top: 50px;
-  margin-block-start: 4%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 78vh;
+  align-items: center;
 }
 
+@media (min-width: 660px) {
+  .container {
+    width: 85%;
+    margin: 0 auto;
+  }
+}
+
+/*
 .form {
   width: 100%;
   margin: 0 auto;
@@ -131,32 +80,11 @@ a:hover {
   margin: 5px auto;
 }
 
-@media (max-width: 680px) {
-  .header-link,
-  .header-link:hover {
-    font-size: 1.3rem;
-  }
-  .navbar-list-item-link {
-    font-size: 0.88rem;
-    padding: 3px;
-  }
-  .container {
-    width: 100%;
-    margin-inline-start: 0;
-  }
-}
 
 @media (min-width: 1200px) {
-  .navbar {
-    padding: 0 10vw;
-  }
   .form {
     width: 70%;
     margin: 10px 0;
-  }
-  .container {
-    width: 85%;
-    margin: 1% auto;
   }
 }
 
@@ -172,105 +100,6 @@ a:hover {
   display: block;
 }
 
-.books-container {
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-bottom: 5%;
-}
-
-.books-container-title {
-  font-size: 1.6rem;
-  text-align: center;
-}
-
-.no-books {
-  font-size: 1.8rem;
-  text-align: center;
-  color: var(--lighter-background-color);
-}
-.book {
-  display: flex;
-  flex-direction: column;
-  margin: 25px;
-  padding: 5px;
-  align-items: center;
-  transition-timing-function: ease-out;
-  width: 250px;
-  opacity: 0.88;
-  text-align: center;
-  transition: opacity 0.5s;
-}
-
-.book:hover {
-  opacity: 1;
-  outline: 2px solid var(--secondary-text-color);
-}
-
-.book-cover {
-  width: 180px;
-  height: 270px;
-  padding: 5px;
-  border-bottom: 1px solid black;
-}
-
-.book-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.book-title,
-.book-author {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--primary-background-color);
-}
-
-.book-author {
-  font-weight: 500;
-  font-style: italic;
-}
-
-.book-price {
-  font-size: 1.4rem;
-}
-
-.book-price:after {
-  content: var(--currency);
-}
-
-@media (max-width: 780px) {
-  .books-container-title {
-    font-size: 1.4rem;
-  }
-  .book {
-    padding: 2px;
-    width: 150px;
-  }
-  .book-cover {
-    width: 120px;
-    height: 180px;
-    padding: 5px;
-  }
-  .book-title,
-  .book-author {
-    font-size: 1rem;
-  }
-  .no-books {
-    font-size: 1.4rem;
-  }
-}
-
-.page-load {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  margin: 15% auto;
-}
 
 .button {
   display: flex;
@@ -432,25 +261,4 @@ a:hover {
   }
 }
 
-.footer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-  right: 0;
-  color: var(--secondary-text-color);
-  background-color: var(--primary-background-color);
-  text-align: center;
-  padding: 3px;
-}
-
-.footer-element {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.footer-element a {
-  margin: 0 5px;
-}
+*/

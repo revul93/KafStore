@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  align-content: center;
+  padding-block-start: 1vh;
+  padding-block-end: 1vh;
+  padding-inline-start: 6%;
+  color: var(--primary-text-color);
+}
+
+.header:hover {
+  color: var(--primary-text-color);
+}
+
+.header-item {
+  margin: 5px;
+}
+
+.header-img {
+  width: 50px;
+}
+
+.header-text {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: 'Changa', sans-serif;
+}

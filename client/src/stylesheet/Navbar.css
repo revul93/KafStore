@@ -1,0 +1,80 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: var(--primary-background-color);
+  font-family: 'Tajawal', sans-serif;
+}
+
+.navbar-list {
+  display: flex;
+  list-style: none;
+}
+
+.navbar-list-item-link {
+  font-size: 1.1rem;
+  color: var(--secondary-text-color);
+  display: flex;
+  justify-items: center;
+  align-content: center;
+  margin-inline-start: 3.5px;
+  padding: 6px 3.5px;
+  cursor: pointer;
+}
+
+.navbar-list-item-link-first {
+  margin-inline-start: 0;
+}
+
+.navbar-list-item-link:hover {
+  background-color: var(--secondary-text-color);
+  color: var(--primary-text-color);
+}
+
+@media (min-width: 660px) {
+  .navbar {
+    padding: 0 10vw 0 10vw;
+  }
+  .navbar-list-item-link {
+    font-size: 1.4rem;
+    padding: 5px;
+  }
+}
+
+/*
+  credit: https://www.w3schools.com/css/css_dropdowns.asp
+*/
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--secondary-text-color);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  list-style-type: none;
+}
+
+.dropdown-content a {
+  color: var(--primary-text-color);
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  color: var(--secondary-text-color);
+  background-color: var(--primary-background-color);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
