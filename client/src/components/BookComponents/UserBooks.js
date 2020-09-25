@@ -1,16 +1,23 @@
+// modules
 import React, { useEffect, Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import loadingSpinner from '../../img/loading-spinner.gif';
-import getBooksOfUser from '../../utils/getBooksOfUser';
-import swal from 'sweetalert';
+import PropTypes from 'prop-types';
 import axios from 'axios';
+import swal from 'sweetalert';
+
+// helpers
+import getBooksOfUser from '../../utils/getBooksOfUser';
+
+// static
+import '../../stylesheet/UserBooks.css';
+import loadingSpinner from '../../img/loading-spinner.gif';
 
 const UserBooks = (props) => {
   const { token, isLoggedIn, userId } = props;
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState(null);
+
   useEffect(() => {
     getBooksOfUser(userId).then((res, err) => {
       if (err) {
@@ -43,7 +50,14 @@ const UserBooks = (props) => {
             },
           })
           .then(() => {
-            setBooks(books.filter((book) => book.copy._id === copyId));
+            getBooksOfUser(userId).then((res, err) => {
+              if (err) {
+                console.error(err.message);
+                setLoading(false);
+              }
+              setBooks(res);
+              setLoading(false);
+            });
             swal('تم حذف الكتاب بنجاح', {
               icon: 'success',
             });
@@ -62,16 +76,22 @@ const UserBooks = (props) => {
     return <Redirect to='/login' />;
   }
 
+  if (loading) {
+    return (
+      <img src={loadingSpinner} alt='loading' className='loading-full-page' />
+    );
+  }
+
   return (
     <Fragment>
-      <Link className='button' to='/user/books/addbook'>
-        {'إضافة كتاب'}
-      </Link>
+      <div class='form-container'>
+        <Link className='button' to='/user/books/addbook'>
+          {'إضافة كتاب'}
+        </Link>
+      </div>
 
-      {loading ? (
-        <img src={loadingSpinner} alt='loading' className='page-load' />
-      ) : books && books.length > 0 ? (
-        <div className='user-books'>
+      {books && books.length > 0 ? (
+        <div className='user-books-container'>
           {books.map((book) => {
             return (
               <div className='user-book' key={book._id}>
@@ -93,12 +113,15 @@ const UserBooks = (props) => {
                   <br />
                 </div>
                 <div className='user-book-controls'>
-                  <button className='user-book-button'>تعديل</button> <br />
+                  <button className='user-book-button'>{'تعديل'}</button>
+                  <Link className='user-book-button' to={`/book/${book._id}`}>
+                    {'عرض'}
+                  </Link>
                   <button
                     className='user-book-button'
                     onClick={() => deleteUserBook(book._id, book.copy[0]._id)}
                   >
-                    حذف
+                    {'حذف'}
                   </button>
                 </div>
               </div>
@@ -106,7 +129,7 @@ const UserBooks = (props) => {
           })}
         </div>
       ) : (
-        <div className='no-books'>{'لا يوجد كتب لعرضها'}</div>
+        <div className='no-info'>{'لا يوجد كتب لعرضها'}</div>
       )}
     </Fragment>
   );

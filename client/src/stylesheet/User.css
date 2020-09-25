@@ -1,0 +1,100 @@
+.userpage-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.userpage-info-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.userpage-profilepic {
+  max-width: 200px;
+  margin: 3vh auto;
+  display: block;
+}
+
+.userpage-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2vh 5vh;
+}
+
+.userpage-info-name {
+  font-size: 1.6rem;
+  font-weight: bolder;
+  margin: 4px;
+  display: block;
+}
+
+.userpage-info-element {
+  padding-right: 15px;
+  font-size: 1.4rem;
+  margin: 4px;
+}
+
+.view-toggler {
+  background-color: maroon;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.view-toggler-button {
+  margin: 0 15px;
+  padding: 3px;
+  min-width: 120px;
+  font-size: 1.2rem;
+  outline: none;
+  border: 1px solid #eee;
+  cursor: pointer;
+  background-color: maroon;
+  color: #eee;
+}
+
+.view-toggler-button-clicked {
+  background-color: #eee;
+  color: maroon;
+}
+
+.no-reviews {
+  font-size: 1.4rem;
+  margin: 20px;
+  text-align: center;
+  color: var(--lighter-background-color);
+}
+
+.no-reviews,
+.no-reviews a {
+  display: block;
+}
+
+@media (min-width: 660px) {
+  .userpage-info-container {
+    padding: 30px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .userpage-profilepic {
+    margin: 2vh;
+  }
+
+  .userpage-info {
+    margin: 15px;
+    padding: 30px 0;
+    max-width: 500px;
+  }
+
+  .view-toggler {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

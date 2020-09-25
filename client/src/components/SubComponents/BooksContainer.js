@@ -11,27 +11,31 @@ import loadingSpinner from '../../img/loading-spinner.gif';
 
 const BooksContainer = (props) => {
   const [loading, setLoading] = useState(true);
-  const [books, setBooks] = useState();
-  const { query, title } = props;
+  const [view, setView] = useState();
+  const { books, query, title } = props;
 
   useEffect(() => {
     // load books
-    getBooks(query).then((res, err) => {
-      if (err) {
-        console.error(err.message);
-        setLoading(false);
-      }
-      if (res) {
-        // remove sold copies of a book
-        res.forEach(
-          (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
-        );
-      }
-      // if response -> remove books with 0 available copies
-      setBooks(res && res.filter((book) => book.copy.length > 0));
+    if (books) {
+      setView(books);
       setLoading(false);
-    });
-  }, [query]);
+    } else
+      getBooks(query).then((res, err) => {
+        if (err) {
+          console.error(err.message);
+          setLoading(false);
+        }
+        if (res) {
+          // remove sold copies of a book
+          res.forEach(
+            (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
+          );
+        }
+        // if response -> remove books with 0 available copies
+        setView(res && res.filter((book) => book.copy.length > 0));
+        setLoading(false);
+      });
+  }, [query, books]);
 
   if (loading) {
     return (
@@ -47,8 +51,8 @@ const BooksContainer = (props) => {
     <Fragment>
       <h3 className='books-container-title'>{title}</h3>
       <div className='books-container'>
-        {books && books.length > 0 ? (
-          books.map((book) => (
+        {view && view.length > 0 ? (
+          view.map((book) => (
             <div className='book' key={book._id}>
               <Link className='book-link' to={`/book/${book._id}`}>
                 <img
@@ -62,7 +66,7 @@ const BooksContainer = (props) => {
             </div>
           ))
         ) : (
-          <div className='no-books'>{'لا يوجد كتب لعرضها'}</div>
+          <div className='no-info'>{'لا يوجد كتب لعرضها'}</div>
         )}
       </div>
     </Fragment>

@@ -56,13 +56,6 @@
   font-style: italic;
 }
 
-.no-books {
-  font-size: 1.4rem;
-  margin: 20px;
-  text-align: center;
-  color: var(--lighter-background-color);
-}
-
 @media (min-width: 660px) {
   .books-container-title {
     margin-inline-start: 15%;

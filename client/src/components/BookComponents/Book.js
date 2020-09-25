@@ -60,6 +60,7 @@ const Book = (props) => {
               <p className='bookpage-info'>
                 {'لغة الكتاب: '} {book.language}
               </p>
+              <p className='bookpage-info'>{`رقم الكتاب: ${book.isbn}`}</p>
               <p className='bookpage-info'>{`الوصف: ${book.description}`}</p>
             </div>
           </div>

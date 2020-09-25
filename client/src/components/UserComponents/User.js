@@ -1,9 +1,12 @@
 // modules
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // helpers
 import getUser from '../../utils/getUser';
 import getBooksOfUser from '../../utils/getBooksOfUser';
+import BooksContainer from '../SubComponents/BooksContainer';
 
 // static
 import loadingSpinner from '../../img/loading-spinner.gif';
@@ -14,6 +17,7 @@ const User = (props) => {
     match: {
       params: { user_id },
     },
+    isLoggedIn,
   } = props;
 
   const [loading, setLoading] = useState(true);
@@ -41,9 +45,9 @@ const User = (props) => {
   }
 
   return (
-    <Fragment>
+    <>
       {user ? (
-        <Fragment>
+        <>
           <div className='userpage-container'>
             <div className='userpage-info-container'>
               <img
@@ -53,30 +57,61 @@ const User = (props) => {
               />
               <div className='userpage-info'>
                 <span className='userpage-info-name'>{user.name}</span>
-                <span className='userpage-info-name'>{`${user.address.country}، ${user.address.city}`}</span>
-                <span className='userpage-info-name'>{`تاريخ الانضضمام: ${new Date(
+                <span className='userpage-info-element'>{`${user.address.country}، ${user.address.city}`}</span>
+                <span className='userpage-info-element'>{`تاريخ الانضمام: ${new Date(
                   user.date
                 ).toDateString()}`}</span>
-                <span className='userpage-info-name'>{`عدد الكتب المضافة: ${userBooks.length}`}</span>
+                <span className='userpage-info-element'>{`عدد الكتب المضافة: ${userBooks.length}`}</span>
               </div>
             </div>
             <div className='view-toggler'>
-              <button onClick={() => setView('Books')}>{'الكتب'}</button>
-              <button onClick={() => setView('Reviews')} value='Reviews'>
+              <button
+                className={`view-toggler-button ${
+                  view === 'Books' && 'view-toggler-button-clicked'
+                }`}
+                onClick={() => setView('Books')}
+              >
+                {'الكتب'}
+              </button>
+              <button
+                className={`view-toggler-button ${
+                  view === 'Reviews' && 'view-toggler-button-clicked'
+                }`}
+                onClick={() => setView('Reviews')}
+                value='Reviews'
+              >
                 {'التقييمات'}
               </button>
-              <div className='view-container'>
-                {view === 'Books' && <p>Books</p>}
-                {view === 'Reviews' && <p>Reviews</p>}
-              </div>
+            </div>
+            <div className='view-container'>
+              {view === 'Books' && <BooksContainer books={userBooks} />}
+              {view === 'Reviews' &&
+                (user.reviews ? (
+                  user.reviews.map((review, index) => <div key={index}></div>)
+                ) : (
+                  <>
+                    <div className='no-reviews'>{'لم يتم إضافة أي تقييم'}</div>
+                    {!isLoggedIn && (
+                      <Link className='no-reviews' to='/login'>
+                        {`قم بتسجيل الدخول لتقييم هذا البائع`}
+                      </Link>
+                    )}
+                    {isLoggedIn && <div></div>}
+                  </>
+                ))}
             </div>
           </div>
-        </Fragment>
+        </>
       ) : (
         <div className='no-user'>{'المستخدم غير موجود'}</div>
       )}
-    </Fragment>
+    </>
   );
 };
 
-export default User;
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.token,
+  token: state.auth.token,
+  userId: state.auth.userId,
+});
+export default connect(mapStateToProps, null)(User);
