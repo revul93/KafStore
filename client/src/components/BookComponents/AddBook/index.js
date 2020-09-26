@@ -1,9 +1,15 @@
+// modules
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// helpers
 import GetBookByISBNForm from './GetBookByISBNForm';
 import AddBookForm from './AddBookForm';
+
+// static
+import '../../../stylesheet/Forms.css';
 
 const AddBook = (props) => {
   const [book, setBook] = useState(null);
@@ -11,11 +17,16 @@ const AddBook = (props) => {
     return <Redirect to='/login' />;
   }
 
-  if (!book) {
-    return <GetBookByISBNForm setBook={setBook} />;
-  } else {
-    return <AddBookForm book={book} />;
-  }
+  return (
+    <div className='form-container'>
+      <h2 className='form-title'>{'إضافة كتاب'}</h2>
+      {!book ? (
+        <GetBookByISBNForm setBook={setBook} />
+      ) : (
+        <AddBookForm book={book} />
+      )}
+    </div>
+  );
 };
 
 AddBook.propTypes = {

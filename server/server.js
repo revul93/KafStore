@@ -1,6 +1,7 @@
 // modules
 const express = require('express');
 const connectToDb = require('../config/db');
+// const destroy = require('./actions/destroy');
 
 // routes
 const userRouter = require('./routes/api/user');
@@ -32,6 +33,8 @@ app.get('/', (req, res) => {
 
 // Initate database connection
 connectToDb();
+
+// destroy();
 
 // set configuration
 const PORT = process.env.PORT || 5000;

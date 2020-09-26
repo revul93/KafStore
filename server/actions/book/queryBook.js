@@ -10,15 +10,27 @@ module.exports = async (query, user_id) => {
       'review',
     ]);
   } else if (Number(query) && (query.length == 10 || query.length == 13)) {
-    return await Book.findOne({ isbn: query }).populate('copy.seller', [
+    return Book.findOne({ isbn: query }).populate('copy.seller', [
       'name',
       '_id',
       'review',
     ]);
   } else if (query === '_latest') {
-    return await Book.find().sort('-date').limit(8);
+    let result = [];
+    let i = 0;
+    while (result.length < 8) {
+      result = await Book.find()
+        .sort('-date')
+        .limit(8 + i);
+      result.forEach(
+        (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
+      );
+      result = result.filter((book) => book.copy.length > 0);
+      i++;
+    }
+    return result;
   } else if (query === '_recom') {
-    return await getRecommendedBooks(user_id);
+    result = await getRecommendedBooks(user_id);
   } else if (query === '_all') {
     return await Book.find();
   } else {
@@ -30,4 +42,9 @@ module.exports = async (query, user_id) => {
       ],
     });
   }
+
+  if (result) {
+    return result.filter((book) => book.copy.length > 0);
+  }
+  return null;
 };

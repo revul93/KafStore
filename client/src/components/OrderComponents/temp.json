@@ -1,0 +1,36 @@
+[
+  {
+    "item": {
+      "book": {
+        "_id": "5f6b9129c5ab1f237e94b430",
+        "copy": [
+          {
+            "images": [
+              "https://kafstore.s3-eu-west-1.amazonaws.com/bookImage-1600885027566-4B15BCCA-A250-4D00-A605-E348F9C6F5E9.jpeg",
+              " https://kafstore.s3-eu-west-1.amazonaws.com/bookImage-1600885030236-291F4DDF-BF9E-4A6D-B3AF-56D1B1D58D3B.jpeg",
+              " https://kafstore.s3-eu-west-1.amazonaws.com/bookImage-1600885031394-6FD9A2D1-5E4F-44C0-8436-2CA62688FA15.jpeg"
+            ],
+            "isSold": true,
+            "date": "2020-09-23T18:17:13.950Z",
+            "_id": "5f6b9129c5ab1f237e94b431",
+            "seller": "5f6a824077b7470be74ab255",
+            "price": 8200,
+            "condition": "كأنه جديد"
+          }
+        ],
+        "title": "رياض الصالحين",
+        "author": "الإمام النووي"
+      },
+      "copy": "5f6b9129c5ab1f237e94b431"
+    },
+    "status": "في الانتظار",
+    "_id": "5f6f00268a4d893b40e521d7",
+    "buyer": { "_id": "5f611f995fdb1f315cd99000", "name": "عمر جاجه" },
+    "seller": { "_id": "5f6a824077b7470be74ab255", "name": "ريما" },
+    "paymentMethod": "paypal",
+    "paymentAccount": "ahmad@hotmail.com",
+    "amount": 8200,
+    "date": "2020-09-26T08:47:34.711Z",
+    "__v": 0
+  }
+]

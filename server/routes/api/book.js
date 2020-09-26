@@ -1,8 +1,6 @@
 // modules
 const express = require('express');
 const strings = require('../../static/strings');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const handleError = require('../../actions/handleError');
 
 // middleware
@@ -10,9 +8,11 @@ const auth = require('../../middleware/auth');
 const validate = require('../../middleware/validate');
 const validateBookInfo = require('../../middleware/validateBookInfo');
 const validateObjectId = require('../../middleware/validateObjectId');
+const validateBookEdit = require('../../middleware/validateBookEdit');
 
 // actions
 const upsertBook = require('../../actions/book/upsertBook');
+const editBook = require('../../actions/book/editBook');
 const queryBook = require('../../actions/book/queryBook');
 const getUserCopies = require('../../actions/book/getUserCopies');
 const removeBookCopy = require('../../actions/book/removeBookCopy');
@@ -51,6 +51,32 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
   }
 });
 
+// @desc        edit existing copy of book
+// @route       PUT api/book
+// @access      Private
+// let user edit price and condition
+router.put(
+  '/',
+  [
+    auth,
+    validateObjectId('book_id', strings.NO_DATA),
+    validateObjectId('copy_id', strings.NO_DATA),
+    validateBookEdit(),
+    validate,
+  ],
+  async (req, res) => {
+    try {
+      const book = await editBook(req.body);
+      if (!book) {
+        return res.status(400).json(strings.FAIL);
+      }
+      return res.json(strings.SUCCESS);
+    } catch (error) {
+      handleError(error);
+    }
+  }
+);
+
 // @desc        search a book by query (id, isbn, title, author, section, subsection)
 // @route       GET api/book/:query
 // @access      Public
@@ -59,15 +85,10 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
 //   with users who sell these books
 router.get('/', async (req, res) => {
   try {
-    let book;
-    if (req.query.user_id) {
-      book = await queryBook(
-        decodeURI(req.query.query),
-        decodeURI(req.query.user_id)
-      );
-    } else {
-      book = await queryBook(decodeURI(req.query.query));
-    }
+    const book = await queryBook(
+      decodeURI(req.query.query),
+      decodeURI(req.query.user_id)
+    );
     if (!book || book.length === 0) {
       return res.status(400).json(strings.NO_DATA);
     }

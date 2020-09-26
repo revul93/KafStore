@@ -5,5 +5,6 @@ module.exports = async (user_id, fields = '') => {
     ? await User.find().select(fields)
     : await User.findById(user_id)
         .select(fields)
-        .populate('view', ['_id', 'title', 'author', 'isbn', 'section']);
+        .populate('view', ['_id', 'title', 'author', 'isbn', 'section'])
+        .populate('review.writer', ['name', 'profilepic']);
 };

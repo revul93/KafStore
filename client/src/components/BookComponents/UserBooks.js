@@ -84,8 +84,8 @@ const UserBooks = (props) => {
 
   return (
     <Fragment>
-      <div class='form-container'>
-        <Link className='button' to='/user/books/addbook'>
+      <div className='form-container'>
+        <Link className='button' to='/book/add'>
           {'إضافة كتاب'}
         </Link>
       </div>
@@ -113,8 +113,16 @@ const UserBooks = (props) => {
                   <br />
                 </div>
                 <div className='user-book-controls'>
-                  <button className='user-book-button'>{'تعديل'}</button>
-                  <Link className='user-book-button' to={`/book/${book._id}`}>
+                  <Link
+                    className='user-book-button'
+                    to={`/book/edit/${book._id}/${book.copy[0]._id}`}
+                  >
+                    {'تعديل'}
+                  </Link>
+                  <Link
+                    className='user-book-button'
+                    to={`/book/view/${book._id}`}
+                  >
                     {'عرض'}
                   </Link>
                   <button

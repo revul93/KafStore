@@ -1,9 +1,13 @@
 .books-container-title {
-  margin-top: 20px;
+  background-color: darkcyan;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px auto;
   font-size: 1.4rem;
+  padding: 5px;
   align-self: flex-start;
-  margin-inline-start: 5%;
-  color: var(--primary-text-color);
+  color: #eee;
 }
 
 .books-container {
@@ -11,6 +15,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 1200px;
+  height: auto;
+  margin: 0 auto;
 }
 
 .book {
@@ -56,9 +63,16 @@
   font-style: italic;
 }
 
+.no-books {
+  font-size: 1.4rem;
+  margin: 20px;
+  text-align: center;
+  color: var(--lighter-background-color);
+}
+
 @media (min-width: 660px) {
   .books-container-title {
-    margin-inline-start: 15%;
+    width: 80%;
     font-size: 1.8rem;
   }
   .book {
@@ -69,7 +83,7 @@
     height: 270px;
   }
   .book-info {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
   .no-books {
     font-size: 1.8rem;

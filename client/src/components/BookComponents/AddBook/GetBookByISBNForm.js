@@ -1,6 +1,11 @@
+// modules
 import React, { useRef, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+
+// helpers
 import getBookByISBN from '../../../utils/getBookByISBN';
+
+// static
 import loadingSpinner from '../../../img/loading-spinner.gif';
 
 const GetBookByISBNForm = (props) => {

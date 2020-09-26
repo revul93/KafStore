@@ -3,7 +3,6 @@ const AWS_BUCKET = 'kafstore';
 
 const s3Upload = async (file, type) => {
   const filename = `${type}-${Date.now()}-${file.name}`;
-  console.log(filename, file.type);
   try {
     const signedUrl = await axios.get(
       '/api/utils/sign_url?filename=' +

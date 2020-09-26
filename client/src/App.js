@@ -19,14 +19,17 @@ import AboutUs from './components/PublicComponenets/AboutUs';
 import Policy from './components/PublicComponenets/Policy.js';
 
 // --> User
-import User from './components/UserComponents/User';
+import Profile from './components/UserComponents/Profile';
+import EditUser from './components/UserComponents/EditUser';
 import Login from './components/UserComponents/Login';
 import Register from './components/UserComponents/Register';
+import Complaint from './components/UserComponents/Complaint';
 
 // --> Book
 import Book from './components/BookComponents/Book';
 import UserBooks from './components/BookComponents/UserBooks';
 import AddBook from './components/BookComponents/AddBook';
+import EditBook from './components/BookComponents/EditBook';
 
 // --> Order
 import Order from './components/OrderComponents/Order';
@@ -68,17 +71,27 @@ const App = () => {
             <Route exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
-            <Route exact path='/profile/:user_id' component={User} />
-            <Route exact path='/user/books' component={UserBooks} />
-            <Route exact path='/user/books/addbook' component={AddBook} />
-            <Route exact path='/section/:query' component={GetBooksContainer} />
-            <Route exact path='/search/:query/' component={GetBooksContainer} />
-            <Route exact path='/book/:book_id' component={Book} />
-            <Route path='/buy/:book_id/:copy_id' component={Order} />
-            <Route exact path='/user/orders' component={PurchaseOrders} />
-            <Route exact path='/user/sales' component={PaymentOrders} />
             <Route exact path='/aboutus' component={AboutUs} />
             <Route exact path='/policy' component={Policy} />
+
+            <Route exact path='/section/:query' component={GetBooksContainer} />
+            <Route exact path='/search/:query' component={GetBooksContainer} />
+
+            <Route exact path='/book/view/:book_id' component={Book} />
+            <Route
+              exact
+              path='/book/edit/:book_id/:copy_id'
+              component={EditBook}
+            />
+            <Route exact path='/book/add' component={AddBook} />
+            <Route path='/buy/:book_id/:copy_id' component={Order} />
+
+            <Route exact path='/profile/:user_id' component={Profile} />
+            <Route exact path='/user/me' component={EditUser} />
+            <Route exact path='/user/books' component={UserBooks} />
+            <Route exact path='/user/orders' component={PurchaseOrders} />
+            <Route exact path='/user/sales' component={PaymentOrders} />
+            <Route exact path='/user/complaints' component={Complaint} />
           </Switch>
         </div>
         <Footer />

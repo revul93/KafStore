@@ -1,7 +1,7 @@
 // modules
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
 // helpers
 import getBooks from '../../utils/getBooks';
 
@@ -12,7 +12,7 @@ import loadingSpinner from '../../img/loading-spinner.gif';
 const BooksContainer = (props) => {
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState();
-  const { books, query, title } = props;
+  const { books, query, title, userId } = props;
 
   useEffect(() => {
     // load books
@@ -20,7 +20,7 @@ const BooksContainer = (props) => {
       setView(books);
       setLoading(false);
     } else
-      getBooks(query).then((res, err) => {
+      getBooks(query, userId).then((res, err) => {
         if (err) {
           console.error(err.message);
           setLoading(false);
@@ -35,7 +35,7 @@ const BooksContainer = (props) => {
         setView(res && res.filter((book) => book.copy.length > 0));
         setLoading(false);
       });
-  }, [query, books]);
+  }, [query, books, userId]);
 
   if (loading) {
     return (
@@ -49,12 +49,12 @@ const BooksContainer = (props) => {
 
   return (
     <Fragment>
-      <h3 className='books-container-title'>{title}</h3>
+      {title && <h3 className='books-container-title'>{title}</h3>}
       <div className='books-container'>
         {view && view.length > 0 ? (
           view.map((book) => (
             <div className='book' key={book._id}>
-              <Link className='book-link' to={`/book/${book._id}`}>
+              <Link className='book-link' to={`/book/view/${book._id}`}>
                 <img
                   className='book-cover'
                   src={book.coverImage}
@@ -66,11 +66,15 @@ const BooksContainer = (props) => {
             </div>
           ))
         ) : (
-          <div className='no-info'>{'لا يوجد كتب لعرضها'}</div>
+          <div className='no-books'>{'لا يوجد كتب لعرضها'}</div>
         )}
       </div>
     </Fragment>
   );
 };
 
-export default BooksContainer;
+const mapStateToProps = (state) => ({
+  userId: state.auth.userId,
+});
+
+export default connect(mapStateToProps, null)(BooksContainer);

@@ -1,5 +1,6 @@
 const Book = require('../../models/Book');
 const User = require('../../models/User');
+const queryBook = require('../book/queryBook');
 const getUserCopies = require('./getUserCopies');
 
 module.exports = async (user_id) => {
@@ -11,7 +12,21 @@ module.exports = async (user_id) => {
 };
 
 const getRecommendedOfUser = async (user_id) => {
-  return null;
+  const mostViewedBook = await getMostViewedBook();
+  const lastViewedBook = await getLastViewedBookOfUser(user_id);
+  const similarBookToLastViewedBook = await getSimilarBookToLastViewedBook(
+    lastViewedBook
+  );
+  const bookOfHighestRatingUser = await getBookOfHighestRatingUser();
+
+  let recommendedBooks = [];
+  if (mostViewedBook) recommendedBooks.push(mostViewedBook);
+  if (lastViewedBook) recommendedBooks.push(lastViewedBook);
+  if (similarBookToLastViewedBook)
+    recommendedBooks.push(lastsimilarBookToLastViewedBookViewedBook);
+  if (bookOfHighestRatingUser) recommendedBooks.push(bookOfHighestRatingUser);
+
+  return await extendRecommendedBooks(recommendedBooks);
 };
 
 const getRecommendedOfGuest = async () => {
@@ -89,6 +104,36 @@ const getBookOfHighestRatingUser = async () => {
         }
       }
     }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const getLastViewedBookOfUser = async (user_id) => {
+  try {
+    const user = await User.findById(user_id);
+    if (user.view) {
+      const lastViewedBook = await Book.findById(user.view[0]);
+      return lastViewedBook;
+    }
+    return null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const getSimilarBookToLastViewedBook = async (similarBook) => {
+  try {
+    if (!similarBook) {
+      return null;
+    }
+    const result = queryBook(similarBook.section);
+    if (result[0]._id.toString() === similarBook._id.toString()) {
+      return result[1];
+    }
+    return result[0];
   } catch (error) {
     console.error(error);
     return null;

@@ -11,6 +11,11 @@ const Home = () => {
   return (
     <Fragment>
       <div className='banner-container'>
+        <h1 className='banner-text'>
+          {
+            'مارس شغفك بالقراءة دون توقف وقم ببيع كتبك المستعملة وشراء غيرها بشكل دوري ووفر الكثير!'
+          }
+        </h1>
         <img
           src={banner}
           alt='قم ببيع وشراء الكتب المستعملة واستمتع بالتوفير'

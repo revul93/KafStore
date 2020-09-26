@@ -55,6 +55,11 @@ const Navbar = (props) => {
               {'إدارة كتبي'}
             </Link>
           </li>
+          <li className='navbar-list-item'>
+            <Link className='navbar-list-item-link' to='/user/complaints'>
+              {'تقديم شكوى'}
+            </Link>
+          </li>
         </ul>
       </li>
       <li className='navbar-list-item'>

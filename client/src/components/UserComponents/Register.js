@@ -161,7 +161,7 @@ const Register = () => {
         )}
 
         <div className='form-control'>
-          <label className='form-group-label'>{'صورة الملف الشخصي'}</label>
+          <label className='form-control-label'>{'صورة الملف الشخصي'}</label>
           <input
             name='profilepic'
             type='file'
@@ -170,7 +170,7 @@ const Register = () => {
               validate: (value) => {
                 return (
                   value[0] &&
-                  value[0].size < 1048576 &&
+                  value[0].size < 3e6 &&
                   (value[0].type === 'image/jpeg' ||
                     value[0].type === 'image/png')
                 );

@@ -1,12 +1,19 @@
+// modules
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
-import loadingSpinner from '../../img/loading-spinner.gif';
+import { useForm } from 'react-hook-form';
+
+// helpers
 import fetchBook from '../../utils/getBooks';
 import getMe from '../../utils/getMe';
 import placeOrder from '../../utils/placeOrder';
-import { useForm } from 'react-hook-form';
+
+// static
+import '../../stylesheet/Forms.css';
+import '../../stylesheet/Order.css';
+import loadingSpinner from '../../img/loading-spinner.gif';
 
 const Order = (props) => {
   const {
@@ -24,6 +31,7 @@ const Order = (props) => {
   const [book, setBook] = useState();
   const [copyIndex, setCopyIndex] = useState();
   const [buyer, setBuyer] = useState();
+
   useEffect(() => {
     if (!isLoggedIn) {
       swal({
@@ -75,8 +83,7 @@ const Order = (props) => {
       swal({
         icon: 'success',
         title: 'لقد قمت بشراء الكتاب',
-        text:
-          'سوف يقوم البائع بتوصيل الكتاب، يمكنك استعراض حالة الطلب في صفحة إدارة طلباتي',
+        text: 'يمكنك استعراض حالة الطلب في صفحة إدارة طلباتي',
         buttons: 'موافق',
       }).then(() => {
         setIsPosting(false);
@@ -85,21 +92,14 @@ const Order = (props) => {
     });
     setIsPosting(true);
   };
+
   if (loading)
     return (
-      <div className='order-page-container'>
-        {loading && (
-          <img src={loadingSpinner} alt='loading' className='page-load' />
-        )}
-      </div>
+      <img src={loadingSpinner} alt='loading' className='loading-full-page' />
     );
 
   if (error) {
-    return (
-      <div className='order-page-container'>
-        <h3 className='order-page-header'>{error}</h3>
-      </div>
-    );
+    return <h3 className='no-info'>{error}</h3>;
   }
 
   if (!isLoggedIn) {
@@ -107,64 +107,58 @@ const Order = (props) => {
   }
 
   if (success) {
-    return <Redirect to='/' />;
+    return <Redirect to='/user/orders' />;
   }
 
   return (
-    <div className='order-page-container'>
-      <h3 className='order-page-header'>{'تفاصيل الطلب'}</h3>
-      <div className='order-page-info'>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>{'الكتاب: '}</span>
-          <span className='order-page-info-element-data'>{`${book.title}, ${book.author}`}</span>
+    <div className='orderpage-container'>
+      <h3 className='orderpage-title'>{'تفاصيل الطلب'}</h3>
+      <div className='orderpage-section'>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label'>{'الكتاب: '}</span>
+          <span className='orderpage-info-element-data'>{`${book.title}, ${book.author}`}</span>
         </div>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>{'البائع: '}</span>
-          <span className='order-page-info-element-data'>{`${book.copy[copyIndex].seller.name}`}</span>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label'>{'البائع: '}</span>
+          <span className='orderpage-info-element-data'>{`${book.copy[copyIndex].seller.name}`}</span>
         </div>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label'>
             {'حالة الكتاب: '}
           </span>
-          <span className='order-page-info-element-data'>{`${book.copy[copyIndex].condition}`}</span>
+          <span className='orderpage-info-element-data'>{`${book.copy[copyIndex].condition}`}</span>
         </div>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>{'السعر: '}</span>
-          <span className='order-page-info-element-data'>{`${book.copy[copyIndex].price}`}</span>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label'>{'السعر: '}</span>
+          <span className='orderpage-info-element-data'>{`${book.copy[copyIndex].price} ل.س.`}</span>
         </div>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label'>
             {'اسم المشتري: '}
           </span>
-          <span className='order-page-info-element-data'>{`${buyer.name}`}</span>
+          <span className='orderpage-info-element-data'>{`${buyer.name}`}</span>
         </div>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>
-            {'رقم الهاتف: '}
-          </span>
-          <span className='order-page-info-element-data ltr'>{`${buyer.phone}`}</span>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label'>{'رقم الهاتف: '}</span>
+          <span className='orderpage-info-element-data'>{`${buyer.phone}`}</span>
         </div>
-        <div className='order-page-info-element'>
-          <span className='order-page-info-element-label'>
+        <div className='orderpage-info-element'>
+          <span className='orderpage-info-element-label-address'>
             {'عنوان الشحن: '}
           </span>
-          <span className='order-page-info-element-data'>
+          <span className='orderpage-info-element-data-address'>
             {`${buyer.address.street}, ${buyer.address.district}, ${buyer.address.city}, ${buyer.address.country}`}
-            <br />
-            {`وصف العنوان: ${buyer.address.description}`}
-            <br />
-            {`الرمز البريدي: ${buyer.address.postal}`}
           </span>
           <br />
+          <span className='orderpage-info-element-data-address'>{`وصف العنوان: ${buyer.address.description}`}</span>
+          <br />
+          <span className='orderpage-info-element-data-address'>{`الرمز البريدي: ${buyer.address.postal}`}</span>
         </div>
       </div>
-      <div className='order-page-payment-container'>
-        <form
-          className='order-page-payment-form form'
-          onSubmit={handleSubmit(submit)}
-        >
-          <h3 className='form-title'>{'معلومات الدفع'}</h3>
-          <label className='form-group-label'>{'طريقة الدفع'}</label>
+      <div className='orderpage-section'>
+        <h3 className='form-title'>{'معلومات الدفع'}</h3>
+        <form className='form' onSubmit={handleSubmit(submit)}>
+          <label className='form-control-label'>{'طريقة الدفع'}</label>
           <select
             name='paymentMethod'
             className='form-control'
@@ -174,9 +168,7 @@ const Order = (props) => {
               validate: (value) => value !== 'الرجاء اختيار إحدى الطرق',
             })}
           >
-            <option selected disabled>
-              {'الرجاء اختيار إحدى الطرق'}
-            </option>
+            <option disabled>{'الرجاء اختيار إحدى الطرق'}</option>
             <option value='paypal'>PayPal</option>
           </select>
           {errors.paymentMethod && (
@@ -186,21 +178,19 @@ const Order = (props) => {
           )}
           {watch('paymentMethod') === 'paypal' && (
             <>
-              <div className='form-group'>
-                <label className='form-group-label'>{'حساب Paypal'}</label>
-                <input
-                  name='paymentAccount'
-                  className='form-control'
-                  type='email'
-                  ref={register({
-                    required: 'الرجاء إدخال حساب Paypal',
-                    pattern: {
-                      value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: 'يجب إدخال بريد إلكتروني صالح',
-                    },
-                  })}
-                />
-              </div>
+              <label className='form-control-label'>{'حساب Paypal'}</label>
+              <input
+                name='paymentAccount'
+                className='form-control ltr'
+                type='email'
+                ref={register({
+                  required: 'الرجاء إدخال حساب Paypal',
+                  pattern: {
+                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: 'يجب إدخال بريد إلكتروني صالح',
+                  },
+                })}
+              />
               {errors.paymentAccount && (
                 <span className='form-error-message'>
                   {errors.paymentAccount.message}

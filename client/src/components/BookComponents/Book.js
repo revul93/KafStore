@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import getBook from '../../utils/getBooks';
 import updateUser from '../../utils/updateUser';
 import incrementBookViewCounter from '../../utils/incrementBookViewCounter';
+import getUserRating from '../../utils/getUserRating';
 
 // static
 import loadingSpinner from '../../img/loading-spinner.gif';
@@ -73,8 +74,9 @@ const Book = (props) => {
                   <span className='bookpage-copy-info-element'>
                     {'البائع: '}
                     <Link to={`/profile/${copy.seller._id}`}>
-                      {`${copy.seller.name}  | `}
+                      {`${copy.seller.name}`}
                     </Link>
+                    {` | ${getUserRating(copy.seller)}`}
                   </span>
                   <span className='bookpage-copy-info-element'>{`الحالة: ${copy.condition}`}</span>
                   <span className='bookpage-copy-info-element'>{`السعر: ${copy.price} ل.س.`}</span>

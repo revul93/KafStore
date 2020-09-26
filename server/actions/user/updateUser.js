@@ -32,13 +32,11 @@ module.exports = async (user_id, data) => {
     user.search.unshift(data.search);
   }
 
-  if (!user.view.find((book) => book._id.toString() === data.view.toString())) {
-    if (data.view) {
-      if (user.view.length > 10) {
-        user.view.pop();
-      }
-      user.view.unshift(data.view);
+  if (data.view) {
+    if (user.view.length > 50) {
+      user.view.pop();
     }
+    user.view.unshift(data.view);
   }
 
   await user.save();

@@ -1,3 +1,4 @@
+// modules
 import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
@@ -5,10 +6,13 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import axios from 'axios';
 
-import loadingSpinner from '../../../img/loading-spinner.gif';
-import getSections from '../../../utils/getSections';
-import conditions from '../../../utils/conditions';
+// helpers
 import s3Upload from '../../../utils/s3Upload';
+import conditions from '../../../utils/conditions';
+import getSections from '../../../utils/getSections';
+
+// static
+import loadingSpinner from '../../../img/loading-spinner.gif';
 
 const AddBookForm = (props) => {
   const focusInput = useRef(null);
@@ -97,8 +101,6 @@ const AddBookForm = (props) => {
 
   return (
     <form className='form' onSubmit={handleSubmit(submit)}>
-      <h2 className='form-title'>{'إضافة كتاب'}</h2>
-
       <label className='form-group-label'>{'اسم الكتاب'}</label>
       <input
         name='title'
@@ -145,6 +147,7 @@ const AddBookForm = (props) => {
         <select
           name='section'
           className='form-control'
+          defaultValue={book.section || sections[0]}
           ref={register({
             required: 'يرحى إدخال اسم القسم',
             maxLength: {
@@ -152,14 +155,9 @@ const AddBookForm = (props) => {
               message: 'يجب أن لا يتجاوز اسم القسم 255 حرفا',
             },
           })}
-          defaultValue={book.section || ''}
         >
           {Object.keys(sections).map((section, index) => (
-            <option
-              key={index}
-              value={section}
-              selected={book.section && book.section === section}
-            >
+            <option key={index} value={section}>
               {section}
             </option>
           ))}
@@ -291,7 +289,7 @@ const AddBookForm = (props) => {
         name='condition'
         className='form-control'
         placeholder='الحالة'
-        defaultValue={book.condition || false}
+        defaultValue={conditions[0]}
         ref={register({
           required: 'يرحى إدخال الحالة',
           maxLength: {
@@ -372,4 +370,5 @@ const mapStateToProps = (state) => {
     token: state.auth.token,
   };
 };
+
 export default connect(mapStateToProps, null)(AddBookForm);

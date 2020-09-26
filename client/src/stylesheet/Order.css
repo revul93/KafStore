@@ -1,0 +1,76 @@
+.orderpage-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  max-width: 850px;
+  align-content: center;
+  margin-top: 40px;
+}
+
+.orderpage-title {
+  font-size: 1.6rem;
+  font-family: 'Changa', sans-serif;
+  margin: 5px 0;
+  align-self: flex-start;
+}
+
+.orderpage-section {
+  width: 100%;
+  padding-right: 10px;
+}
+
+.orderpage-info-element {
+  margin: 3px 6px;
+}
+
+.orderpage-info-element-label {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.orderpage-info-element-label-address {
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: block;
+}
+
+.orderpage-info-element-data-address {
+  padding-right: 10px;
+  font-size: 1.3rem;
+}
+
+.myorders-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2vh;
+}
+
+.order-row {
+  display: inline-grid;
+  grid-template-columns: auto 1fr auto;
+  border: 1px solid maroon;
+  text-align: center;
+}
+
+.order-row-info-header {
+  background-color: sienna;
+  color: #eee;
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding: 5px;
+}
+
+.order-row-info,
+.order-row-info span {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  padding: 5px;
+}
+
+.order-row:hover {
+  background-color: lavender;
+}

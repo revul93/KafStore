@@ -14,7 +14,6 @@ const placeOrder = require('../../actions/order/placeOrder');
 const getOrder = require('../../actions/order/getOrder');
 const getPurchaseOrdersOfUser = require('../../actions/order/getPurchaseOrdersOfUser');
 const getPaymentOrdersOfUser = require('../../actions/order/getPaymentOrdersOfUser');
-
 const editOrder = require('../../actions/order/editOrder');
 
 // router instance
@@ -107,6 +106,21 @@ router.get('/payment-orders', [auth], async (req, res) => {
       return res.status(400).json(strings.NO_DATA);
     }
     return res.json(orders);
+  } catch (error) {
+    handleError(error.message);
+  }
+});
+
+// @desc        edit order status
+// @route       PUT api/order
+// @access      Private
+router.put('/', [auth], async (req, res) => {
+  try {
+    const operation = await editOrder(req.body.order_id);
+    if (operation !== strings.SUCCESS) {
+      return res.status(400).json(strings.NO_DATA);
+    }
+    return res.json(operation);
   } catch (error) {
     handleError(error.message);
   }
