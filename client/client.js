@@ -8,7 +8,7 @@ app.use(
   createProxyMiddleware({
     target: 'http://localhost:5000',
     changeOrigin: true,
-  })
+  }),
 );
 app.use(express.static(path.join(__dirname, 'build')));
 

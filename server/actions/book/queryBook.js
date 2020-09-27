@@ -10,7 +10,7 @@ module.exports = async (query, user_id) => {
       'review',
     ]);
   } else if (Number(query) && (query.length == 10 || query.length == 13)) {
-    return Book.findOne({ isbn: query }).populate('copy.seller', [
+    return await Book.findOne({ isbn: query }).populate('copy.seller', [
       'name',
       '_id',
       'review',
@@ -23,14 +23,17 @@ module.exports = async (query, user_id) => {
         .sort('-date')
         .limit(8 + i);
       result.forEach(
-        (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
+        (book) => (book.copy = book.copy.filter((copy) => !copy.isSold)),
       );
       result = result.filter((book) => book.copy.length > 0);
       i++;
     }
     return result;
   } else if (query === '_recom') {
-    result = await getRecommendedBooks(user_id);
+    let result = await getRecommendedBooks(user_id);
+    if (result) {
+      return await result.filter((book) => book.copy.length > 0);
+    } else return null;
   } else if (query === '_all') {
     return await Book.find();
   } else {
@@ -42,9 +45,4 @@ module.exports = async (query, user_id) => {
       ],
     });
   }
-
-  if (result) {
-    return result.filter((book) => book.copy.length > 0);
-  }
-  return null;
 };

@@ -13,99 +13,6 @@ import '../../stylesheet/Navbar.css';
 const Navbar = (props) => {
   const { sections, isLoggedIn, isAdmin, logout } = props;
 
-  // buttons that will be shown to guest
-  const guestButtons = (
-    <ul className='navbar-list'>
-      <li className='navbar-list-item'>
-        <Link className='navbar-list-item-link' to='/login'>
-          {'تسجيل الدخول'}
-        </Link>
-      </li>
-      <li className='navbar-list-item'>
-        <Link className='navbar-list-item-link' to='/register'>
-          {'مستخدم جديد؟'}
-        </Link>
-      </li>
-    </ul>
-  );
-
-  // buttons that will be shown to logged in user
-  const userButtons = (
-    <ul className='navbar-list'>
-      <li className='navbar-list-item dropdown'>
-        <span className='navbar-list-item-link'>{'خدماتي'}</span>
-        <ul className='dropdown-content'>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/user/me'>
-              {'معلوماتي'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/user/orders'>
-              {'مشترياتي'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/user/sales'>
-              {'مبيعاتي'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/user/books'>
-              {'إدارة كتبي'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/user/complaints'>
-              {'تقديم شكوى'}
-            </Link>
-          </li>
-        </ul>
-      </li>
-      <li className='navbar-list-item'>
-        <Link className='navbar-list-item-link' onClick={logout} to='/'>
-          {'خروج'}
-        </Link>
-      </li>
-    </ul>
-  );
-
-  // buttons that will be shown to admin
-  const adminButtons = (
-    <ul className='navbar-list'>
-      <li className='navbar-list-item dropdown'>
-        <span className='navbar-list-item-link'>{'إدارة'}</span>
-        <ul className='dropdown-content'>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/admin/users'>
-              {'إدارة المستخدمين'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/admin/books'>
-              {'إدارة الكتب'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/admin/reports'>
-              {'التقارير'}
-            </Link>
-          </li>
-          <li className='navbar-list-item'>
-            <Link className='navbar-list-item-link' to='/admin/complaints'>
-              {'الشكاوي'}
-            </Link>
-          </li>
-        </ul>
-      </li>
-      <li className='navbar-list-item'>
-        <Link className='navbar-list-item-link' onClick={logout} to='/'>
-          {'خروج'}
-        </Link>
-      </li>
-    </ul>
-  );
-
   return (
     <nav className='navbar'>
       <ul className='navbar-list'>
@@ -132,7 +39,96 @@ const Navbar = (props) => {
           </Link>
         </li>
       </ul>
-      {isLoggedIn ? (isAdmin ? adminButtons : userButtons) : guestButtons}
+      {isLoggedIn ? (
+        isAdmin ? (
+          <ul className='navbar-list'>
+            <li className='navbar-list-item dropdown'>
+              <span className='navbar-list-item-link'>{'إدارة'}</span>
+              <ul className='dropdown-content'>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/admin/users'>
+                    {'إدارة المستخدمين'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/admin/books'>
+                    {'إدارة الكتب'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/admin/reports'>
+                    {'التقارير'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link
+                    className='navbar-list-item-link'
+                    to='/admin/complaints'
+                  >
+                    {'الشكاوي'}
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className='navbar-list-item'>
+              <Link className='navbar-list-item-link' onClick={logout} to='/'>
+                {'خروج'}
+              </Link>
+            </li>
+          </ul>
+        ) : (
+          <ul className='navbar-list'>
+            <li className='navbar-list-item dropdown'>
+              <span className='navbar-list-item-link'>{'خدماتي'}</span>
+              <ul className='dropdown-content'>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/user/me'>
+                    {'معلوماتي'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/user/orders'>
+                    {'مشترياتي'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/user/sales'>
+                    {'مبيعاتي'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/user/books'>
+                    {'إدارة كتبي'}
+                  </Link>
+                </li>
+                <li className='navbar-list-item'>
+                  <Link className='navbar-list-item-link' to='/user/complaints'>
+                    {'تقديم شكوى'}
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className='navbar-list-item'>
+              <Link className='navbar-list-item-link' onClick={logout} to='/'>
+                {'خروج'}
+              </Link>
+            </li>
+          </ul>
+        )
+      ) : (
+        <ul className='navbar-list'>
+          <li className='navbar-list-item'>
+            <Link className='navbar-list-item-link' to='/login'>
+              {'تسجيل الدخول'}
+            </Link>
+          </li>
+          <li className='navbar-list-item'>
+            <Link className='navbar-list-item-link' to='/register'>
+              {'مستخدم جديد؟'}
+            </Link>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 };
@@ -144,8 +140,8 @@ Navbar.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    isAdmin: Boolean(state.auth.isAdmin),
-    isLoggedIn: Boolean(state.auth.isLoggedIn),
+    isAdmin: state.auth.isAdmin,
+    isLoggedIn: state.auth.isLoggedIn,
   };
 };
 

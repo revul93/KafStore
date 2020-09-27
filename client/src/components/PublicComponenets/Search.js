@@ -15,7 +15,10 @@ const Search = () => {
 
   return (
     <form
-      onSubmit={(event) => setQuery(event.currentTarget.search.value)}
+      onSubmit={(event) => {
+        event.preventDefault();
+        setQuery(event.currentTarget.search.value);
+      }}
       className='search-form'
     >
       <input

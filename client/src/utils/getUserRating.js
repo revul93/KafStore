@@ -1,7 +1,7 @@
 const getUserRating = (user) => {
   const reviewLength = user.review.length;
   if (!reviewLength) {
-    return NaN;
+    return 'لم يتم تقييم هذا البائع';
   }
   const ratingAverage =
     user.review.reduce((acc, elem) => acc + elem.rating, 0) / reviewLength;

@@ -6,11 +6,11 @@ import {
 } from './actionTypes';
 
 const initialState = {
+  token: localStorage.getItem('x-auth-token') || '',
+  userId: localStorage.getItem('userId') || '',
+  isAdmin: JSON.parse(localStorage.getItem('isAdmin')) || false,
+  isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn')) || false,
   loading: false,
-  isAdmin: false,
-  token: '',
-  userId: '',
-  isLoggedIn: false,
   error: '',
 };
 
@@ -22,13 +22,17 @@ const authReducer = (state = initialState, action) => {
         loading: true,
       };
     case LOGIN_SUCCESS:
+      localStorage.setItem('x-auth-token', action.payload.token);
+      localStorage.setItem('userId', action.payload.user.id);
+      localStorage.setItem('isAdmin', action.payload.user.isAdmin);
+      localStorage.setItem('isLoggedIn', true);
       return {
         ...state,
+        token: localStorage.getItem('x-auth-token'),
+        userId: localStorage.getItem('userId'),
+        isAdmin: JSON.parse(localStorage.getItem('isAdmin')),
+        isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn')),
         loading: false,
-        token: action.payload.token,
-        isLoggedIn: true,
-        userId: action.payload.user.id,
-        isAdmin: action.payload.user.isAdmin,
         error: '',
       };
     case LOGIN_FAILURE:
@@ -38,7 +42,17 @@ const authReducer = (state = initialState, action) => {
         error: action.payload.error,
       };
     case LOGOUT:
-      return initialState;
+      localStorage.removeItem('x-auth-token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isAdmin');
+      localStorage.removeItem('isLoggedIn');
+      return {
+        ...state,
+        token: '',
+        userId: '',
+        isAdmin: false,
+        isLoggedIn: false,
+      };
     default:
       return state;
   }

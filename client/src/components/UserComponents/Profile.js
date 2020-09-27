@@ -58,10 +58,10 @@ const Profile = (props) => {
             'Content-Type': 'application/json',
             'x-auth-token': token,
           },
-        }
+        },
       );
       swal({
-        title: 'تم  تقييم البائع بنجاخ',
+        title: 'تم  تقييم البائع بنجاح',
         text: 'تقييماتك مفيدة لنا وللمستخدمين الآخرين، شكرا!',
         buttons: 'موافق',
         icon: 'success',
@@ -99,13 +99,11 @@ const Profile = (props) => {
               <div className='userpage-info'>
                 <span className='userpage-info-name'>{user.name}</span>
                 <span className='userpage-info-element'>
-                  {`تقييم المستخدمين: ${
-                    getUserRating(user) || 'لم يتم تقييم هذا البائع'
-                  }`}
+                  {`تقييم المستخدمين: ${getUserRating(user)}`}
                 </span>
                 <span className='userpage-info-element'>{`${user.address.country}، ${user.address.city}`}</span>
                 <span className='userpage-info-element'>{`تاريخ الانضمام: ${new Date(
-                  user.date
+                  user.date,
                 ).toDateString()}`}</span>
                 <span className='userpage-info-element'>{`عدد الكتب المضافة: ${userBooks.length}`}</span>
               </div>
@@ -133,7 +131,7 @@ const Profile = (props) => {
               {view === 'Books' && <BooksContainer books={userBooks} />}
               {view === 'Reviews' && (
                 <>
-                  {user.review ? (
+                  {user.review && user.review.length > 0 ? (
                     <div className='review-container'>
                       {user.review.map((review, index) => (
                         <div key={index} className='review'>

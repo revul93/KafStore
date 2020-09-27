@@ -28,7 +28,8 @@ const BooksContainer = (props) => {
         if (res) {
           // remove sold copies of a book
           res.forEach(
-            (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
+            async (book) =>
+              await (book.copy = book.copy.filter((copy) => !copy.isSold)),
           );
         }
         // if response -> remove books with 0 available copies

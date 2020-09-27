@@ -49,7 +49,7 @@ export const login = (data) => {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
       if (response.status === 200) {
         const token = response.data;

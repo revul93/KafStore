@@ -1,6 +1,5 @@
 const Book = require('../../models/Book');
 const User = require('../../models/User');
-const queryBook = require('../book/queryBook');
 const getUserCopies = require('./getUserCopies');
 
 module.exports = async (user_id) => {
@@ -15,7 +14,7 @@ const getRecommendedOfUser = async (user_id) => {
   const mostViewedBook = await getMostViewedBook();
   const lastViewedBook = await getLastViewedBookOfUser(user_id);
   const similarBookToLastViewedBook = await getSimilarBookToLastViewedBook(
-    lastViewedBook
+    lastViewedBook,
   );
   const bookOfHighestRatingUser = await getBookOfHighestRatingUser();
 
@@ -23,7 +22,7 @@ const getRecommendedOfUser = async (user_id) => {
   if (mostViewedBook) recommendedBooks.push(mostViewedBook);
   if (lastViewedBook) recommendedBooks.push(lastViewedBook);
   if (similarBookToLastViewedBook)
-    recommendedBooks.push(lastsimilarBookToLastViewedBookViewedBook);
+    recommendedBooks.push(similarBookToLastViewedBook);
   if (bookOfHighestRatingUser) recommendedBooks.push(bookOfHighestRatingUser);
 
   return await extendRecommendedBooks(recommendedBooks);
@@ -64,7 +63,7 @@ const getMostViewedBook = async () => {
 const getMostAddedBook = async () => {
   try {
     const mostAddedBooks = (await Book.find()).sort((book, nextBook) =>
-      book.copy.length > nextBook.copy.length ? -1 : 1
+      book.copy.length > nextBook.copy.length ? -1 : 1,
     );
     let mostAddedBook;
     for (let i = 0; i < mostAddedBooks.length; i++) {
@@ -87,12 +86,12 @@ const getBookOfHighestRatingUser = async () => {
   try {
     const users = await User.find();
     const highestRatingUsers = users.sort((user, nextUser) =>
-      getTotalRating(user) > getTotalRating(nextUser) ? -1 : 1
+      getTotalRating(user) > getTotalRating(nextUser) ? -1 : 1,
     );
 
     for (let i = 0; i < highestRatingUsers.length; i++) {
       let booksOfHighestRatingUser = await getUserCopies(
-        highestRatingUsers[i]._id
+        highestRatingUsers[i]._id,
       );
       let bookOfHighestRatingUser;
       for (let j = 0; j < booksOfHighestRatingUser.length; j++) {
@@ -129,13 +128,19 @@ const getSimilarBookToLastViewedBook = async (similarBook) => {
     if (!similarBook) {
       return null;
     }
-    const result = queryBook(similarBook.section);
-    if (result[0]._id.toString() === similarBook._id.toString()) {
-      return result[1];
+
+    const result = await Book.find({
+      section: { $regex: similarBook.section, $options: 'i' },
+    });
+    if (result && result.length > 0) {
+      if (result[0]._id.toString() === similarBook._id.toString()) {
+        return result[1];
+      }
+      return result[0];
     }
-    return result[0];
+    return null;
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return null;
   }
 };
@@ -147,7 +152,7 @@ const removeDuplicateBooks = (books) => {
       result.push(book);
     } else if (
       !result.find(
-        (bookAdded) => bookAdded._id.toString() === book._id.toString()
+        (bookAdded) => bookAdded._id.toString() === book._id.toString(),
       )
     ) {
       result.push(book);
@@ -167,7 +172,7 @@ const extendRecommendedBooks = async (recommendedBooks) => {
       i++
     ) {
       extendedRecommendedBooks.push(
-        books[Math.floor((Math.random() * 1000) % books.length)]
+        books[Math.floor((Math.random() * 1000) % books.length)],
       );
       extendedRecommendedBooks = removeDuplicateBooks(extendedRecommendedBooks);
     }
