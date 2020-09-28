@@ -14,7 +14,7 @@ const getRecommendedOfUser = async (user_id) => {
   const mostViewedBook = await getMostViewedBook();
   const lastViewedBook = await getLastViewedBookOfUser(user_id);
   const similarBookToLastViewedBook = await getSimilarBookToLastViewedBook(
-    lastViewedBook,
+    lastViewedBook
   );
   const bookOfHighestRatingUser = await getBookOfHighestRatingUser();
 
@@ -22,7 +22,7 @@ const getRecommendedOfUser = async (user_id) => {
   if (mostViewedBook) recommendedBooks.push(mostViewedBook);
   if (lastViewedBook) recommendedBooks.push(lastViewedBook);
   if (similarBookToLastViewedBook)
-    recommendedBooks.push(similarBookToLastViewedBook);
+    recommendedBooks.push(lastsimilarBookToLastViewedBookViewedBook);
   if (bookOfHighestRatingUser) recommendedBooks.push(bookOfHighestRatingUser);
 
   return await extendRecommendedBooks(recommendedBooks);
@@ -43,7 +43,7 @@ const getRecommendedOfGuest = async () => {
 
 const getMostViewedBook = async () => {
   try {
-    let mostViewedBooks = await Book.find().sort({
+    let mostViewedBooks = await Book.find({ 'copy.isSold': false }).sort({
       viewCounter: -1,
     });
     let mostViewedBook;
@@ -62,8 +62,10 @@ const getMostViewedBook = async () => {
 
 const getMostAddedBook = async () => {
   try {
-    const mostAddedBooks = (await Book.find()).sort((book, nextBook) =>
-      book.copy.length > nextBook.copy.length ? -1 : 1,
+    const mostAddedBooks = (
+      await Book.find({ 'copy.isSold': false })
+    ).sort((book, nextBook) =>
+      book.copy.length > nextBook.copy.length ? -1 : 1
     );
     let mostAddedBook;
     for (let i = 0; i < mostAddedBooks.length; i++) {
@@ -86,12 +88,12 @@ const getBookOfHighestRatingUser = async () => {
   try {
     const users = await User.find();
     const highestRatingUsers = users.sort((user, nextUser) =>
-      getTotalRating(user) > getTotalRating(nextUser) ? -1 : 1,
+      getTotalRating(user) > getTotalRating(nextUser) ? -1 : 1
     );
 
     for (let i = 0; i < highestRatingUsers.length; i++) {
       let booksOfHighestRatingUser = await getUserCopies(
-        highestRatingUsers[i]._id,
+        highestRatingUsers[i]._id
       );
       let bookOfHighestRatingUser;
       for (let j = 0; j < booksOfHighestRatingUser.length; j++) {
@@ -113,7 +115,10 @@ const getLastViewedBookOfUser = async (user_id) => {
   try {
     const user = await User.findById(user_id);
     if (user.view) {
-      const lastViewedBook = await Book.findById(user.view[0]);
+      const lastViewedBook = await Book.find({
+        _id: user.view[0],
+        'copy.isSold': false,
+      })[0];
       return lastViewedBook;
     }
     return null;
@@ -128,51 +133,60 @@ const getSimilarBookToLastViewedBook = async (similarBook) => {
     if (!similarBook) {
       return null;
     }
-
-    const result = await Book.find({
-      section: { $regex: similarBook.section, $options: 'i' },
+    const result = Book.find({
+      section: 'similarBook.section',
+      'copy.isSold': false,
     });
     if (result && result.length > 0) {
+      console.log(result);
       if (result[0]._id.toString() === similarBook._id.toString()) {
         return result[1];
+      } else {
+        return result[0];
       }
-      return result[0];
     }
     return null;
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
     return null;
   }
 };
 
 const removeDuplicateBooks = (books) => {
-  if (!books) return null;
-  return books.reduce((result, book) => {
-    if (result.length === 0) {
-      result.push(book);
-    } else if (
-      !result.find(
-        (bookAdded) => bookAdded._id.toString() === book._id.toString(),
-      )
-    ) {
-      result.push(book);
-    }
-    return result;
-  }, []);
+  // console.log('----------');
+  // books.forEach((book) => console.log(Array.isArray(book)));
+  if (!books || books.length === 0) return null;
+  try {
+    return books.reduce((result, book) => {
+      if (result.length === 0) {
+        result.push(book);
+      } else if (
+        !result.find(
+          (bookAdded) => bookAdded._id.toString() === book._id.toString()
+        )
+      ) {
+        result.push(book);
+      }
+      return result;
+    }, []);
+  } catch (error) {
+    console.error(error);
+    return books;
+  }
 };
 
 const extendRecommendedBooks = async (recommendedBooks) => {
   try {
     let extendedRecommendedBooks = removeDuplicateBooks(recommendedBooks);
 
-    const books = await Book.find();
+    const books = await Book.find({ 'copy.isSold': false });
     for (
       let i = 0;
       extendedRecommendedBooks.length < 4 && i < books.length / 2;
       i++
     ) {
       extendedRecommendedBooks.push(
-        books[Math.floor((Math.random() * 1000) % books.length)],
+        books[Math.floor((Math.random() * 1000) % books.length)]
       );
       extendedRecommendedBooks = removeDuplicateBooks(extendedRecommendedBooks);
     }

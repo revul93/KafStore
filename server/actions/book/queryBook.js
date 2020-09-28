@@ -23,7 +23,7 @@ module.exports = async (query, user_id) => {
         .sort('-date')
         .limit(8 + i);
       result.forEach(
-        (book) => (book.copy = book.copy.filter((copy) => !copy.isSold)),
+        (book) => (book.copy = book.copy.filter((copy) => !copy.isSold))
       );
       result = result.filter((book) => book.copy.length > 0);
       i++;
@@ -31,8 +31,8 @@ module.exports = async (query, user_id) => {
     return result;
   } else if (query === '_recom') {
     let result = await getRecommendedBooks(user_id);
-    if (result) {
-      return await result.filter((book) => book.copy.length > 0);
+    if (result && result.length > 0) {
+      return await result.filter((book) => book.copy && book.copy.length > 0);
     } else return null;
   } else if (query === '_all') {
     return await Book.find();

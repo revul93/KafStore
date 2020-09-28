@@ -41,7 +41,6 @@ const Login = (props) => {
       <form className='form' onSubmit={handleSubmit((data) => login(data))}>
         <input
           name='email'
-          type='email'
           className='form-control ltr'
           placeholder='البريد الإلكتروني'
           ref={(e) => {

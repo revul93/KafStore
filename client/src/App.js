@@ -25,6 +25,12 @@ import Login from './components/UserComponents/Login';
 import Register from './components/UserComponents/Register';
 import Complaint from './components/UserComponents/Complaint';
 
+// --> Admin
+import UsersManagement from './components/AdminComponents/UsersManagement';
+import BooksManagement from './components/AdminComponents/BooksManagement';
+import ComplaintsManagement from './components/AdminComponents/ComplaintsManagement';
+import Report from './components/AdminComponents/Reports';
+
 // --> Book
 import Book from './components/BookComponents/Book';
 import UserBooks from './components/BookComponents/UserBooks';
@@ -92,6 +98,15 @@ const App = () => {
             <Route exact path='/user/orders' component={PurchaseOrders} />
             <Route exact path='/user/sales' component={PaymentOrders} />
             <Route exact path='/user/complaints' component={Complaint} />
+
+            <Route exact path='/admin/users' component={UsersManagement} />
+            <Route exact path='/admin/books' component={BooksManagement} />
+            <Route
+              exact
+              path='/admin/complaints'
+              component={ComplaintsManagement}
+            />
+            <Route exact path='/admin/reports' component={Report} />
           </Switch>
         </div>
         <Footer />

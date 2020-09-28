@@ -58,15 +58,26 @@ const Profile = (props) => {
             'Content-Type': 'application/json',
             'x-auth-token': token,
           },
-        },
+        }
       );
       swal({
-        title: 'تم  تقييم البائع بنجاح',
+        title: 'تم  تقييم البائع بنجاخ',
         text: 'تقييماتك مفيدة لنا وللمستخدمين الآخرين، شكرا!',
         buttons: 'موافق',
         icon: 'success',
       }).then(() => {
         setRated(true);
+        setLoading(true);
+        getUser(user_id)
+          .then((data) => {
+            setUser(data);
+          })
+          .then(() => {
+            getBooksOfUser(user_id).then((data) => {
+              setUserBooks(data);
+              setLoading(false);
+            });
+          });
       });
     } catch (error) {
       console.error(error.response);
@@ -99,11 +110,13 @@ const Profile = (props) => {
               <div className='userpage-info'>
                 <span className='userpage-info-name'>{user.name}</span>
                 <span className='userpage-info-element'>
-                  {`تقييم المستخدمين: ${getUserRating(user)}`}
+                  {`تقييم المستخدمين: ${
+                    getUserRating(user) || 'لم يتم تقييم هذا البائع'
+                  }`}
                 </span>
                 <span className='userpage-info-element'>{`${user.address.country}، ${user.address.city}`}</span>
                 <span className='userpage-info-element'>{`تاريخ الانضمام: ${new Date(
-                  user.date,
+                  user.date
                 ).toDateString()}`}</span>
                 <span className='userpage-info-element'>{`عدد الكتب المضافة: ${userBooks.length}`}</span>
               </div>
@@ -131,7 +144,7 @@ const Profile = (props) => {
               {view === 'Books' && <BooksContainer books={userBooks} />}
               {view === 'Reviews' && (
                 <>
-                  {user.review && user.review.length > 0 ? (
+                  {user.review ? (
                     <div className='review-container'>
                       {user.review.map((review, index) => (
                         <div key={index} className='review'>
@@ -156,6 +169,8 @@ const Profile = (props) => {
                   )}
                   {isLoggedIn &&
                     !rated &&
+                    user.review.filter((review) => review.writer._id === userId)
+                      .length === 0 &&
                     userId.toString() !== user_id.toString() && (
                       <div
                         className='form-container'
@@ -175,7 +190,7 @@ const Profile = (props) => {
                             ref={register()}
                           >
                             {[
-                              { rating: 1, value: 'لا ينمصح بالتعامل معه' },
+                              { rating: 1, value: 'لا ينصح بالتعامل معه' },
                               { rating: 2, value: 'بائع عادي' },
                               { rating: 3, value: 'بائع جيد' },
                               { rating: 4, value: 'بائع ممتاز' },
