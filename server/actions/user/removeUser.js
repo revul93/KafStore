@@ -1,14 +1,13 @@
 const getUser = require('./getUser');
+const removeUserCopies = require('../book/removeAllUserCopies');
 const strings = require('../../static/strings');
 
 module.exports = async (user_id) => {
-  // TODO: delete any books or reviews created by the user
-
   const user = await getUser(user_id);
   if (!user) {
     return strings.NO_DATA;
   }
-
+  await removeUserCopies(user_id);
   await user.remove();
   return strings.SUCCESS;
 };

@@ -1,4 +1,8 @@
 const getUserRating = (user) => {
+  if (!user.review || user.review === 0) {
+    return 'لم يتم تقييم هذا البائع';
+  }
+
   const reviewLength = user.review.length;
   if (!reviewLength) {
     return 'لم يتم تقييم هذا البائع';

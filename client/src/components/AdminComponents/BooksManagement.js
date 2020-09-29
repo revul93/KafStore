@@ -29,7 +29,6 @@ const BooksManagement = (props) => {
   }, []);
 
   const deleteBook = (bookId) => {
-    console.log(typeof token);
     swal({
       title: ' هل أنت متأكد !',
       text: 'سوف يتم حذف الكتاب نهائيا. هل انت متأكد؟',
@@ -102,7 +101,7 @@ const BooksManagement = (props) => {
                   {`اسم الكتاب : ${book.title}`} <br />
                   {`اسم المؤلف : ${book.author}`} <br />
                   {`تاريخ الإضافة : ${new Date(
-                    book.date,
+                    book.date
                   ).toLocaleDateString()}`}
                   <br />
                   {`عدد النسخ : ${book.copy.length}`} <br />

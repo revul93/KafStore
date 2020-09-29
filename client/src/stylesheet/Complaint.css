@@ -1,0 +1,57 @@
+.complaints-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 5vh auto;
+}
+
+.complaints-title {
+  font-size: 1.8rem;
+  color: maroon;
+  display: flex;
+  align-self: flex-start;
+}
+
+.complaint {
+  margin: 10px;
+  padding: 15px;
+  display: flex;
+  align-self: flex-start;
+  flex-direction: column;
+  width: 100%;
+  outline: 2px solid sienna;
+}
+
+.complaint:hover {
+  background-color: #eee;
+}
+
+.complaint-info {
+  font-size: 1.4rem;
+  margin: 3px;
+  padding-right: 20px;
+}
+
+.complaint-info a {
+  margin-right: 0;
+  padding-right: 0;
+  color: red;
+  font-weight: bold;
+}
+
+.complaint-subject {
+  padding-right: 0;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+@media (min-width: 660px) {
+  .complaints-container {
+    width: 700px;
+    margin: 40px auto;
+  }
+  .complaint {
+    min-width: 600px;
+    max-width: 600px;
+  }
+}

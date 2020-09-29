@@ -7,9 +7,9 @@ module.exports = async (user_id, complaint_id) => {
     return strings.FAIL;
   }
 
-  user.complaint = await user.complaint.filter((complaint) => {
-    complaint._id == complaint_id;
-  });
+  user.complaint = await user.complaint.filter(
+    (complaint) => complaint._id.toString() !== complaint_id
+  );
 
   await user.save();
   return strings.SUCCESS;

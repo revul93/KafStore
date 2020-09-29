@@ -118,7 +118,9 @@ const Profile = (props) => {
                 <span className='userpage-info-element'>{`تاريخ الانضمام: ${new Date(
                   user.date
                 ).toDateString()}`}</span>
-                <span className='userpage-info-element'>{`عدد الكتب المضافة: ${userBooks.length}`}</span>
+                <span className='userpage-info-element'>{`عدد الكتب المضافة: ${
+                  !userBooks ? 0 : userBooks.length
+                }`}</span>
               </div>
             </div>
             <div className='view-toggler'>
