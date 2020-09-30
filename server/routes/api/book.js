@@ -57,13 +57,7 @@ router.post('/', [auth, validateBookInfo(), validate], async (req, res) => {
 // let user edit price and condition
 router.put(
   '/',
-  [
-    auth,
-    validateObjectId('book_id', strings.NO_DATA),
-    validateObjectId('copy_id', strings.NO_DATA),
-    validateBookEdit(),
-    validate,
-  ],
+  [auth, validateObjectId('book_id', strings.NO_DATA), validate],
   async (req, res) => {
     try {
       const book = await editBook(req.body);
@@ -74,7 +68,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        search a book by query (id, isbn, title, author, section, subsection)
@@ -87,7 +81,7 @@ router.get('/', async (req, res) => {
   try {
     const book = await queryBook(
       decodeURI(req.query.query),
-      decodeURI(req.query.user_id),
+      decodeURI(req.query.user_id)
     );
     if (!book || book.length === 0) {
       return res.status(400).json(strings.NO_DATA);
@@ -114,7 +108,7 @@ router.get(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        remove a copy of a book
@@ -134,7 +128,7 @@ router.put(
         (await removeBookCopy(
           req.body.book_id,
           req.body.copy_id,
-          req.user.id,
+          req.user.id
         )) == strings.FAIL
       ) {
         return res.status(400).json(strings.FAIL);
@@ -144,7 +138,7 @@ router.put(
       handleError(error);
     }
     removeUserCopy(req, res);
-  },
+  }
 );
 
 // @desc        remove all copies of book owned by user
@@ -165,7 +159,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 router.put(
@@ -180,7 +174,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 // @desc        delete a book
 // @route       DELETE api/book/
@@ -200,7 +194,7 @@ router.delete(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 module.exports = router;

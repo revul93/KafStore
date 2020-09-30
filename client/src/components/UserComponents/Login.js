@@ -32,7 +32,7 @@ const Login = (props) => {
   }, [error, clear]);
 
   if (isLoggedIn) {
-    return <Redirect to={isAdmin ? '/admin' : '/user/books'} />;
+    return <Redirect to={isAdmin ? '/admin/users' : '/user/books'} />;
   }
 
   return (

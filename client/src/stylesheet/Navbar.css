@@ -16,12 +16,11 @@
   font-size: 1.1rem;
   color: var(--secondary-text-color);
   display: flex;
-  justify-items: center;
-  align-content: center;
+  justify-content: center;
   margin: 0 5px;
   padding: 6px 3.5px;
   cursor: pointer;
-  min-width: 50px;
+  min-width: 80px;
 }
 
 .navbar-list-item-link-first {

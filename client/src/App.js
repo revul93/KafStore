@@ -30,6 +30,7 @@ import UsersManagement from './components/AdminComponents/UsersManagement';
 import BooksManagement from './components/AdminComponents/BooksManagement';
 import ComplaintsManagement from './components/AdminComponents/ComplaintsManagement';
 import Report from './components/AdminComponents/Reports';
+import AdminBookEdit from './components/AdminComponents/AdminBookEdit';
 
 // --> Book
 import Book from './components/BookComponents/Book';
@@ -101,6 +102,11 @@ const App = () => {
 
             <Route exact path='/admin/users' component={UsersManagement} />
             <Route exact path='/admin/books' component={BooksManagement} />
+            <Route
+              exact
+              path='/admin/book/edit/:book_id'
+              component={AdminBookEdit}
+            />
             <Route
               exact
               path='/admin/complaints'

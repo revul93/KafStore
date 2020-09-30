@@ -92,7 +92,7 @@ router.get('/all', auth, async (req, res) => {
 
   try {
     const query = 'all';
-    const field = '-password -viewed -searches -review';
+    const field = '-password';
     const users = await getUser(query, field);
 
     if (!users) {
@@ -125,7 +125,7 @@ router.get(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        Edit user info
@@ -143,7 +143,7 @@ router.put(
     } catch (error) {
       handleError(error);
     }
-  },
+  }
 );
 
 // @desc        Update records related to searches and views

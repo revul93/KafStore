@@ -1,0 +1,64 @@
+.reports-title {
+  font-size: 1.8rem;
+  margin: 5vh;
+  text-align: center;
+}
+
+.reports-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 90%;
+}
+
+.reports-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.reports-button {
+  margin: 7.5px;
+  padding: 7.5px;
+  width: 150px;
+  background-color: sienna;
+  color: #eee;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.selected {
+  color: maroon;
+  background-color: #eee;
+  outline: 1px solid sienna;
+}
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+  margin: 30px auto;
+}
+
+.report-info {
+  flex-grow: 2;
+  font-size: 1.4rem;
+  text-align: center;
+  color: maroon;
+  font-weight: bolder;
+}
+@media (min-width: 800px) {
+  .reports-title {
+    margin-bottom: 0;
+  }
+  .reports-container {
+    flex-direction: column;
+    margin: 20px auto;
+    width: 100%;
+    align-items: center;
+  }
+  .reports-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

@@ -121,6 +121,12 @@ const BooksManagement = (props) => {
                   >
                     {'حذف'}
                   </button>
+                  <Link
+                    className='user-book-button'
+                    to={`/admin/book/edit/${book._id}`}
+                  >
+                    {'تعديل'}
+                  </Link>
                 </div>
               </div>
             );

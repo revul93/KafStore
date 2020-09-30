@@ -12,6 +12,7 @@ const validateObjectId = require('../../middleware/validateObjectId');
 //actions
 const placeOrder = require('../../actions/order/placeOrder');
 const getOrder = require('../../actions/order/getOrder');
+const getAllOrders = require('../../actions/order/getAllOrders');
 const getPurchaseOrdersOfUser = require('../../actions/order/getPurchaseOrdersOfUser');
 const getPaymentOrdersOfUser = require('../../actions/order/getPaymentOrdersOfUser');
 const editOrder = require('../../actions/order/editOrder');
@@ -80,6 +81,21 @@ router.get(
     }
   }
 );
+
+// @desc        get all orders
+// @route       POST api/order
+// @access      Private
+router.get('/all', [auth], async (req, res) => {
+  try {
+    const order = await getAllOrders();
+    if (!order) {
+      return res.status(400).json(strings.NO_DATA);
+    }
+    return res.json(order);
+  } catch (error) {
+    handleError(error.message);
+  }
+});
 
 // @desc        get purchase order of user
 // @route       POST api/order
