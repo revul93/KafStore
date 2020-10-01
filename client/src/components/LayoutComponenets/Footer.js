@@ -16,6 +16,10 @@ const Footer = () => {
         <Link className='footer-link' to='/policy'>
           {'سياسة الموقع'}
         </Link>
+        {' | '}
+        <Link className='footer-link' to='/disclaimer'>
+          {'إخلاء مسؤولية'}
+        </Link>
       </div>
       <div className='footer-element'></div>
       <span>{`جميع الحقوق محفوظة`} &copy; 2020</span>

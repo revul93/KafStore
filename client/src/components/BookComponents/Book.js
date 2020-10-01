@@ -30,6 +30,7 @@ const Book = (props) => {
         console.error(err.message);
         setLoading(false);
       }
+      res.copy = res.copy.filter((copy) => !copy.isSold);
       setBook(res);
       updateUser(token, { view: book_id });
       setLoading(false);
@@ -68,6 +69,9 @@ const Book = (props) => {
 
           <h3 className='bookpage-copy-title'>{'البائعون'}</h3>
           <div className='bookpage-container copy-container'>
+            {book.copy.length === 0 && (
+              <h3 className='no-info'>{'لا يوجد بائعين لهذا الكتاب'}</h3>
+            )}
             {book.copy.map((copy) => (
               <div className='bookpage-copy' key={copy._id}>
                 <div className='bookpage-copy-info'>

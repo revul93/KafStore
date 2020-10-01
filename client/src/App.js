@@ -17,6 +17,7 @@ import Footer from './components/LayoutComponenets/Footer';
 import Home from './components/PublicComponenets/Home';
 import AboutUs from './components/PublicComponenets/AboutUs';
 import Policy from './components/PublicComponenets/Policy.js';
+import Disclaimer from './components/PublicComponenets/Disclaimer.js';
 
 // --> User
 import Profile from './components/UserComponents/Profile';
@@ -80,6 +81,7 @@ const App = () => {
             <Route exact path='/register' component={Register} />
             <Route exact path='/aboutus' component={AboutUs} />
             <Route exact path='/policy' component={Policy} />
+            <Route exact path='/disclaimer' component={Disclaimer} />
 
             <Route exact path='/section/:query' component={GetBooksContainer} />
             <Route exact path='/search/:query' component={GetBooksContainer} />
